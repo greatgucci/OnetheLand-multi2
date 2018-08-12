@@ -118,6 +118,7 @@ public class Bullet : Photon.PunBehaviour
             }
 
             if (collision.tag == "Player" + oNum)
+                //데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 2 * 초 * 데미지 )
             {
                 PlayerManager.instance.Local.CurrentHp -= damage;
                 DestroyToServer();
