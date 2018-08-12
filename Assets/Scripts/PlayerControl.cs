@@ -52,7 +52,7 @@ public class PlayerControl : Photon.PunBehaviour
                 playerData.SetPlayerNum(1);
             }
         }
-        playerData.SetStatus(5,100,5,0);
+        playerData.SetStatus(1000,100,1000,0);
         SetPlayerPos(playerData.playerNum);
     }
 

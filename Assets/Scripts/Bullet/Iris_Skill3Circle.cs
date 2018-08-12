@@ -8,10 +8,15 @@ public class Iris_Skill3Circle : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 10f);
-        warningSquare.transform.localScale = new Vector3(30f, 0.75f, 1f);
 
-        StartCoroutine(MoveCircle());
+        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        {
+            warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 10f);
+            warningSquare.transform.localScale = new Vector3(30f, 0.75f, 1f);
+            StartCoroutine(MoveCircle());
+        }
+
+        StartCoroutine(DestroyCircle());
     }
 
     protected override void OnTriggerStay2D(Collider2D collision)
@@ -50,6 +55,30 @@ public class Iris_Skill3Circle : Bullet {
             timer += Time.deltaTime;
             yield return null;
         }
+    }
+
+    IEnumerator DestroyCircle()
+    {
+        float timer = 0f;
+        float colorTimer = 1f;
+        SpriteRenderer circleSpriteRenderer = GetComponent<SpriteRenderer>();
+
+        yield return new WaitForSeconds(1.8f);
+
+        while(true)
+        {
+            if (timer >= 0.2f)
+            {
+                break;
+            }
+
+            circleSpriteRenderer.color = new Color(1f, 1f, 1f, colorTimer);
+
+            colorTimer -= Time.deltaTime * 5f;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
         DestroyToServer();
     }
 }

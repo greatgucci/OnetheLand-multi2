@@ -10,7 +10,11 @@ public class Iris_Bullet1 : Bullet {
     protected override void Move(int _shooterNum)
     {
         oPosition_Temp = PlayerManager.instance.GetPlayerByNum(oNum).transform.position;
-        warning_Temp = FavoriteFunction.WarningCircle(oPosition_Temp, 2f, 3f);
+
+        if (PlayerManager.instance.Local.playerNum == oNum)
+        {
+            warning_Temp = FavoriteFunction.WarningCircle(oPosition_Temp, 2f, 3f);
+        }
 
         DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
         FavoriteFunction.RotateBullet(gameObject);

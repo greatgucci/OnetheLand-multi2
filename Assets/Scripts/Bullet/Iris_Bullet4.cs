@@ -8,6 +8,8 @@ public class Iris_Bullet4 : Bullet {
 
     protected override void Move(int _shooterNum)
     {
+        damage = 10;
+
         StartCoroutine(DestroyIrisSkill4());
 
         DVector = commuObject.transform.position - transform.position;
@@ -28,6 +30,7 @@ public class Iris_Bullet4 : Bullet {
 
             if (collision.tag == "Player" + oNum)
             {
+                Debug.Log(PlayerManager.instance.Local.CurrentHp);
                 PlayerManager.instance.Local.CurrentHp -= damage;
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
