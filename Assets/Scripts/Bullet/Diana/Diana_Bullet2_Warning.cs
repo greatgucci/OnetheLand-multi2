@@ -13,7 +13,7 @@ public class Diana_Bullet2_Warning : Bullet {
 		rgbd.velocity = DVector * speed;
 		StartCoroutine (stay());
 	}
-	protected override void OnTriggerEnter2D(Collider2D collision)
+	protected override void OnTriggerStay2D(Collider2D collision)
 	{
 	}
 	IEnumerator stay()
