@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Diana_Bullet2_parent : Diana_Bullet2_data {
 	Vector3 start_position;
-	int distance;
 	protected override void Move(int _shooterNum)
 	{
 		explosion_scale=6f;
 		speed =7f;
-		distance = 8;
+		distance = 8f;
 		start_position = transform.position;
 		if(shooterNum == 1)
 		{

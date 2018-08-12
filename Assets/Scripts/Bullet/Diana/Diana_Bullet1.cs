@@ -26,6 +26,11 @@ public class Diana_Bullet1 : Bullet {
 			PlayerManager.instance.Local.CurrentHp -= damage;
 			timer = 8;
 		}
+		if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
+		{
+			Debug.Log("Graze!");              
+			PlayerManager.instance.Local.CurrentSkillGage += 1f;
+		}
 	}
 	IEnumerator shooterBullet()
 	{

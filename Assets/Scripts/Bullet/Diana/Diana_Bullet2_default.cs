@@ -21,6 +21,11 @@ public class Diana_Bullet2_default : Bullet
 			PlayerManager.instance.Local.CurrentHp -= damage;
 			damaged = true;
 		}
+		if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
+		{
+			Debug.Log("Graze!");              
+			PlayerManager.instance.Local.CurrentSkillGage += 1f;
+		}
 	}
 
 	IEnumerator MoveDianaSkillLine()//질문을 해보도록 함. 과연 레이저 형식이 나은지 아니면 탄환이 나은지

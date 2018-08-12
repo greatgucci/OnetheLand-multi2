@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Diana_Bullet2 :Diana_Bullet2_data {
 	float angle;
-	int distance =4;
 	Vector3 start_position;
 	protected override void Move(int _shooterNum)
 	{
+		distance =4f;
 		explosion_scale = 4f;
 		speed =7f;
 		start_position = transform.position;
