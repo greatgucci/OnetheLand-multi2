@@ -14,8 +14,6 @@ public class Iris_Bullet2 : Bullet_Plural {
     {
         irisBullet2Num_Temp = bulNum;
 
-        Debug.Log("Move : " + irisBullet2Num_Temp);
-
         speed = 8f;
 
         rotatingAngle += (irisBullet2Num_Temp * (3.14f / 18f));

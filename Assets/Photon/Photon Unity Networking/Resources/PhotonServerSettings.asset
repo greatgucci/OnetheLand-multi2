@@ -14,7 +14,7 @@ MonoBehaviour:
   AppID: 86f44cba-83e9-4fc9-9a27-4256eee29887
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 1
   PreferredRegion: 9
   EnabledRegions: -1
   Protocol: 0
@@ -64,4 +64,6 @@ MonoBehaviour:
   - IsColEnable
   - IsColEnable_RPC
   - DestroyToServer_RPC
+  - AddAnimationLayer_RPC
+  - ChangeAnim_RPC
   DisableAutoOpenWizard: 1

@@ -22,11 +22,14 @@ public class PlayerControl : Photon.PunBehaviour
             isInputAble = value;
         }
     }
+
+    PlayerAnimation playerAnimation;
     PlayerData playerData;
     private void Awake()
     {
         rgbd = GetComponent<Rigidbody2D>();
         playerData = transform.Find("PlayerData").GetComponent<PlayerData>();
+        playerAnimation = GetComponentInChildren<PlayerAnimation>();
         col = GetComponent<BoxCollider2D>();
     }
     // Use this for initialization
@@ -209,6 +212,27 @@ public class PlayerControl : Photon.PunBehaviour
         }
     }
     #endregion
+    public void WinAnim()
+    {
+        if (photonView.isMine)
+        {
+
+        }
+    }
+    public void LoseAnim()
+    {
+        if (photonView.isMine)
+        {
+
+        }
+    }
+    public void StartAnim()
+    {
+        if (photonView.isMine)
+        {
+
+        }
+    }
     public void IsColEnable(bool b)
     {
         photonView.RPC("IsColEnable_RPC", PhotonTargets.All, b);
