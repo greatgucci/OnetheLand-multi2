@@ -90,6 +90,10 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         if(photonView.isMine)
         {
             CurrentSkillGage += Time.deltaTime * 1f;
+            if (CurrentHp <= 1000f)
+            {
+                //CurrentHp += Time.deltaTime * 10f;
+            }
         }
     }
 
@@ -99,7 +103,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private void UpdateHpUI(float hp)
     {
      if(PlayerManager.instance.playMode == PlayMode.ONLINE)
-        UIManager.instance.SetHp(playerNum, currentHp);
+        UIManager.instance.SetHp(playerNum, currentHp/fullHp);
     }
     private void UpdateSkgUI(float skg)
     {

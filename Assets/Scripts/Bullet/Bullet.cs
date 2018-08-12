@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : Photon.PunBehaviour
 {
     public float speed=5;
-    public int damage=1;
+    public int damage=100;
     public float destroyTime = 10;
     protected Rigidbody2D rgbd;
     public int shooterNum;
@@ -124,7 +124,6 @@ public class Bullet : Photon.PunBehaviour
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
             {
-                Debug.Log("Graze!");              
                 PlayerManager.instance.Local.CurrentSkillGage += 1f;
             }
         }
