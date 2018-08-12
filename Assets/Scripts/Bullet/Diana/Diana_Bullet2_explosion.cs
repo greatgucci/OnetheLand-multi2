@@ -9,7 +9,7 @@ public class Diana_Bullet2_explosion : Bullet {
 		transform.localScale=transform.localScale*commuObject.GetComponent<Diana_Bullet2_data> ().explosion_scale;
 		Invoke ("DestroyToServer", 0.3f);
 	}
-	protected override void OnTriggerEnter2D(Collider2D collision)
+	protected override void OnTriggerStay2D(Collider2D collision)
 	{
 		if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
 		{

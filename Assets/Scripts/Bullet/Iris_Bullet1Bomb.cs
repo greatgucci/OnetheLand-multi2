@@ -16,17 +16,5 @@ public class Iris_Bullet1Bomb : Bullet {
         DestroyToServer();
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
-        {
-            return;
-        }
-
-        if (collision.tag == "Player" + oNum)
-        {
-            PlayerManager.instance.Local.CurrentHp -= damage;
-            DestroyToServer();
-        }
-    }
+    
 }

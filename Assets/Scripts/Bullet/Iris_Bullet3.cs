@@ -8,16 +8,24 @@ public class Iris_Bullet3 : Bullet {
     {
         StartCoroutine(MoveIrisSkillLine());
     }
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
-        if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+        if (isTirggerTime == true)
         {
-            return;
-        }
+            if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+            {
+                return;
+            }
 
-        if (collision.tag == "Player" + oNum)
-        {
-            PlayerManager.instance.Local.CurrentHp -= damage;
+            if (collision.tag == "Player" + oNum)
+            {
+                PlayerManager.instance.Local.CurrentHp -= damage;
+               
+            }
+            if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
+            {
+                PlayerManager.instance.Local.CurrentSkillGage += 1f;
+            }
         }
     }
 

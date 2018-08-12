@@ -14,7 +14,7 @@ public class Iris_Skill3Circle : Bullet {
         StartCoroutine(MoveCircle());
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
 
     }

@@ -9,7 +9,7 @@ public class Diana_Bullet2_default_Target : Bullet
 		StartCoroutine(DianaSKill2Targeting());
 	}
 
-	protected override void OnTriggerEnter2D(Collider2D collision)
+	protected override void OnTriggerStay2D(Collider2D collision)
 	{
 	}
 

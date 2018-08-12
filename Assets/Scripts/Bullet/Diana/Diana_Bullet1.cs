@@ -14,7 +14,7 @@ public class Diana_Bullet1 : Bullet {
 		rgbd.velocity = DVector * speed;
 		StartCoroutine (shooterBullet ());
 	}
-	protected override void OnTriggerEnter2D(Collider2D collision)
+	protected override void OnTriggerStay2D(Collider2D collision)
 	{
 		if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
 		{

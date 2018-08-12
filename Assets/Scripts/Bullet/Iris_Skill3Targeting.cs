@@ -11,7 +11,7 @@ public class Iris_Skill3Targeting : Bullet {
         StartCoroutine(MoveIrisSKill3Targeting());
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
         
     }

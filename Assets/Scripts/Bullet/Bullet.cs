@@ -12,11 +12,14 @@ public class Bullet : Photon.PunBehaviour
     public int oNum;
     protected GameObject commuObject;
     protected GameObject[] commuObjects;
+
+    protected bool isTirggerTime = true;
     private Vector3 dVector;
  
     private void Awake()
     {
         rgbd = GetComponent<Rigidbody2D>();
+        StartCoroutine(TriggerTimer());
     }
 
     public void Init(int _shooterNum)
@@ -105,21 +108,54 @@ public class Bullet : Photon.PunBehaviour
     }
     protected virtual void Move(int _shooterNum) {}
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerStay2D(Collider2D collision)
     {
-        if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+        if (isTirggerTime == true)
         {
-            return;
-        }
+            if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+            {
+                return;
+            }
 
-        if (collision.tag == "Player" + oNum)
-        {
-            PlayerManager.instance.Local.CurrentHp -= damage;
-            DestroyToServer();
+            if (collision.tag == "Player" + oNum)
+            {
+                PlayerManager.instance.Local.CurrentHp -= damage;
+                DestroyToServer();
+            }
+            if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
+            {
+                Debug.Log("Graze!");              
+                PlayerManager.instance.Local.CurrentSkillGage += 1f;
+            }
         }
     }
+    
+    
 
+    IEnumerator TriggerTimer()
+    {
+        float timer = 0f;
 
+        while(true)
+        {
+            isTirggerTime = false;
+
+            while(true)
+            {
+                if (timer >= 0.1f)
+                {
+                    break;
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            isTirggerTime = true;
+
+            yield return null;
+        }
+    }
 
     public Vector3 DVector
     {

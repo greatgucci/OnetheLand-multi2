@@ -34,7 +34,7 @@ public class Iris_Bullet1 : Bullet {
         }
     }
 
-    protected override void OnTriggerEnter2D(Collider2D c)
+    protected override void OnTriggerStay2D(Collider2D c)
     {
 
         if (PlayerManager.instance.Local.playerNum != oNum)

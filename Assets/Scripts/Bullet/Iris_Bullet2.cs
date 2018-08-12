@@ -21,7 +21,7 @@ public class Iris_Bullet2 : Bullet_Plural {
         rotatingAngle += (irisBullet2Num_Temp * (3.14f / 18f));
 
         DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
-        rotatingAngle += DVector.y > 0 ? Vector3.AngleBetween(DVector, Vector3.right) : -Vector3.AngleBetween(DVector, Vector3.right);
+        rotatingAngle += DVector.y > 0 ? -Vector3.AngleBetween(Vector3.right, DVector) : Vector3.AngleBetween(Vector3.right, DVector);
 
         if (_shooterNum == 1)
         {

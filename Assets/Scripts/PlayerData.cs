@@ -89,7 +89,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         if(photonView.isMine)
         {
-            CurrentSkillGage += Time.deltaTime * 0.5f;
+            CurrentSkillGage += Time.deltaTime * 1f;
         }
     }
 
@@ -104,7 +104,9 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private void UpdateSkgUI(float skg)
     {
         if (PlayerManager.instance.playMode == PlayMode.ONLINE)
-            UIManager.instance.SetSkg(playerNum, currentSkillGage);
+        {
+            UIManager.instance.SetSkg(playerNum, currentSkillGage/fullSkillGage);
+        }
     }
     #region Public
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

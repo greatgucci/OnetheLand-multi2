@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerControl : Photon.PunBehaviour
 {
     private Rigidbody2D rgbd;
-    private CapsuleCollider2D col;
+    private BoxCollider2D col;
     public Skills[] Skills;
     public float speed = 6f;
     public float distance = 0f;
@@ -27,7 +27,7 @@ public class PlayerControl : Photon.PunBehaviour
     {
         rgbd = GetComponent<Rigidbody2D>();
         playerData = transform.Find("PlayerData").GetComponent<PlayerData>();
-        col = GetComponent<CapsuleCollider2D>();
+        col = GetComponent<BoxCollider2D>();
     }
     // Use this for initialization
     void Start ()
@@ -49,7 +49,7 @@ public class PlayerControl : Photon.PunBehaviour
                 playerData.SetPlayerNum(1);
             }
         }
-        playerData.SetStatus(5,10,5,0);
+        playerData.SetStatus(5,100,5,0);
         SetPlayerPos(playerData.playerNum);
     }
 
@@ -95,7 +95,7 @@ public class PlayerControl : Photon.PunBehaviour
     private void IsColEnable_RPC(bool b)
     {
         Debug.Log(playerData.playerNum +"col is "+ b);
-       col.enabled = b;
+        col.enabled = b;
     }
     private void DoSkill(int skillNum)
     {
