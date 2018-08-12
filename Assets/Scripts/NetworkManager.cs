@@ -66,6 +66,7 @@ public class NetworkManager : Photon.PunBehaviour {
     }
     public void GameOver(int loser)
     {
+        Debug.Log(loser + " is Lose");
         StartCoroutine(GameOverRoutine(loser));
     }
     #endregion
