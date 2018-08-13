@@ -26,15 +26,15 @@ public class Iris_Skill2 : Skills {
 
     IEnumerator Shoot_IrisSkill2()
     {
-        Bullet_Plural[] bul = new Bullet_Plural[5];
+        Iris_Bullet2[] bul = new Iris_Bullet2[5];
 
         for (int i = 0; i < 4; i++)
         {
             bul[i] = PhotonNetwork.Instantiate
 
                 ("Iris_Skill2", transform.position, Quaternion.identity, 0).
-                GetComponent<Bullet_Plural>();
-            bul[i].Init(PlayerManager.instance.myPnum, i);
+                GetComponent<Iris_Bullet2>();
+            bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -44,8 +44,8 @@ public class Iris_Skill2 : Skills {
             bul[i] = PhotonNetwork.Instantiate
 
                 ("Iris_Skill2", transform.position, Quaternion.identity, 0).
-                GetComponent<Bullet_Plural>();
-            bul[i].Init(PlayerManager.instance.myPnum, i+1);
+                GetComponent<Iris_Bullet2>();
+            bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i+1);
         }
 
     }

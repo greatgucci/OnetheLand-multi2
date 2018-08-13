@@ -4,8 +4,33 @@ using UnityEngine;
 
 public class Iris_Bullet3 : Bullet {
 
+    GameObject commuObject;
+
+    public void Init_Iris_Bullet3(int _shooterNum, int communicatingObject)
+    {
+        photonView.RPC("Init_Iris_Bullet3_RPC", PhotonTargets.All, _shooterNum, communicatingObject);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Bullet3_RPC(int _shooterNum, int communicatingObject)
+    {
+        commuObject = PhotonView.Find(communicatingObject).gameObject;
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
+
     protected override void Move(int _shooterNum)
     {
+        damage = 10;
         StartCoroutine(MoveIrisSkillLine());
     }
     protected override void OnTriggerStay2D(Collider2D collision)
@@ -38,7 +63,7 @@ public class Iris_Bullet3 : Bullet {
         while (true)
         {
 
-            if (timer > 1.5f)
+            if (timer > 1.2f)
             {
                 DestroyToServer();
                 break;

@@ -5,13 +5,43 @@ using UnityEngine;
 public class Iris_Skill3Circle : Bullet {
 
     GameObject warningSquare;
+    GameObject irisSkill3Animation;
+    GameObject commuObject;
+
+    public void Init_Iris_Skill3Circle(int _shooterNum, int communicatingObject)
+    {
+        photonView.RPC("Init_Iris_Bullet4_RPC", PhotonTargets.All, _shooterNum, communicatingObject);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Iris_Skill3Circle(int _shooterNum, int communicatingObject)
+    {
+        commuObject = PhotonView.Find(communicatingObject).gameObject;
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
 
     protected override void Move(int _shooterNum)
     {
-        warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 10f);
-        warningSquare.transform.localScale = new Vector3(30f, 0.75f, 1f);
+        irisSkill3Animation = Resources.Load("IrisSkill3Animation") as GameObject;
 
-        StartCoroutine(MoveCircle());
+        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        {
+            warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 10f);
+            warningSquare.transform.localScale = new Vector3(30f, 0.75f, 1f);
+            StartCoroutine(MoveCircle());
+        }
+
+        StartCoroutine(DestroyCircle());
     }
 
     protected override void OnTriggerStay2D(Collider2D collision)
@@ -33,7 +63,7 @@ public class Iris_Skill3Circle : Bullet {
                 break;
             }
 
-            if (timer > 0.3f)
+            if (timer > 0.8f)
             {
                 Destroy(warningSquare);
                 
@@ -50,6 +80,16 @@ public class Iris_Skill3Circle : Bullet {
             timer += Time.deltaTime;
             yield return null;
         }
+    }
+
+    IEnumerator DestroyCircle()
+    {
+        GameObject irisSkill3Animation_Temp;
+        irisSkill3Animation_Temp = Instantiate(irisSkill3Animation, transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(2.2f);
+
+        Destroy(irisSkill3Animation_Temp);
         DestroyToServer();
     }
 }

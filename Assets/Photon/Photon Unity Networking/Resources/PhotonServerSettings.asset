@@ -14,7 +14,7 @@ MonoBehaviour:
   AppID: 86f44cba-83e9-4fc9-9a27-4256eee29887
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 1
   PreferredRegion: 9
   EnabledRegions: -1
   Protocol: 0
@@ -64,6 +64,17 @@ MonoBehaviour:
   - IsColEnable
   - IsColEnable_RPC
   - DestroyToServer_RPC
+<<<<<<< HEAD
+  - Init_Iris_Bullet4_RPC
+  - Init_Iris_Skill3Circle_RPC
+  - Init_Iris_Skill3Targeting_RPC
+  - Init_Iris_Skill4Circle_RPC
+  - Init_Iris_Skill4Rotation_RPC
+  - Init_TargetStatic_RPC
+  - Init_Iris_Bullet1_RPC
+  - Init_Iris_Bullet2_RPC
+  - Init_Iris_Bullet3_RPC
+=======
   - Init_Diana_Bullet1_RPC
   - Init_Diana_Bullet1_default_RPC
   - Init_Diana_Bullet2_default_RPC
@@ -72,4 +83,5 @@ MonoBehaviour:
   - Init_Diana_Bullet2_Warning_RPC
   - Init_Diana_Bullet2_default_Target_RPC
   - Init_Diana_Bullet4_default_RPC
+>>>>>>> origin/진규
   DisableAutoOpenWizard: 1

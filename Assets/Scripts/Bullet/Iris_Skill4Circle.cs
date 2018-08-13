@@ -2,11 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Iris_Skill4Circle : Bullet_Plural {
+public class Iris_Skill4Circle : Bullet {
 
     float rotatingAngle = 1.57f;
     Vector3 dVector_Temp;
     GameObject warningSquare;
+    GameObject commuObject;
+    int bulNum;
+
+    public void Init_Iris_Skill4Circle(int _shooterNum, int num, int communicatingObject)
+    {
+        photonView.RPC("Init_Iris_Skill4Circle_RPC", PhotonTargets.All, _shooterNum, num, communicatingObject);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Skill4Circle_RPC(int _shooterNum, int num, int communicatingObject)
+    {
+        commuObject = PhotonView.Find(communicatingObject).gameObject;
+        bulNum = num;
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
 
     protected override void Move(int _shooterNum)
     {
@@ -62,31 +87,36 @@ public class Iris_Skill4Circle : Bullet_Plural {
 
     IEnumerator WarningAttack_IrisSkill4()
     {
-        Bullet bul;
+        TargetStatic targetStatic;
+        Iris_Bullet4 irisBullet4;
 
-        warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 1f);
-        warningSquare.transform.localScale = new Vector3(30f, 0.25f, 1f);
+        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        {
+            warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 1f);
+            warningSquare.transform.localScale = new Vector3(30f, 0.25f, 1f);
 
-        DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
-        DVector.Normalize();
+            DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
+            DVector.Normalize();
 
-        rotatingAngle = DVector.y > 0 ? Vector3.Angle(DVector, Vector3.right) : -Vector3.Angle(DVector, Vector3.right);
-        warningSquare.transform.Rotate(Vector3.forward, rotatingAngle);
+            rotatingAngle = DVector.y > 0 ? Vector3.Angle(DVector, Vector3.right) : -Vector3.Angle(DVector, Vector3.right);
+            warningSquare.transform.Rotate(Vector3.forward, rotatingAngle);
+        }
 
-        bul = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<Bullet>();
-        bul.Init(shooterNum);
+        targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<TargetStatic>();
+        targetStatic.Init_TargetStatic(shooterNum);
 
-        PhotonView view = bul.gameObject.GetComponent<PhotonView>();
+        PhotonView view = targetStatic.gameObject.GetComponent<PhotonView>();
 
         yield return new WaitForSeconds(0.5f + (bulNum * 0.1f));
 
-        Destroy(warningSquare);
+        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+            Destroy(warningSquare);
 
         if (PlayerManager.instance.GetPlayerByNum(shooterNum) == PlayerManager.instance.Local)
         {
-            bul = PhotonNetwork.Instantiate
-            ("Iris_Skill4Line", transform.position, Quaternion.identity, 0).GetComponent<Bullet>();
-            bul.Init(shooterNum, view.viewID);
+            irisBullet4 = PhotonNetwork.Instantiate
+            ("Iris_Skill4Line", transform.position, Quaternion.identity, 0).GetComponent<Iris_Bullet4>();
+            irisBullet4.Init_Iris_Bullet4(shooterNum, view.viewID);
 
             DestroyToServer();
         }
