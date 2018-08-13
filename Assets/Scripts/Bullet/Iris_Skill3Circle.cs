@@ -6,15 +6,17 @@ public class Iris_Skill3Circle : Bullet {
 
     GameObject warningSquare;
     GameObject irisSkill3Animation;
+    GameObject commuObject;
 
-    public void Init_Iris_Skill3Circle(int _shooterNum)
+    public void Init_Iris_Skill3Circle(int _shooterNum, int communicatingObject)
     {
-        photonView.RPC("Init_Iris_Skill3Circle_RPC", PhotonTargets.All, _shooterNum);
+        photonView.RPC("Init_Iris_Bullet4_RPC", PhotonTargets.All, _shooterNum, communicatingObject);
     }
 
     [PunRPC]
-    protected void Init_Iris_Skill3Circle_RPC(int _shooterNum)
+    protected void Init_Iris_Iris_Skill3Circle(int _shooterNum, int communicatingObject)
     {
+        commuObject = PhotonView.Find(communicatingObject).gameObject;
         Invoke("DestroyToServer", 10f);
         shooterNum = _shooterNum;
         if (shooterNum == 1)

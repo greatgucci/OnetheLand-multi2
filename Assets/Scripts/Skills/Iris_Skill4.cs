@@ -29,7 +29,7 @@ public class Iris_Skill4 : Skills {
     {
         Iris_Skill4Rotation bul = PhotonNetwork.Instantiate
             ("Iris_Skill4Rotation", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill4Rotation>();
-        bul.Init(PlayerManager.instance.myPnum);
+        bul.Init_Iris_Skill4Rotation(PlayerManager.instance.myPnum);
 
         PhotonView view;
         view = bul.gameObject.GetComponent<PhotonView>();
@@ -38,23 +38,23 @@ public class Iris_Skill4 : Skills {
 
         irisSkill4Circle = PhotonNetwork.Instantiate
             ("Iris_Skill4Circle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill4Circle>();
-        irisSkill4Circle.Init(PlayerManager.instance.myPnum, 1, view.viewID);
+        irisSkill4Circle.Init_Iris_Skill4Circle(PlayerManager.instance.myPnum, 1, view.viewID);
 
         irisSkill4Circle = PhotonNetwork.Instantiate
                     ("Iris_Skill4Circle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill4Circle>();
-        irisSkill4Circle.Init(PlayerManager.instance.myPnum, 2, view.viewID);
+        irisSkill4Circle.Init_Iris_Skill4Circle(PlayerManager.instance.myPnum, 2, view.viewID);
 
         irisSkill4Circle = PhotonNetwork.Instantiate
                     ("Iris_Skill4Circle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill4Circle>();
-        irisSkill4Circle.Init(PlayerManager.instance.myPnum, 3, view.viewID);
+        irisSkill4Circle.Init_Iris_Skill4Circle(PlayerManager.instance.myPnum, 3, view.viewID);
 
         irisSkill4Circle = PhotonNetwork.Instantiate
                     ("Iris_Skill4Circle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill4Circle>();
-        irisSkill4Circle.Init(PlayerManager.instance.myPnum, 4, view.viewID);
+        irisSkill4Circle.Init_Iris_Skill4Circle(PlayerManager.instance.myPnum, 4, view.viewID);
 
         irisSkill4Circle = PhotonNetwork.Instantiate
                     ("Iris_Skill4Circle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill4Circle>();
-        irisSkill4Circle.Init(PlayerManager.instance.myPnum, 5, view.viewID);
+        irisSkill4Circle.Init_Iris_Skill4Circle(PlayerManager.instance.myPnum, 5, view.viewID);
 
 
         yield return new WaitForSeconds(0.2f);

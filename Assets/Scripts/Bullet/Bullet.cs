@@ -10,8 +10,6 @@ public class Bullet : Photon.PunBehaviour
     protected Rigidbody2D rgbd;
     public int shooterNum;
     public int oNum;
-    protected GameObject commuObject;
-    protected GameObject[] commuObjects;
 
     protected bool isTirggerTime = true;
     private Vector3 dVector;
@@ -21,81 +19,7 @@ public class Bullet : Photon.PunBehaviour
         rgbd = GetComponent<Rigidbody2D>();
         StartCoroutine(TriggerTimer());
     }
-
-    public void Init(int _shooterNum)
-    {
-        photonView.RPC("Init_RPC", PhotonTargets.All,_shooterNum);
-    }
-
-    public void Init(int _shooterNum, int communicatingObject)
-    {
-        photonView.RPC("Init_RPC", PhotonTargets.All, _shooterNum, communicatingObject);
-    }
-    public void Init(int _shooterNum,int[] communicatingObjects)
-    {
-        photonView.RPC("Init_RPC", PhotonTargets.All, _shooterNum, communicatingObjects);
-    }
-
-    /// <summary>
-    /// 슛터 넘버를 서버에 전달
-    /// </summary>
-    [PunRPC]
-    protected void Init_RPC(int _shooterNum)
-    {
-        Invoke("DestroyToServer", 10f);
-        shooterNum = _shooterNum;
-        if (shooterNum == 1)
-        {
-            oNum = 2;
-        }
-        else if (shooterNum == 2)
-        {
-            oNum = 1;
-        }
-        Move(shooterNum);
-    }
     
-    /// <summary>
-    /// 슛터 넘과 상호작용하는 오브젝트 1개 전달
-    /// </summary>
-    [PunRPC]
-    protected void Init_RPC(int _shooterNum, int communicatingObject)
-    {
-        commuObject = PhotonView.Find(communicatingObject).gameObject;
-        Invoke("DestroyToServer", 10f);
-        shooterNum = _shooterNum;
-        if (shooterNum == 1)
-        {
-            oNum = 2;
-        }
-        else if (shooterNum == 2)
-        {
-            oNum = 1;
-        }
-        Move(shooterNum);
-    }
-    /// <summary>
-    /// 슛터넘과 상호작용하는 오브젝트 여러개 전달
-    /// </summary>
-    [PunRPC]
-    protected void Init_RPC(int _shooterNum, int[] communicatingObjects)
-    {
-        for(int i=0; i<communicatingObjects.Length;i++)
-        {
-            commuObjects[i] = PhotonView.Find(communicatingObjects[i]).gameObject;
-        }
-        Invoke("DestroyToServer", 10f);
-        shooterNum = _shooterNum;
-        if (shooterNum == 1)
-        {
-            oNum = 2;
-        }
-        else if (shooterNum == 2)
-        {
-            oNum = 1;
-        }
-        Move(shooterNum);
-    }
 
     /// <summary>
     /// 서버를 통해 파괴

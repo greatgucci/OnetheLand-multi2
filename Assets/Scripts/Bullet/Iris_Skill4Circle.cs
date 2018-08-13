@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Iris_Skill4Circle : Bullet_Plural {
+public class Iris_Skill4Circle : Bullet {
 
     float rotatingAngle = 1.57f;
     Vector3 dVector_Temp;
     GameObject warningSquare;
     GameObject commuObject;
+    int bulNum;
 
     public void Init_Iris_Skill4Circle(int _shooterNum, int num, int communicatingObject)
     {
@@ -102,7 +103,7 @@ public class Iris_Skill4Circle : Bullet_Plural {
         }
 
         targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<TargetStatic>();
-        targetStatic.Init(shooterNum);
+        targetStatic.Init_TargetStatic(shooterNum);
 
         PhotonView view = targetStatic.gameObject.GetComponent<PhotonView>();
 
@@ -115,7 +116,7 @@ public class Iris_Skill4Circle : Bullet_Plural {
         {
             irisBullet4 = PhotonNetwork.Instantiate
             ("Iris_Skill4Line", transform.position, Quaternion.identity, 0).GetComponent<Iris_Bullet4>();
-            irisBullet4.Init(shooterNum, view.viewID);
+            irisBullet4.Init_Iris_Bullet4(shooterNum, view.viewID);
 
             DestroyToServer();
         }

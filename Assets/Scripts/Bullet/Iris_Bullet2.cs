@@ -2,13 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Iris_Bullet2 : Bullet_Plural {
+public class Iris_Bullet2 : Bullet {
 
     Vector3 oPosition_Temp;
+
+    int bulNum;
 
     public int irisBullet2Num_Temp;
 
     float rotatingAngle = -(3.14f / 9f);
+
+    public void Init_Iris_Bullet2(int _shooterNum, int num)
+    {
+        photonView.RPC("Init_Iris_Bullet2_RPC", PhotonTargets.All, _shooterNum, num);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Bullet2_RPC(int _shooterNum, int num)
+    {
+        bulNum = num;
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
 
     protected override void Move(int _shooterNum)
     {
