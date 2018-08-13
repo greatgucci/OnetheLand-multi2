@@ -6,6 +6,27 @@ public class Iris_Skill4Rotation : Bullet {
 
     Vector3 tempPosition;
 
+    public void Init_Iris_Skill4Rotation(int _shooterNum)
+    {
+        photonView.RPC("Init_Iris_Skill4Rotation_RPC", PhotonTargets.All, _shooterNum);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Skill4Rotation_RPC(int _shooterNum)
+    {
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
+
     protected override void Move(int _shooterNum)
     {
         transform.parent = PlayerManager.instance.GetPlayerByNum(_shooterNum).transform;

@@ -7,6 +7,30 @@ public class Iris_Skill4Circle : Bullet_Plural {
     float rotatingAngle = 1.57f;
     Vector3 dVector_Temp;
     GameObject warningSquare;
+    GameObject commuObject;
+
+    public void Init_Iris_Skill4Circle(int _shooterNum, int num, int communicatingObject)
+    {
+        photonView.RPC("Init_Iris_Skill4Circle_RPC", PhotonTargets.All, _shooterNum, num, communicatingObject);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Skill4Circle_RPC(int _shooterNum, int num, int communicatingObject)
+    {
+        commuObject = PhotonView.Find(communicatingObject).gameObject;
+        bulNum = num;
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
 
     protected override void Move(int _shooterNum)
     {
@@ -62,7 +86,8 @@ public class Iris_Skill4Circle : Bullet_Plural {
 
     IEnumerator WarningAttack_IrisSkill4()
     {
-        Bullet bul;
+        TargetStatic targetStatic;
+        Iris_Bullet4 irisBullet4;
 
         if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
         {
@@ -76,10 +101,10 @@ public class Iris_Skill4Circle : Bullet_Plural {
             warningSquare.transform.Rotate(Vector3.forward, rotatingAngle);
         }
 
-        bul = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<Bullet>();
-        bul.Init(shooterNum);
+        targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<TargetStatic>();
+        targetStatic.Init(shooterNum);
 
-        PhotonView view = bul.gameObject.GetComponent<PhotonView>();
+        PhotonView view = targetStatic.gameObject.GetComponent<PhotonView>();
 
         yield return new WaitForSeconds(0.5f + (bulNum * 0.1f));
 
@@ -88,9 +113,9 @@ public class Iris_Skill4Circle : Bullet_Plural {
 
         if (PlayerManager.instance.GetPlayerByNum(shooterNum) == PlayerManager.instance.Local)
         {
-            bul = PhotonNetwork.Instantiate
-            ("Iris_Skill4Line", transform.position, Quaternion.identity, 0).GetComponent<Bullet>();
-            bul.Init(shooterNum, view.viewID);
+            irisBullet4 = PhotonNetwork.Instantiate
+            ("Iris_Skill4Line", transform.position, Quaternion.identity, 0).GetComponent<Iris_Bullet4>();
+            irisBullet4.Init(shooterNum, view.viewID);
 
             DestroyToServer();
         }

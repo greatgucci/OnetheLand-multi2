@@ -7,6 +7,27 @@ public class Iris_Skill3Circle : Bullet {
     GameObject warningSquare;
     GameObject irisSkill3Animation;
 
+    public void Init_Iris_Skill3Circle(int _shooterNum)
+    {
+        photonView.RPC("Init_Iris_Skill3Circle_RPC", PhotonTargets.All, _shooterNum);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Skill3Circle_RPC(int _shooterNum)
+    {
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
+
     protected override void Move(int _shooterNum)
     {
         irisSkill3Animation = Resources.Load("IrisSkill3Animation") as GameObject;
@@ -40,7 +61,7 @@ public class Iris_Skill3Circle : Bullet {
                 break;
             }
 
-            if (timer > 0.5f)
+            if (timer > 0.8f)
             {
                 Destroy(warningSquare);
                 
@@ -64,7 +85,7 @@ public class Iris_Skill3Circle : Bullet {
         GameObject irisSkill3Animation_Temp;
         irisSkill3Animation_Temp = Instantiate(irisSkill3Animation, transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2.2f);
 
         Destroy(irisSkill3Animation_Temp);
         DestroyToServer();
