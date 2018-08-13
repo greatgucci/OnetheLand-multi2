@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Diana_Bullet1_instance : Bullet {
 
+    GameObject commuObject;
 	Vector3 oPosition;
 	float angle;
 	public void Init_Diana_Bullet1_default(int _shooterNum,int communicatingObject)

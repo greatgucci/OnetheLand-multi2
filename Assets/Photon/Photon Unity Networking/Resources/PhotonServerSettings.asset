@@ -11,14 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 86f44cba-83e9-4fc9-9a27-4256eee29887
+  AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 1
-  PreferredRegion: 9
+  HostType: 0
+  PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 192.168.0.13
+  ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 0
@@ -28,60 +28,38 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - ColorRpc
   - DestroyRpc
-  - DoJump
-  - Flash
+  - DestroyToServer_RPC
+  - GameOverEffect
+  - GameStartEffect
+  - GameStartEffectOff
+  - GoToWaiting
+  - Init_Diana_Bullet1_default_RPC
+  - Init_Diana_Bullet1_RPC
+  - Init_Diana_Bullet2_default_RPC
+  - Init_Diana_Bullet2_default_Target_RPC
+  - Init_Diana_Bullet2_explosion_RPC
+  - Init_Diana_Bullet2_RPC
+  - Init_Diana_Bullet2_Warning_RPC
+  - Init_Diana_Bullet4_default_RPC
+  - Init_Iris_Bullet1_RPC
+  - Init_Iris_Bullet1Bomb_RPC
+  - Init_Iris_Bullet2_RPC
+  - Init_Iris_Bullet3_RPC
+  - Init_Iris_Bullet4_RPC
+  - Init_Iris_Iris_Skill3Circle
+  - Init_Iris_Skill3Targeting_RPC
+  - Init_Iris_Skill4Circle_RPC
+  - Init_Iris_Skill4Rotation_RPC
+  - Init_TargetStatic_RPC
+  - InputSetOk
   - InstantiateRpc
-  - Marco
+  - IsColEnable_RPC
   - PickupItemInit
-  - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - TaggedPlayer
-  - Excute_RPC
-  - DestroyThis
-  - DoSkill
-  - DoSkill_RPC
-  - Judgement
-  - Init_RPC
-  - DestroyThis_RPC
-  - GoToWaiting
-  - IrisBullet2Num_RPC
-  - Init_RPC_BulNum
-  - InputSetOk
-  - GameOverEffect
-  - GameStartEffect
   - StartTimeCount
-  - GameStartEffecOff
-  - GameStartEffectOff
-  - DestroyCallBack_RPC
-  - DestroyToServer
-  - ColDisenabled
-  - IsColEnable
-  - IsColEnable_RPC
-  - DestroyToServer_RPC
-<<<<<<< HEAD
-  - Init_Iris_Bullet4_RPC
-  - Init_Iris_Skill3Circle_RPC
-  - Init_Iris_Skill3Targeting_RPC
-  - Init_Iris_Skill4Circle_RPC
-  - Init_Iris_Skill4Rotation_RPC
-  - Init_TargetStatic_RPC
-  - Init_Iris_Bullet1_RPC
-  - Init_Iris_Bullet2_RPC
-  - Init_Iris_Bullet3_RPC
-=======
-  - Init_Diana_Bullet1_RPC
-  - Init_Diana_Bullet1_default_RPC
-  - Init_Diana_Bullet2_default_RPC
-  - Init_Diana_Bullet2_explosion_RPC
-  - Init_Diana_Bullet2_RPC
-  - Init_Diana_Bullet2_Warning_RPC
-  - Init_Diana_Bullet2_default_Target_RPC
-  - Init_Diana_Bullet4_default_RPC
->>>>>>> origin/진규
   DisableAutoOpenWizard: 1

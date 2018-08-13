@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Diana_Bullet2_default : Bullet 
 {
-	bool damaged=false;
+    GameObject commuObject;
+    bool damaged =false;
 	public void Init_Diana_Bullet2_default(int _shooterNum)
 	{
 		photonView.RPC ("Init_Diana_Bullet2_default_RPC", PhotonTargets.All,_shooterNum);

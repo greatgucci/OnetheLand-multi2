@@ -24,11 +24,11 @@ public class Diana_Skill1_default : Skills
 	IEnumerator ShooterBullet()
 	{
 		for (int i = 0; i < 6; i++) {
-			Bullet bul = PhotonNetwork.Instantiate
+			Diana_Bullet1_default d_b_d = PhotonNetwork.Instantiate
 
 				("Diana_Bullet1_default", transform.position, Quaternion.identity,0).
-				GetComponent<Bullet>();
-			bul.Init(PlayerManager.instance.myPnum);
+				GetComponent<Diana_Bullet1_default>();
+			d_b_d.Init_Diana_Bullet1_default(PlayerManager.instance.myPnum);
 			yield return new WaitForSeconds (0.5f);
 		}
 	}
