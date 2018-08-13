@@ -164,7 +164,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         playerNum = pnum;
         transform.parent.gameObject.tag = "Player" + pnum;
-        transform.parent.gameObject.name = gameObject.name + "_" + pnum;
+        transform.parent.gameObject.name = gameObject.name + "_P" + pnum;
     }
     #endregion
 

@@ -64,16 +64,18 @@ public class NetworkManager : Photon.PunBehaviour {
             PlayerManager.instance.myPnum = 2;
         }
     }
+    public void GameOver(int loser)
+    {
+        Debug.Log(loser + " is Lose");
+        StartCoroutine(GameOverRoutine(loser));
+    }
     #endregion
 
     private void Update()
     {
         ping.text = "Ping : " + PhotonNetwork.GetPing();
     }
-    public void GameOver(int loser)
-    {
-        StartCoroutine(GameOverRoutine(loser));
-    }
+
     #region PUNRPC
     [PunRPC]
     private void StartTimeCount()
@@ -100,10 +102,10 @@ public class NetworkManager : Photon.PunBehaviour {
         tempGameStartText.rectTransform.anchoredPosition = new Vector3(0, 2000, 0);
     }
     [PunRPC]    
-    private void GameOverEffect(int i)
+    private void GameOverEffect(int loser)
     {
         tempGameOverText.rectTransform.anchoredPosition = new Vector3(0, 0, 0);
-        if(PlayerManager.instance.Local.playerNum == i)
+        if(PlayerManager.instance.Local.playerNum == loser)
         {
             tempGameOverText.text = "넌 졌어";
         }else

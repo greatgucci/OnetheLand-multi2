@@ -14,21 +14,23 @@ public class WaitingManager : Photon.PunBehaviour
     public GameObject[] playerPrefabs;
     public Text ping;
 
-
-    #region Photon Messages
-
     private void Start()
     {
 
         PlayerManager.instance.playMode = PlayMode.WAITING;
-        
 
-        if(PhotonNetwork.isMasterClient)
+
+        if (PhotonNetwork.isMasterClient)
         {
             PlayerInsantiate(PlayerPrefs.GetInt("Character"));
+            
         }
         InputSetOk(true);
+        MakePuppet();
     }
+    #region Photon Messages
+
+
 
     public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
     {
@@ -79,5 +81,9 @@ public class WaitingManager : Photon.PunBehaviour
         {
             self.IsInputAble = b;
         }
+    }
+    private void MakePuppet()
+    {
+        PlayerManager.instance.Opponent = Instantiate(Resources.Load("Puppet") as GameObject).GetComponentInChildren<PlayerData>();
     }
 }
