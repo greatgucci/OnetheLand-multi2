@@ -6,14 +6,15 @@ public class Diana_Bullet1_instance : Bullet {
 
 	Vector3 oPosition;
 	float angle;
-	public void Init_Diana_Bullet1_default(int _shooterNum)
+	public void Init_Diana_Bullet1_default(int _shooterNum,int communicatingObject)
 	{
-		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum);
+		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum,communicatingObject);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet1_default_RPC(int _shooterNum)
+	private void Init_Diana_Bullet1_default_RPC(int _shooterNum, int communicatingObject)
 	{
 		shooterNum = _shooterNum;
+		commuObject = PhotonView.Find(communicatingObject).gameObject;
 		if (shooterNum == 1)
 		{
 			oNum = 2;

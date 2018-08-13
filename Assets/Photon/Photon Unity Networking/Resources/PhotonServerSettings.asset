@@ -64,4 +64,12 @@ MonoBehaviour:
   - IsColEnable
   - IsColEnable_RPC
   - DestroyToServer_RPC
+  - Init_Diana_Bullet1_RPC
+  - Init_Diana_Bullet1_default_RPC
+  - Init_Diana_Bullet2_default_RPC
+  - Init_Diana_Bullet2_explosion_RPC
+  - Init_Diana_Bullet2_RPC
+  - Init_Diana_Bullet2_Warning_RPC
+  - Init_Diana_Bullet2_default_Target_RPC
+  - Init_Diana_Bullet4_default_RPC
   DisableAutoOpenWizard: 1

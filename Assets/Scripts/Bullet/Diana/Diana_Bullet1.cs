@@ -28,7 +28,7 @@ public class Diana_Bullet1 : Bullet {
 	IEnumerator shooterBullet()
 	{
 		PhotonView view;
-		Bullet bul;
+		Diana_Bullet1_instance d_b_i;
 		Vector3 position;
 		view = GetComponent<PhotonView>();
 		while (true) {
@@ -36,22 +36,22 @@ public class Diana_Bullet1 : Bullet {
 				break;
 			}
 			position = transform.position;
-			bul = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Bullet>();
+			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
 			direction = 1;
 			this.position = 1;
-			bul.Init(shooterNum,view.viewID);
-			bul = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Bullet>();
+			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
 			direction = -1;
 			this.position = 1;
-			bul.Init(shooterNum,view.viewID);
-			bul = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Bullet>();
+			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
 			direction = 1;
 			this.position = 0;
-			bul.Init(shooterNum,view.viewID);
-			bul = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Bullet>();
+			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
 			direction = -1;
 			this.position = 0;
-			bul.Init(shooterNum,view.viewID);
+			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
 			yield return new WaitForSeconds (0.5f);
 		}
 		DestroyToServer();
@@ -63,6 +63,15 @@ public class Diana_Bullet1 : Bullet {
 	[PunRPC]
 	void Init_Diana_Bullet1_RPC(int _shooterNum)
 	{
+		shooterNum = _shooterNum;
+		if (shooterNum == 1)
+		{
+			oNum = 2;
+		}
+		else if (shooterNum == 2)
+		{
+			oNum = 1;
+		}
 		DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
 		FavoriteFunction.RotateBullet(gameObject);
 		speed = 6f;

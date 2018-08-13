@@ -7,7 +7,7 @@ public class Diana_Skill2 : Skills
 	Diana_Bullet2_data diana_bullet2_data;
 	float explosion_scale = 4f;
 	float distance =4f;
-	int type;
+	int type=4;
 	int player;
 	public override void Excute()
 	{
