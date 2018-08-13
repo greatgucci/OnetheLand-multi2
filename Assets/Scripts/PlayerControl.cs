@@ -69,25 +69,33 @@ public class PlayerControl : Photon.PunBehaviour
         }
 
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        if (Input.GetKeyDown(KeyCode.Z))
+        
+        if (Input.GetKeyDown(KeyCode.Z) && PlayerManager.instance.Local.cooltime[0] <= 0f)
         {
             DoSkill(0);//Skill1
+            PlayerManager.instance.Local.SetCooltime(0, 1f);
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.X) && PlayerManager.instance.Local.cooltime[1] <= 0f)
         {
             DoSkill(1);//Skill2
+            PlayerManager.instance.Local.SetCooltime(1, 1f);
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.C) && PlayerManager.instance.Local.cooltime[2] <= 0f)
         {
             DoSkill(2);//Skill2
-        }else if (Input.GetKeyDown(KeyCode.V))
+            PlayerManager.instance.Local.SetCooltime(2, 1f);
+        }
+        else if (Input.GetKeyDown(KeyCode.V) && PlayerManager.instance.Local.cooltime[3] <= 0f)
         {
             DoSkill(3);
-        }else if(Input.GetKeyDown(KeyCode.Space))
+            PlayerManager.instance.Local.SetCooltime(3, 1f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && PlayerManager.instance.Local.cooltime[8] <= 0f)
         {
             Teleport(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            PlayerManager.instance.Local.SetCooltime(8, 0.5f);
         }
+
     }
 
     #region privates

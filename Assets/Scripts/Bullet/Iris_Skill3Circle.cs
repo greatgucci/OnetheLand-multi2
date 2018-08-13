@@ -5,9 +5,11 @@ using UnityEngine;
 public class Iris_Skill3Circle : Bullet {
 
     GameObject warningSquare;
+    GameObject irisSkill3Animation;
 
     protected override void Move(int _shooterNum)
     {
+        irisSkill3Animation = Resources.Load("IrisSkill3Animation") as GameObject;
 
         if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
         {
@@ -38,7 +40,7 @@ public class Iris_Skill3Circle : Bullet {
                 break;
             }
 
-            if (timer > 0.3f)
+            if (timer > 0.5f)
             {
                 Destroy(warningSquare);
                 
@@ -59,26 +61,12 @@ public class Iris_Skill3Circle : Bullet {
 
     IEnumerator DestroyCircle()
     {
-        float timer = 0f;
-        float colorTimer = 1f;
-        SpriteRenderer circleSpriteRenderer = GetComponent<SpriteRenderer>();
+        GameObject irisSkill3Animation_Temp;
+        irisSkill3Animation_Temp = Instantiate(irisSkill3Animation, transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(2.0f);
 
-        while(true)
-        {
-            if (timer >= 0.2f)
-            {
-                break;
-            }
-
-            circleSpriteRenderer.color = new Color(1f, 1f, 1f, colorTimer);
-
-            colorTimer -= Time.deltaTime * 5f;
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
+        Destroy(irisSkill3Animation_Temp);
         DestroyToServer();
     }
 }

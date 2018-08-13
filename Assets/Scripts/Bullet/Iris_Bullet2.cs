@@ -12,6 +12,8 @@ public class Iris_Bullet2 : Bullet_Plural {
 
     protected override void Move(int _shooterNum)
     {
+        damage = 50;
+
         irisBullet2Num_Temp = bulNum;
 
         Debug.Log("Move : " + irisBullet2Num_Temp);
@@ -21,7 +23,7 @@ public class Iris_Bullet2 : Bullet_Plural {
         rotatingAngle += (irisBullet2Num_Temp * (3.14f / 18f));
 
         DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
-        rotatingAngle += DVector.y > 0 ? -Vector3.AngleBetween(Vector3.right, DVector) : Vector3.AngleBetween(Vector3.right, DVector);
+        rotatingAngle += DVector.y > 0 ? Vector3.AngleBetween(Vector3.right, DVector) : -Vector3.AngleBetween(Vector3.right, DVector);
 
         if (_shooterNum == 1)
         {

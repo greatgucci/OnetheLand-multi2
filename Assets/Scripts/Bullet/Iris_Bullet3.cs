@@ -6,6 +6,7 @@ public class Iris_Bullet3 : Bullet {
 
     protected override void Move(int _shooterNum)
     {
+        damage = 10;
         StartCoroutine(MoveIrisSkillLine());
     }
     protected override void OnTriggerStay2D(Collider2D collision)
@@ -38,7 +39,7 @@ public class Iris_Bullet3 : Bullet {
         while (true)
         {
 
-            if (timer > 1.5f)
+            if (timer > 1.2f)
             {
                 DestroyToServer();
                 break;

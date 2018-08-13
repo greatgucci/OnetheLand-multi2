@@ -5,6 +5,8 @@ using UnityEngine;
 public class Iris_Bullet1Bomb : Bullet {
     protected override void Move(int _shooterNum)
     {
+        damage = 50;
+
         transform.localScale *= 2;
         StartCoroutine(DestroyBomb());
     }

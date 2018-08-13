@@ -14,6 +14,9 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private float fullHp;
     private float currentSkillGage;
     private float fullSkillGage;
+    private float globalCool = 0.5f;
+    public float[] cooltime = new float[9];
+    public float cooltimeSpd = 1f;
     public float CurrentHp
     { get { return currentHp; }
         set
@@ -73,6 +76,11 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             FullSkillGage = _fullSkg;
             CurrentHp = _hp;
             CurrentSkillGage = _skg;
+
+            for(int i = 0; i < cooltime.Length; i++)
+            {
+                cooltime[i] = 0f;
+            }
         }else
         {
             fullHp = _fullHp;
@@ -83,6 +91,19 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             UpdateSkgUI(currentSkillGage);
         }
     }
+
+    public void SetCooltime(int skillNum, float _cooltime)
+    {
+        for (int i = 0; i < cooltime.Length; i++)
+        {
+            cooltime[i] += globalCool;
+
+            if(i == skillNum)
+            {
+                cooltime[i] = _cooltime;
+            }
+        }
+    }
     #endregion
 
     private void Update()
@@ -90,6 +111,16 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         if(photonView.isMine)
         {
             CurrentSkillGage += Time.deltaTime * 1f;
+
+            for (int i = 0; i < cooltime.Length; i++)
+            {
+                if (cooltime[i] > 0f)
+                {
+                    cooltime[i] -= Time.deltaTime * cooltimeSpd;
+
+                }
+            }
+
             if (CurrentHp <= 1000f)
             {
                 //CurrentHp += Time.deltaTime * 10f;

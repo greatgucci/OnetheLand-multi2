@@ -48,7 +48,7 @@ public class Iris_Skill3 : Skills {
 
         bul.Init(PlayerManager.instance.myPnum, view.viewID);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
 
         bul = PhotonNetwork.Instantiate("Iris_Skill3Line", tempPosition, Quaternion.identity, 0).GetComponent<Bullet>();
         bul.Init(PlayerManager.instance.myPnum, view.viewID);
