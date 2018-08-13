@@ -10,7 +10,26 @@ public class Iris_Skill1Animation : Bullet {
     Image irisBomb3;
     Image irisBomb4;
 
-   
+    public void Init_Iris_Skill1Animation(int _shooterNum)
+    {
+        photonView.RPC("Init_Iris_Skill1Animation_RPC", PhotonTargets.All, _shooterNum);
+    }
+
+    [PunRPC]
+    protected void Init_Iris_Skill1Animation_RPC(int _shooterNum)
+    {
+        Invoke("DestroyToServer", 10f);
+        shooterNum = _shooterNum;
+        if (shooterNum == 1)
+        {
+            oNum = 2;
+        }
+        else if (shooterNum == 2)
+        {
+            oNum = 1;
+        }
+        Move(shooterNum);
+    }
 
     protected override void Move(int _shooterNum)
     {

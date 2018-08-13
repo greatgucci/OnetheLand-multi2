@@ -31,7 +31,8 @@ public class Iris_Skill1 : Skills {
 
             ("Iris_Bullet1", transform.position, Quaternion.identity, 0).
             GetComponent<Iris_Bullet1>();
-        bul.Init_Iris_Bullet1(PlayerManager.instance.myPnum);
+        bul.Init_Iris_Bullet1
+            (PlayerManager.instance.myPnum, PlayerManager.instance.Local.aimVector, PlayerManager.instance.Local.aimPosition);
 
         yield return new WaitForSeconds(0.2f);
 
@@ -39,14 +40,15 @@ public class Iris_Skill1 : Skills {
 
             ("Iris_Bullet1", transform.position, Quaternion.identity, 0).
             GetComponent<Iris_Bullet1>();
-        bul.Init_Iris_Bullet1(PlayerManager.instance.myPnum);
-
+        bul.Init_Iris_Bullet1
+            (PlayerManager.instance.myPnum, PlayerManager.instance.Local.aimVector, PlayerManager.instance.Local.aimPosition);
         yield return new WaitForSeconds(0.2f);
 
         bul = PhotonNetwork.Instantiate
 
             ("Iris_Bullet1", transform.position, Quaternion.identity, 0).
             GetComponent<Iris_Bullet1>();
-        bul.Init_Iris_Bullet1(PlayerManager.instance.myPnum);
+        bul.Init_Iris_Bullet1
+            (PlayerManager.instance.myPnum, PlayerManager.instance.Local.aimVector, PlayerManager.instance.Local.aimPosition);
     }
 }

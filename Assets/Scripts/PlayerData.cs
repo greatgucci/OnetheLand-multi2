@@ -17,6 +17,11 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private float globalCool = 0.5f;
     public float[] cooltime = new float[9];
     public float cooltimeSpd = 1f;
+    Aim Aim_Object;
+    PlayerData opponent;
+    public Vector3 aimVector = new Vector3(0f,0f,0f);
+    public Vector3 aimPosition = new Vector3(0f, 0f, 0f);
+
     public float CurrentHp
     { get { return currentHp; }
         set
@@ -81,7 +86,10 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             {
                 cooltime[i] = 0f;
             }
-        }else
+
+            opponent = PlayerManager.instance.Opponent;
+        }
+        else
         {
             fullHp = _fullHp;
             fullSkillGage = _fullSkg;
@@ -106,6 +114,15 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     }
     #endregion
 
+    private void Start()
+    {
+        if (photonView.isMine)
+        {
+            Aim_Object = Instantiate(Resources.Load("Aim") as GameObject, Input.mousePosition, Quaternion.identity)
+                .GetComponent<Aim>();
+        }
+    }
+
     private void Update()
     {
         if(photonView.isMine)
@@ -120,6 +137,9 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
 
                 }
             }
+
+            aimVector = Aim_Object.aimVector_Temp;
+            aimPosition = Aim_Object.aimPosition_Temp;
 
             if (CurrentHp <= 1000f)
             {

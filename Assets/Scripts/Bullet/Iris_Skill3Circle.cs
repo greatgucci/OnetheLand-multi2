@@ -10,7 +10,7 @@ public class Iris_Skill3Circle : Bullet {
 
     public void Init_Iris_Skill3Circle(int _shooterNum, int communicatingObject)
     {
-        photonView.RPC("Init_Iris_Bullet4_RPC", PhotonTargets.All, _shooterNum, communicatingObject);
+        photonView.RPC("Init_Iris_Iris_Skill3Circle", PhotonTargets.All, _shooterNum, communicatingObject);
     }
 
     [PunRPC]
