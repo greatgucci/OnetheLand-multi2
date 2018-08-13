@@ -4,49 +4,24 @@ using UnityEngine;
 
 public class Diana_Bullet2 :Diana_Bullet2_data {
 	float angle;
-	Vector3 start_position;
-	protected override void Move(int _shooterNum)
+	float explosion_scale = 4f;
+	float distance =4f;
+	int type;
+
+	public override void collision_after ()
 	{
-		distance =4f;
-		explosion_scale = 4f;
-		speed =7f;
-		start_position = transform.position;
-		if (commuObject.GetComponent<Diana_Bullet2_data> ().type == 1)
-			angle = Random.Range (-60f, -20f)*Mathf.Deg2Rad;
-		else if(commuObject.GetComponent<Diana_Bullet2_data> ().type==2)
-			angle = Random.Range (-20f, 20f)*Mathf.Deg2Rad;
-		else
-			angle = Random.Range (20f, 60f)*Mathf.Deg2Rad;
-		DVector = new Vector3(1*Mathf.Cos(angle),1*Mathf.Sin(angle),0);
-		FavoriteFunction.RotateBullet(gameObject);
-		rgbd.velocity = DVector * speed;
-		StartCoroutine (collision ());
-	}
-	IEnumerator collision()
-	{
-		Bullet bul;
-		PhotonView view;
-		float distance;
-		view = GetComponent<PhotonView> ();
-		while (true) {
-			distance = (transform.position-start_position).magnitude;
-			if(distance>this.distance)
-			{
-				bul=PhotonNetwork.Instantiate ("Diana_Bullet2_explosion", transform.position, Quaternion.identity, 0).GetComponent<Bullet>();
-				bul.Init(PlayerManager.instance.myPnum,view.viewID);
-				bul = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Bullet>();
-				type=1;
-				bul.Init(PlayerManager.instance.myPnum,view.viewID);
-				bul = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Bullet>();
-				type = 2;
-				bul.Init(PlayerManager.instance.myPnum,view.viewID);
-				bul = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Bullet>();
-				type = 3;
-				bul.Init(PlayerManager.instance.myPnum,view.viewID);
-				break;
-			}
-			yield return null;
-		}
-		DestroyToServer();
+		Diana_Bullet2_data diana_bullet2_data;
+		Diana_Bullet2_explosion diana_bullet2_explosion;
+		diana_bullet2_explosion=PhotonNetwork.Instantiate ("Diana_Bullet2_explosion", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet2_explosion>();
+		diana_bullet2_explosion.Init_Diana_Bullet2_explosion(PlayerManager.instance.myPnum, explosion_scale);
+		diana_bullet2_data = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_data>();
+		type=1;
+		diana_bullet2_data.Init_Diana_Bullet2(PlayerManager.instance.myPnum, explosion_scale, speed=7f, transform.position, type, DVector, distance);
+		diana_bullet2_data = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_data>();
+		type = 2;
+		diana_bullet2_data.Init_Diana_Bullet2(PlayerManager.instance.myPnum, explosion_scale, speed=7f, transform.position, type, DVector, distance);
+		diana_bullet2_data = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_data>();
+		type = 3;
+		diana_bullet2_data.Init_Diana_Bullet2(PlayerManager.instance.myPnum, explosion_scale, speed=7f, transform.position, type, DVector, distance);
 	}
 }

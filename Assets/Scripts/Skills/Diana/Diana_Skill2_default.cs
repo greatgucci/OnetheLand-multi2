@@ -34,17 +34,16 @@ public class Diana_Skill2_default : Skills
 	IEnumerator DianaSkill2()
 	{
 		PhotonView view;
-
 		oPostion = PlayerManager.instance.Opponent.transform.position;
 		dianaSkill2Target = PhotonNetwork.Instantiate("Diana_Skill2_Target", oPostion, Quaternion.identity, 0);
-		Bullet bul = dianaSkill2Target.GetComponent<Bullet>();
+		Diana_Bullet2_default_Target d_b_d_t = dianaSkill2Target.GetComponent<Diana_Bullet2_default_Target>();
 		view = dianaSkill2Target.GetComponent<PhotonView>();
-		bul.Init(PlayerManager.instance.myPnum, view.viewID);
+		d_b_d_t.Init_Diana_Bullet2_default_Target(PlayerManager.instance.myPnum);
 
 		yield return new WaitForSeconds(1f);
 
 		yield return new WaitForSeconds(0.5f);
-		bul = PhotonNetwork.Instantiate("Diana_Skill2Line", transform.position, Quaternion.identity, 0).GetComponent<Bullet>();
-		bul.Init(PlayerManager.instance.myPnum, view.viewID);
+		Diana_Bullet2_default d_b_d = PhotonNetwork.Instantiate("Diana_Skill2Line", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet2_default>();
+		d_b_d.Init_Diana_Bullet2_default(PlayerManager.instance.myPnum);
 	}
 }

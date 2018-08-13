@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Diana_Skill1 : Skills
 {
+	Diana_Bullet1 diana_bullet1;
 	public override void Excute()
 	{
 		if(isRunning)
@@ -24,8 +25,8 @@ public class Diana_Skill1 : Skills
 	IEnumerator ShooterBullet()
 	{
 		for (int i = 0; i < 6; i++) {
-			Bullet bul = PhotonNetwork.Instantiate("Diana_Bullet1", transform.position, Quaternion.identity,0).GetComponent<Bullet>();
-			bul.Init(PlayerManager.instance.myPnum);
+			diana_bullet1 = PhotonNetwork.Instantiate("Diana_Bullet1",transform.position,Quaternion.identity,0).GetComponent<Diana_Bullet1>();
+			diana_bullet1.Init(PlayerManager.instance.myPnum);
 			yield return new WaitForSeconds (0.5f);
 		}
 	}

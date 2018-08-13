@@ -25,8 +25,8 @@ public class Diana_Skill4_default : Skills
 	{
 		Vector3 position_temp = transform.position;
 		for (int i = 0; i < 5; i++) {
-			Bullet bul = PhotonNetwork.Instantiate("Diana_Bullet4_default", position_temp+new Vector3(0,1f*Mathf.Abs(i-3),0), Quaternion.identity,0).GetComponent<Bullet>();
-			bul.Init(PlayerManager.instance.myPnum);
+			Diana_Bullet4_default d_b_d = PhotonNetwork.Instantiate("Diana_Bullet4_default", position_temp+new Vector3(0,1f*Mathf.Abs(i-3),0), Quaternion.identity,0).GetComponent<Diana_Bullet4_default>();
+			d_b_d.Init_Diana_Bullet4_default(PlayerManager.instance.myPnum);
 		}
 		yield return null;
 	}

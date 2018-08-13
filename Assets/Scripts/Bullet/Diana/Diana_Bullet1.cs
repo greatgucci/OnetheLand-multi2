@@ -6,14 +6,7 @@ public class Diana_Bullet1 : Bullet {
 	public int direction;
 	public int position;
 	float timer = 0;
-	protected override void Move(int _shooterNum)
-	{
-		DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
-		FavoriteFunction.RotateBullet(gameObject);
-		speed = 6f;
-		rgbd.velocity = DVector * speed;
-		StartCoroutine (shooterBullet ());
-	}
+
 	protected override void OnTriggerStay2D(Collider2D collision)
 	{
 		if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
@@ -62,6 +55,19 @@ public class Diana_Bullet1 : Bullet {
 			yield return new WaitForSeconds (0.5f);
 		}
 		DestroyToServer();
+	}
+	void Init_Diana_Bullet1(int _shooterNum)
+	{
+		photonView.RPC ("Init_Diana_Bullet1_RPC", PhotonTargets.All, _shooterNum);
+	}
+	[PunRPC]
+	void Init_Diana_Bullet1_RPC(int _shooterNum)
+	{
+		DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
+		FavoriteFunction.RotateBullet(gameObject);
+		speed = 6f;
+		rgbd.velocity = DVector * speed;
+		StartCoroutine (shooterBullet ());
 	}
 }
 

@@ -6,8 +6,22 @@ public class Diana_Bullet1_instance : Bullet {
 
 	Vector3 oPosition;
 	float angle;
-	protected override void Move(int _shooterNum)
+	public void Init_Diana_Bullet1_default(int _shooterNum)
 	{
+		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum);
+	}
+	[PunRPC]
+	private void Init_Diana_Bullet1_default_RPC(int _shooterNum)
+	{
+		shooterNum = _shooterNum;
+		if (shooterNum == 1)
+		{
+			oNum = 2;
+		}
+		else if (shooterNum == 2)
+		{
+			oNum = 1;
+		}
 		angle= commuObject.GetComponent<Diana_Bullet1>().direction==1 ? 75f* Mathf.Deg2Rad : -75f* Mathf.Deg2Rad;
 		DVector = commuObject.GetComponent<Diana_Bullet1>().DVector + new Vector3 (Mathf.Cos (angle), Mathf.Sin (angle), 0f);
 		DVector = DVector.normalized;
