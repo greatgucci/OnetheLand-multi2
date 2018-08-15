@@ -56,12 +56,12 @@ public class Diana_Bullet1 : Bullet {
 		}
 		DestroyToServer();
 	}
-	void Init_Diana_Bullet1(int _shooterNum)
+	protected void Init_Diana_Bullet1(int _shooterNum)
 	{
 		photonView.RPC ("Init_Diana_Bullet1_RPC", PhotonTargets.All, _shooterNum);
 	}
 	[PunRPC]
-	void Init_Diana_Bullet1_RPC(int _shooterNum)
+	protected void Init_Diana_Bullet1_RPC(int _shooterNum)
 	{
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
