@@ -21,14 +21,7 @@ public class Diana_Bullet1_default : Bullet {
 		{
 			oNum = 1;
 		}
-		if(shooterNum == 1)
-		{
-			rgbd.velocity = new Vector2(speed, 0);
-		}else
-		{
-			transform.localScale = new Vector3(-1, 1, 1);
-			rgbd.velocity = new Vector2(-speed, 0);
-		}
+		rgbd.velocity = PlayerManager.instance.Local.aimVector.normalized * speed;
 	}
 
 

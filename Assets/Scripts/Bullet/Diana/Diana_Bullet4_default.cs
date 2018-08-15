@@ -22,11 +22,9 @@ public class Diana_Bullet4_default : Bullet {
 		{
 			oNum = 1;
 		}
-		oPosition = PlayerManager.instance.GetPlayerByNum(oNum).transform.position;
-
-		DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
+		DVector = (PlayerManager.instance.Local.aimPosition-transform.position).normalized;
 		FavoriteFunction.RotateBullet(gameObject);
 		speed = 6f;
-		rgbd.velocity = DVector * speed;
+		rgbd.velocity =  DVector* speed;
 	}
 }

@@ -7,7 +7,7 @@ public class Bullet : Photon.PunBehaviour
     public float speed=5;
     public int damage=100;
     public float destroyTime = 10;
-    protected Rigidbody2D rgbd;
+    public Rigidbody2D rgbd;
     public int shooterNum;
     public int oNum;
 

@@ -25,7 +25,7 @@ public class Diana_Bullet2_data : Bullet {
 		Vector3 dVector;
 		speed = 7f;
 		commuObject = PhotonView.Find (domicile_gameObject).gameObject;
-		dVector = commuObject.GetComponent<Bullet> ().DVector;
+		dVector = commuObject.GetComponent<Bullet> ().DVector.normalized;
 		type_C = commuObject.GetComponent<Diana_Bullet2_data> ().type;
 		shooterNum=_shooterNum;
 		if (shooterNum == 1)
@@ -59,7 +59,7 @@ public class Diana_Bullet2_data : Bullet {
 		explosion_scale = 4f;
 		speed = 7f;
 		shooterNum=_shooterNum;
-		DVector = PlayerManager.instance.Local.aimVector;
+		DVector = PlayerManager.instance.Local.aimVector.normalized;
 		start_position_output = position;
 		FavoriteFunction.RotateBullet(gameObject);
 		rgbd.velocity = new Vector2(DVector.x,DVector.y) * speed;
@@ -75,7 +75,8 @@ public class Diana_Bullet2_data : Bullet {
 			distance_current = (transform.position-start_position_output).magnitude;
 			if(distance_current>distance)
 			{
-				collision_after ();
+				if(PlayerManager.instance.Local.playerNum == _shooterNum)
+					collision_after ();
 				break;
 			}
 			yield return null;

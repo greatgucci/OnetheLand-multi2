@@ -36,22 +36,24 @@ public class Diana_Bullet1 : Bullet {
 				break;
 			}
 			position = transform.position;
-			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
-			direction = 1;
-			this.position = 1;
-			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
-			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
-			direction = -1;
-			this.position = 1;
-			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
-			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
-			direction = 1;
-			this.position = 0;
-			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
-			d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
-			direction = -1;
-			this.position = 0;
-			d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+			if (PlayerManager.instance.Local.playerNum == shooterNum) {
+				d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
+				direction = 1;
+				this.position = 1;
+				d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+				d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
+				direction = -1;
+				this.position = 1;
+				d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+				d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
+				direction = 1;
+				this.position = 0;
+				d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+				d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
+				direction = -1;
+				this.position = 0;
+				d_b_i.Init_Diana_Bullet1_default(shooterNum, view.viewID);
+			}
 			yield return new WaitForSeconds (0.5f);
 		}
 		DestroyToServer();
