@@ -84,7 +84,7 @@ public class PlayerControl : Photon.PunBehaviour
 		else if (Input.GetKeyDown(KeyCode.X) && PlayerManager.instance.Local.cooltime[1] <= 0f)
         {
             DoSkill(1);//Skill2
-            PlayerManager.instance.Local.SetCooltime(1, 1f);
+            PlayerManager.instance.Local.SetCooltime(1, 1.2f);
         }
         else if (Input.GetKeyDown(KeyCode.C) && PlayerManager.instance.Local.cooltime[2] <= 0f)
         {
