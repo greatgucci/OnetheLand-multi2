@@ -46,23 +46,19 @@ public class Iris_BulletLeft : Bullet {
         }
         else if(bulNum == 1)
         {
-            rotating_Temp = (6.28f * (-10 / 360));
-            Debug.Log(bulNum);
-            Debug.Log("RT1" + rotating_Temp);
+            rotating_Temp = (2 * Mathf.PI * (Random.Range(-7f, 7f) / 360f));
         }
         else if (bulNum == 2)
         {
-            rotating_Temp = (2 * Mathf.PI * (10 / 360));
-            Debug.Log(bulNum);
-            Debug.Log("RT2" + rotating_Temp);
+            rotating_Temp = (2 * Mathf.PI * (Random.Range(-7f, 7f) / 360f));
         }
         else if (bulNum == 3)
         {
-            rotating_Temp = (2 * Mathf.PI * (-20 / 360));
+            rotating_Temp = (2 * Mathf.PI * (Random.Range(-7f, 7f) / 360f));
         }
         else if (bulNum == 4)
         {
-            rotating_Temp = (2 * Mathf.PI * (20 / 360));
+            rotating_Temp = (2 * Mathf.PI * (Random.Range(-7f, 7f) / 360f));
         }
 
         rotatingAngle = DVector.y > 0 ? Vector3.AngleBetween(Vector3.right, DVector) : -Vector3.AngleBetween(Vector3.right, DVector);

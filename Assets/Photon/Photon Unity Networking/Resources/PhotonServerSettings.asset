@@ -66,4 +66,5 @@ MonoBehaviour:
   - ChangeAnim_RPC
   - Init_Iris_Skill1Animation_RPC
   - Init_Iris_BulletLeft_RPC
+  - Init_Diana_Bullet2_parent_RPC
   DisableAutoOpenWizard: 1

@@ -37,7 +37,7 @@ public class Iris_Skill2 : Skills {
             bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i, PlayerManager.instance.Local.aimVector);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         for (int i = 0; i < 4; i++)
         {
