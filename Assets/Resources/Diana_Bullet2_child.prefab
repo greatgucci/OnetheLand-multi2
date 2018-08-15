@@ -131,7 +131,11 @@ MonoBehaviour:
   destroyTime: 10
   shooterNum: 0
   oNum: 0
+  commuObject: {fileID: 0}
   explosion_scale: 6
+  start_position_input: {x: 0, y: 0, z: 0}
+  type: 0
+  distance: 2
 --- !u!212 &212868094270019980
 SpriteRenderer:
   m_ObjectHideFlags: 1

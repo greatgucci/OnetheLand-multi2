@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Diana_Bullet2_Warning : Bullet {
+
 	Vector3 start_position;
 	public void Init_Diana_Bullet2_Warning(int _shooterNum, float distance,Vector3 dVector)
 	{
 		photonView.RPC ("Init_Diana_Bullet2_Warning_RPC", PhotonTargets.All,_shooterNum, distance, dVector);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet2_Warning_RPC(int _shooterNum, float distance, Vector3 dVector)
+	protected void Init_Diana_Bullet2_Warning_RPC(int _shooterNum, float distance, Vector3 dVector)
 	{
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
