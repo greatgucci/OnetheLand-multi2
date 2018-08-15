@@ -54,18 +54,12 @@ public class Diana_Bullet2_data : Bullet {
 	[PunRPC]
 	protected void Init_Diana_Bullet2_parent_RPC(int _shooterNum, Vector3 position)
 	{
+
+		distance = 4f;
+		explosion_scale = 4f;
 		speed = 7f;
 		shooterNum=_shooterNum;
-		if (shooterNum == 1)
-		{
-			oNum = 2;
-			DVector= new Vector3(1f,0f,0f);
-		}
-		else if (shooterNum == 2)
-		{
-			oNum = 1;
-			DVector= new Vector3(-1f,0f,0f);
-		}
+		DVector = PlayerManager.instance.Local.aimVector;
 		start_position_output = position;
 		FavoriteFunction.RotateBullet(gameObject);
 		rgbd.velocity = new Vector2(DVector.x,DVector.y) * speed;

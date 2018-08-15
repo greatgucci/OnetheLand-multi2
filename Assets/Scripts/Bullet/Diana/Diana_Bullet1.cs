@@ -72,7 +72,7 @@ public class Diana_Bullet1 : Bullet {
 		{
 			oNum = 1;
 		}
-		DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
+		DVector = PlayerManager.instance.Local.aimVector;
 		FavoriteFunction.RotateBullet(gameObject);
 		speed = 6f;
 		rgbd.velocity = DVector * speed;

@@ -10,6 +10,9 @@ public class PlayerControl : Photon.PunBehaviour
     private Rigidbody2D rgbd;
     private BoxCollider2D col;
     public Skills[] Skills;
+	public Skills[] Attack_defaults;
+	private Skills Attack_default;
+	private int Attack_default_Num=4;
     public float speed = 6f;
     public float distance = 0f;
     int pNum;
@@ -73,12 +76,12 @@ public class PlayerControl : Photon.PunBehaviour
 
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         
-        if (Input.GetKeyDown(KeyCode.Mouse0) && PlayerManager.instance.Local.cooltime[0] <= 0f)
+		if (Input.GetKeyDown(KeyCode.Z) && PlayerManager.instance.Local.cooltime[0] <= 0f)
         {
             DoSkill(0);//Skill1
             PlayerManager.instance.Local.SetCooltime(0, 1f);
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse1) && PlayerManager.instance.Local.cooltime[1] <= 0f)
+		else if (Input.GetKeyDown(KeyCode.X) && PlayerManager.instance.Local.cooltime[1] <= 0f)
         {
             DoSkill(1);//Skill2
             PlayerManager.instance.Local.SetCooltime(1, 1f);
@@ -99,6 +102,29 @@ public class PlayerControl : Photon.PunBehaviour
             PlayerManager.instance.Local.SetCooltime(8, 0.5f);
         }
 
+		if (Input.GetKeyDown (KeyCode.Mouse0) && PlayerManager.instance.Local.cooltime [Attack_default_Num] <= 0f) {
+			AttackSet (Attack_default_Num-4);
+			Attack_default.Excute ();
+			PlayerManager.instance.Local.SetCooltime(Attack_default_Num, 1f);
+		}
+
+		if(Input.GetKeyDown (KeyCode.Alpha1))
+		{
+			Attack_default_Num = 4;
+		}
+		else if(Input.GetKeyDown (KeyCode.Alpha2))
+		{
+			Attack_default_Num = 5;
+		}
+		else if(Input.GetKeyDown (KeyCode.Alpha3))
+		{
+			Attack_default_Num = 6;
+		}
+		else if(Input.GetKeyDown (KeyCode.Alpha4))
+		{
+			Attack_default_Num = 7;
+		}
+
     }
 
     #region privates
@@ -112,6 +138,10 @@ public class PlayerControl : Photon.PunBehaviour
     {
         Skills[skillNum].Excute();
     }
+	private void AttackSet(int skillNum)
+	{
+		Attack_default = Attack_defaults [skillNum];
+	}
 
     protected virtual void Move(float x, float y)
     {

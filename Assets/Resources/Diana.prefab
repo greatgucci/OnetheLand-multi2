@@ -367,6 +367,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNum: 0
+  cooltime:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  cooltimeSpd: 1
+  aimVector: {x: 0, y: 0, z: 0}
+  aimPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114253175364419900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -503,12 +516,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skills:
+  - {fileID: 114253175364419900}
+  - {fileID: 114351294726396030}
+  Attack_defaults:
   - {fileID: 114325323128680112}
-  - {fileID: 114351294726396030}
-  - {fileID: 114253175364419900}
+  - {fileID: 114284653285212918}
+  - {fileID: 0}
   - {fileID: 114326156464719198}
-  - {fileID: 114253175364419900}
-  - {fileID: 114351294726396030}
   speed: 3
   distance: 0.8
 --- !u!212 &212414388066669724
