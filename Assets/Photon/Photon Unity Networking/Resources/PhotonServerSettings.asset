@@ -65,4 +65,5 @@ MonoBehaviour:
   - AddAnimationLayer_RPC
   - ChangeAnim_RPC
   - Init_Iris_Skill1Animation_RPC
+  - Init_Iris_BulletLeft_RPC
   DisableAutoOpenWizard: 1

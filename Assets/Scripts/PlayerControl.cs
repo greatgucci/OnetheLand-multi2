@@ -73,12 +73,12 @@ public class PlayerControl : Photon.PunBehaviour
 
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         
-        if (Input.GetKeyDown(KeyCode.Z) && PlayerManager.instance.Local.cooltime[0] <= 0f)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && PlayerManager.instance.Local.cooltime[0] <= 0f)
         {
             DoSkill(0);//Skill1
             PlayerManager.instance.Local.SetCooltime(0, 1f);
         }
-        else if (Input.GetKeyDown(KeyCode.X) && PlayerManager.instance.Local.cooltime[1] <= 0f)
+        else if (Input.GetKeyDown(KeyCode.Mouse1) && PlayerManager.instance.Local.cooltime[1] <= 0f)
         {
             DoSkill(1);//Skill2
             PlayerManager.instance.Local.SetCooltime(1, 1f);
@@ -119,7 +119,7 @@ public class PlayerControl : Photon.PunBehaviour
         
         if (pNum == 1)
         {
-            if (x > 0 && transform.position.x < 0)
+            if (x > 0 && transform.position.x < 9)
             {
                 
                 rgbd.velocity += new Vector2(x, 0f) * speed;
@@ -147,7 +147,7 @@ public class PlayerControl : Photon.PunBehaviour
                 rgbd.velocity += new Vector2(x, 0f) * speed;
             }
 
-            if (x < 0 && transform.position.x > 0)
+            if (x < 0 && transform.position.x > -9)
             {
                 rgbd.velocity += new Vector2(x, 0f) * speed;
             }

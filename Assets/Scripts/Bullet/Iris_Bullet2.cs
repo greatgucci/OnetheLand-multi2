@@ -12,14 +12,15 @@ public class Iris_Bullet2 : Bullet {
 
     float rotatingAngle = -(3.14f / 9f);
 
-    public void Init_Iris_Bullet2(int _shooterNum, int num)
+    public void Init_Iris_Bullet2(int _shooterNum, int num, Vector3 aimDVector)
     {
-        photonView.RPC("Init_Iris_Bullet2_RPC", PhotonTargets.All, _shooterNum, num);
+        photonView.RPC("Init_Iris_Bullet2_RPC", PhotonTargets.All, _shooterNum, num, aimDVector);
     }
 
     [PunRPC]
-    protected void Init_Iris_Bullet2_RPC(int _shooterNum, int num)
+    protected void Init_Iris_Bullet2_RPC(int _shooterNum, int num, Vector3 aimDVector)
     {
+        DVector = aimDVector;
         bulNum = num;
         Invoke("DestroyToServer", 10f);
         shooterNum = _shooterNum;
@@ -36,15 +37,13 @@ public class Iris_Bullet2 : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 50;
+        damage = 75;
 
         irisBullet2Num_Temp = bulNum;
 
         speed = 8f;
 
         rotatingAngle += (irisBullet2Num_Temp * (3.14f / 18f));
-
-        DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
         rotatingAngle += DVector.y > 0 ? Vector3.AngleBetween(Vector3.right, DVector) : -Vector3.AngleBetween(Vector3.right, DVector);
 
         if (_shooterNum == 1)

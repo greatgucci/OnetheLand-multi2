@@ -34,7 +34,7 @@ public class Iris_Skill2 : Skills {
 
                 ("Iris_Skill2", transform.position, Quaternion.identity, 0).
                 GetComponent<Iris_Bullet2>();
-            bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i);
+            bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i, PlayerManager.instance.Local.aimVector);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -45,7 +45,7 @@ public class Iris_Skill2 : Skills {
 
                 ("Iris_Skill2", transform.position, Quaternion.identity, 0).
                 GetComponent<Iris_Bullet2>();
-            bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i+1);
+            bul[i].Init_Iris_Bullet2(PlayerManager.instance.myPnum, i+1, PlayerManager.instance.Local.aimVector);
         }
 
     }
