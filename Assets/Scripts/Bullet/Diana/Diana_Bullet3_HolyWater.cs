@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Diana_Bullet3_HolyWater : Bullet {
 
-	public void Init_Diana_Bullet3_HolyWater(int _shooterNum, int domicile_gameobject)
+	float scale = 4f;
+	public void Init_Diana_Bullet3_HolyWater(int _shooterNum, Vector3 direction)
 	{
-		photonView.RPC ("Init_Diana_Bullet3_HolyWater_RPC", PhotonTargets.All,_shooterNum,domicile_gameobject);
+		photonView.RPC ("Init_Diana_Bullet3_HolyWater_RPC", PhotonTargets.All,_shooterNum,direction);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet3_HolyWater_RPC(int _shooterNum, int domicile_gameobject)
+	private void Init_Diana_Bullet3_HolyWater_RPC(int _shooterNum, Vector3 direction)
 	{
 		speed =7f;
-		GameObject commuobject = PhotonView.Find (domicile_gameobject).gameObject;
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
 		{
@@ -22,20 +22,22 @@ public class Diana_Bullet3_HolyWater : Bullet {
 		{
 			oNum = 1;
 		}
-		DVector = commuobject.GetComponent<Bullet> ().DVector;
+		DVector = direction;
 		FavoriteFunction.RotateBullet(gameObject);
+		transform.localScale *= scale;
 
 	}
 	protected override void OnTriggerStay2D (Collider2D collision)
 	{
 		if (isTirggerTime == true)
 		{
-			if ((collision.tag != "Player" + oNum)&&(collision.tag != "Player" + shooterNum))
+			Bullet bul;
+			bul = collision.gameObject.GetComponent<Bullet> ();
+			if ((collision.tag == "Bullet")&&(bul.shooterNum != shooterNum))
 			{
-				Bullet bul;
-				bul = collision.GetComponent<Bullet> ();
 				bul.DVector = (collision.transform.position - transform.position).normalized;
 				bul.rgbd.velocity=bul.DVector*bul.rgbd.velocity.magnitude;
+				FavoriteFunction.RotateBullet(collision.gameObject);
 				bul.shooterNum = shooterNum;
 			}
 		}

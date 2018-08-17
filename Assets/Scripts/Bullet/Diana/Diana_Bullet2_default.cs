@@ -6,13 +6,14 @@ public class Diana_Bullet2_default : Bullet
 {
     GameObject commuObject;
     bool damaged =false;
-	public void Init_Diana_Bullet2_default(int _shooterNum)
+	public void Init_Diana_Bullet2_default(int _shooterNum, Vector3 vector)
 	{
-		photonView.RPC ("Init_Diana_Bullet2_default_RPC", PhotonTargets.All,_shooterNum);
+		photonView.RPC ("Init_Diana_Bullet2_default_RPC", PhotonTargets.All,_shooterNum, vector);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet2_default_RPC(int _shooterNum)
+	private void Init_Diana_Bullet2_default_RPC(int _shooterNum, Vector3 vector)
 	{
+		SetTag (type.Range_Attack);
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
 		{
@@ -22,7 +23,9 @@ public class Diana_Bullet2_default : Bullet
 		{
 			oNum = 1;
 		}
-		StartCoroutine(MoveDianaSkillLine());
+		DVector = vector;
+		FavoriteFunction.RotateBullet (gameObject);
+		Invoke ("DestroyToServer",1f);
 	}
 	protected override void OnTriggerStay2D(Collider2D collision)
 	{
@@ -43,31 +46,5 @@ public class Diana_Bullet2_default : Bullet
 		}
 	}
 
-	IEnumerator MoveDianaSkillLine()//질문을 해보도록 함. 과연 레이저 형식이 나은지 아니면 탄환이 나은지
-	{
-		float rotatingAngle;
-		float rotatingAngle_Temp = 0f;
-		float timer = 0f;
-
-		while (true)
-		{
-
-			if (timer > 0.1f)
-			{
-				break;
-			}
-
-			DVector = commuObject.transform.position - transform.position;
-			DVector.Normalize();
-
-			rotatingAngle = DVector.y > 0 ? Vector3.Angle(DVector, Vector3.right) : -Vector3.Angle(DVector, Vector3.right);
-			transform.Rotate(Vector3.forward, rotatingAngle - rotatingAngle_Temp);
-			rotatingAngle_Temp = rotatingAngle;
-
-			timer += Time.deltaTime;
-			yield return null;
-		}
-		DestroyToServer();
-	}
 
 }

@@ -36,7 +36,7 @@ public class Diana_Bullet1 : Bullet {
 				break;
 			}
 			position = transform.position;
-			if (PlayerManager.instance.Local.playerNum == shooterNum) {
+			if (PlayerManager.instance.myPnum == shooterNum) {
 				d_b_i = PhotonNetwork.Instantiate("Diana_Bullet1_instance",position, Quaternion.identity,0).GetComponent<Diana_Bullet1_instance>();
 				direction = 1;
 				this.position = 1;
@@ -65,6 +65,7 @@ public class Diana_Bullet1 : Bullet {
 	[PunRPC]
 	void Init_Diana_Bullet1_RPC(int _shooterNum)
 	{
+		SetTag (type.bullet);
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
 		{
@@ -74,7 +75,7 @@ public class Diana_Bullet1 : Bullet {
 		{
 			oNum = 1;
 		}
-		DVector = PlayerManager.instance.Local.aimVector;
+		DVector = PlayerManager.instance.GetPlayerByNum(shooterNum).aimVector;
 		FavoriteFunction.RotateBullet(gameObject);
 		speed = 6f;
 		rgbd.velocity = DVector * speed;

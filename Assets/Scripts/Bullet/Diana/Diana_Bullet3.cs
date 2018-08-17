@@ -21,7 +21,7 @@ public class Diana_Bullet3 : Bullet {
 		{
 			oNum = 1;
 		}
-		DVector = PlayerManager.instance.Local.aimVector.normalized*3;
+		DVector =PlayerManager.instance.GetPlayerByNum(shooterNum).aimVector.normalized*3;
 		FavoriteFunction.RotateBullet(gameObject);
 		transform.Translate(0f,0f,0f);
 		if (PlayerManager.instance.Local.playerNum == shooterNum) {
@@ -33,10 +33,8 @@ public class Diana_Bullet3 : Bullet {
 	}
 	void Spinkle_HolyWater()//성수 뿌리기
 	{
-		PhotonView view;
-		view = GetComponent<PhotonView> ();
 		Diana_Bullet3_HolyWater d_b_h_w;
 		d_b_h_w = PhotonNetwork.Instantiate ("Diana_Bullet3_HolyWater", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet3_HolyWater> ();
-		d_b_h_w.Init_Diana_Bullet3_HolyWater (PlayerManager.instance.myPnum,view.viewID);
+		d_b_h_w.Init_Diana_Bullet3_HolyWater (PlayerManager.instance.myPnum,DVector);
 	}
 }

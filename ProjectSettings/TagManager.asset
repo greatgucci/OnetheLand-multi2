@@ -4,9 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Beam
   - Player1
   - Player2
+  - Bullet
+  - Warning
+  - Range_Attack
   layers:
   - Default
   - TransparentFX

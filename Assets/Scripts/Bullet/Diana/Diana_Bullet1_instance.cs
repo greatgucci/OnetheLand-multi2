@@ -14,6 +14,7 @@ public class Diana_Bullet1_instance : Bullet {
 	[PunRPC]
 	private void Init_Diana_Bullet1_default_RPC(int _shooterNum, int communicatingObject)
 	{
+		SetTag (type.bullet);
 		shooterNum = _shooterNum;
 		commuObject = PhotonView.Find(communicatingObject).gameObject;
 		if (shooterNum == 1)
