@@ -14,13 +14,13 @@ public class Diana_Bullet2 :Diana_Bullet2_data {
 		diana_bullet2_explosion=PhotonNetwork.Instantiate ("Diana_Bullet2_explosion", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet2_explosion>();
 		diana_bullet2_explosion.Init_Diana_Bullet2_explosion(PlayerManager.instance.myPnum, explosion_scale);
 		diana_bullet2_data = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_data>();
-		type=1;
+		type_bullet=1;
 		diana_bullet2_data.Init_Diana_Bullet2(PlayerManager.instance.myPnum, view.viewID);
 		diana_bullet2_data = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_data>();
-		type = 2;
+		type_bullet = 2;
 		diana_bullet2_data.Init_Diana_Bullet2(PlayerManager.instance.myPnum, view.viewID);
 		diana_bullet2_data = PhotonNetwork.Instantiate("Diana_Bullet2_child", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_data>();
-		type = 3;
+		type_bullet = 3;
 		diana_bullet2_data.Init_Diana_Bullet2(PlayerManager.instance.myPnum, view.viewID);
 	}
 }

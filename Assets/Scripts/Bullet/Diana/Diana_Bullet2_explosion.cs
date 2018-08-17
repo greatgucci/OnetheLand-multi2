@@ -29,6 +29,7 @@ public class Diana_Bullet2_explosion : Bullet {
 	[PunRPC]
 	private void Init_Diana_Bullet2_explosion_RPC(int _shooterNum, float explosion_scale)
 	{
+		SetTag (type.Range_Attack);
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
 		{

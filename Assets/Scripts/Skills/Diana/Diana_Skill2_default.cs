@@ -5,10 +5,7 @@ using UnityEngine;
 public class Diana_Skill2_default : Skills  
 {
 
-	GameObject dianaSkill2Circle;
-	GameObject dianaSkill2Target;
 
-	Vector3 oPostion;
 
 	public override void Excute()
 	{
@@ -17,8 +14,10 @@ public class Diana_Skill2_default : Skills
 		{
 			return;
 		}
-
-		StartCoroutine(DianaSkill2());
+		PhotonView view = GetComponent<PhotonView> ();
+		Diana_Bullet2_default_Range d_b_d_t;
+		d_b_d_t= PhotonNetwork.Instantiate("Diana_Skill2_Range", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet2_default_Range>();
+		d_b_d_t.Init_Diana_Bullet2_default_Range(PlayerManager.instance.myPnum,view.viewID);
 
 		StartCoroutine(Waiting());
 	}
@@ -31,19 +30,4 @@ public class Diana_Skill2_default : Skills
 		isRunning = false;
 	}
 
-	IEnumerator DianaSkill2()
-	{
-		PhotonView view;
-		oPostion = PlayerManager.instance.Opponent.transform.position;
-		dianaSkill2Target = PhotonNetwork.Instantiate("Diana_Skill2_Target", oPostion, Quaternion.identity, 0);
-		Diana_Bullet2_default_Target d_b_d_t = dianaSkill2Target.GetComponent<Diana_Bullet2_default_Target>();
-		view = dianaSkill2Target.GetComponent<PhotonView>();
-		d_b_d_t.Init_Diana_Bullet2_default_Target(PlayerManager.instance.myPnum);
-
-		yield return new WaitForSeconds(1f);
-
-		yield return new WaitForSeconds(0.5f);
-		Diana_Bullet2_default d_b_d = PhotonNetwork.Instantiate("Diana_Skill2Line", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet2_default>();
-		d_b_d.Init_Diana_Bullet2_default(PlayerManager.instance.myPnum);
-	}
 }

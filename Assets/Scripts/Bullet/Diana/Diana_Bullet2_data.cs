@@ -6,7 +6,7 @@ public class Diana_Bullet2_data : Bullet {
 	public GameObject commuObject;
 	public float explosion_scale;
 	public Vector3 start_position_input;
-	public int type;
+	public int type_bullet;
 	public float distance;
 	Vector3 start_position_output;
 	public void Init_Diana_Bullet2(int _shooterNum, int domicile_gameObject)
@@ -20,13 +20,14 @@ public class Diana_Bullet2_data : Bullet {
 	[PunRPC]
 	protected void Init_Diana_Bullet2_RPC(int _shooterNum, int domicile_gameObject)
 	{
+		SetTag (type.bullet);
 		float angle;
 		int type_C;
 		Vector3 dVector;
 		speed = 7f;
 		commuObject = PhotonView.Find (domicile_gameObject).gameObject;
 		dVector = commuObject.GetComponent<Bullet> ().DVector.normalized;
-		type_C = commuObject.GetComponent<Diana_Bullet2_data> ().type;
+		type_C = commuObject.GetComponent<Diana_Bullet2_data> ().type_bullet;
 		shooterNum=_shooterNum;
 		if (shooterNum == 1)
 		{
@@ -46,7 +47,7 @@ public class Diana_Bullet2_data : Bullet {
 			angle = Random.Range (-20f, 20f) * Mathf.Deg2Rad;
 		else
 			angle = Random.Range (20f, 60f) * Mathf.Deg2Rad;
-		DVector = new Vector3(dVector.x*Mathf.Cos(angle),dVector.y*Mathf.Sin(angle),0);
+		DVector += new Vector3(Mathf.Cos(angle),Mathf.Sin(angle),0);
 		FavoriteFunction.RotateBullet(gameObject);
 		rgbd.velocity = new Vector2(DVector.x,DVector.y) * speed;
 		StartCoroutine (collision (_shooterNum, DVector));
@@ -68,6 +69,7 @@ public class Diana_Bullet2_data : Bullet {
 	protected IEnumerator collision(int _shooterNum, Vector3 dVector)
 	{
 		float distance_current=0;
+		SetTag (type.bullet);
 		Diana_Bullet2_Warning d_b_w;
 		d_b_w = PhotonNetwork.Instantiate ("Diana_Bullet2_Warning",transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_Warning>();
 		d_b_w.Init_Diana_Bullet2_Warning (_shooterNum, distance, dVector);
@@ -75,13 +77,14 @@ public class Diana_Bullet2_data : Bullet {
 			distance_current = (transform.position-start_position_output).magnitude;
 			if(distance_current>distance)
 			{
-				if(PlayerManager.instance.Local.playerNum == _shooterNum)
+				if(PlayerManager.instance.myPnum == _shooterNum)
 					collision_after ();
 				break;
 			}
 			yield return null;
 		}
-		DestroyToServer();
+		if(PlayerManager.instance.myPnum == _shooterNum)
+			DestroyToServer();
 	}
 	public virtual void collision_after ()
 	{

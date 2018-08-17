@@ -10,7 +10,7 @@ public class Bullet : Photon.PunBehaviour
     public Rigidbody2D rgbd;
     public int shooterNum;
     public int oNum;
-
+	protected enum type {Range_Attack,bullet,warning,etc};
     protected bool isTirggerTime = true;
     private Vector3 dVector;
  
@@ -53,7 +53,16 @@ public class Bullet : Photon.PunBehaviour
             }
         }
     }
-    
+	protected void SetTag(type this_type)
+	{
+		if (this_type == type.bullet) {
+			tag = "Bullet";
+		} else if (this_type == type.Range_Attack) {
+			tag = "Range_Attack";
+		} else if (this_type == type.warning) {
+			tag = "Warning";
+		}
+	}
     
 
     IEnumerator TriggerTimer()
@@ -86,7 +95,7 @@ public class Bullet : Photon.PunBehaviour
         get { return dVector; }
         set { dVector = value; }
     }
-    protected virtual void DestroyToServer()
+	public virtual void DestroyToServer()
     {
         photonView.RPC("DestroyToServer_RPC", PhotonTargets.All);
     }
