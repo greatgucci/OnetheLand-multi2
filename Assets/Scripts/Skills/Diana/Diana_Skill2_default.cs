@@ -5,8 +5,6 @@ using UnityEngine;
 public class Diana_Skill2_default : Skills  
 {
 
-	GameObject dianaSkill2Circle;
-	GameObject dianaSkill2Target;
 
 	Vector3 oPostion;
 
@@ -35,9 +33,7 @@ public class Diana_Skill2_default : Skills
 	{
 		PhotonView view;
 		oPostion = PlayerManager.instance.Opponent.transform.position;
-		dianaSkill2Target = PhotonNetwork.Instantiate("Diana_Skill2_Target", oPostion, Quaternion.identity, 0);
-		Diana_Bullet2_default_Target d_b_d_t = dianaSkill2Target.GetComponent<Diana_Bullet2_default_Target>();
-		view = dianaSkill2Target.GetComponent<PhotonView>();
+		Diana_Bullet2_default_Target d_b_d_t = PhotonNetwork.Instantiate("Diana_Skill2_Target", oPostion, Quaternion.identity, 0).GetComponent<Diana_Bullet2_default_Target>();
 		d_b_d_t.Init_Diana_Bullet2_default_Target(PlayerManager.instance.myPnum);
 
 		yield return new WaitForSeconds(1f);
