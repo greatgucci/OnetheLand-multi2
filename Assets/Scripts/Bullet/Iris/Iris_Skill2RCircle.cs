@@ -41,6 +41,10 @@ public class Iris_Skill2RCircle : Bullet
 
         TargetStatic targetStatic;
 
+        targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(shooterNum).aimPosition, Quaternion.identity, 0).GetComponent<TargetStatic>();
+        targetStatic.Init_TargetStatic(shooterNum);
+
+        /*
         if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
         {
             warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 1f);
@@ -48,16 +52,10 @@ public class Iris_Skill2RCircle : Bullet
 
             StartCoroutine(WarningSquareIncrease());
 
-            DVector = PlayerManager.instance.GetPlayerByNum(shooterNum).aimVector;
-            DVector.Normalize();
-
             rotatingAngle = DVector.y > 0 ? Vector3.Angle(DVector, Vector3.right) : -Vector3.Angle(DVector, Vector3.right);
             warningSquare.transform.Rotate(Vector3.forward, rotatingAngle);
         }
-
-        targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(shooterNum).aimPosition, Quaternion.identity, 0).GetComponent<TargetStatic>();
-        targetStatic.Init_TargetStatic(shooterNum);
-
+        */
         PhotonView view = targetStatic.gameObject.GetComponent<PhotonView>();
 
         yield return new WaitForSeconds(0.2f);
@@ -86,7 +84,7 @@ public class Iris_Skill2RCircle : Bullet
                 break;
             }
 
-            warningSquare.transform.localScale += new Vector3(0f, timer * (0.25f / 0.2f), 0f);
+            warningSquare.transform.localScale += new Vector3(0f, timer * (0.25f / 0.2f) * 0.25f, 0f);
 
             timer += Time.deltaTime;
             yield return null;

@@ -44,6 +44,7 @@ public class Iris_Bullet4R : Bullet {
 
         while (true)
         {
+            Debug.Log("Hi I'm " + PlayerManager.instance.myPnum);
             if (timer >= 2f)
             {
                 break;

@@ -119,7 +119,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         if (photonView.isMine)
         {
             Aim_Object = Instantiate(Resources.Load("Aim") as GameObject, Input.mousePosition, Quaternion.identity)
-                .GetComponent<Aim>();
+        .GetComponent<Aim>();
         }
     }
 
