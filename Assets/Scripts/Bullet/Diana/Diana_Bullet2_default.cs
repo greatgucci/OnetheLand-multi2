@@ -45,6 +45,8 @@ public class Diana_Bullet2_default : Bullet
 
 	IEnumerator MoveDianaSkillLine()//질문을 해보도록 함. 과연 레이저 형식이 나은지 아니면 탄환이 나은지
 	{
+		float rotatingAngle;
+		float rotatingAngle_Temp = 0f;
 		float timer = 0f;
 
 		while (true)
@@ -55,8 +57,12 @@ public class Diana_Bullet2_default : Bullet
 				break;
 			}
 
-			DVector = PlayerManager.instance.Local.aimVector.normalized;
-			transform.Rotate(Vector3.forward, DVector);
+			DVector = commuObject.transform.position - transform.position;
+			DVector.Normalize();
+
+			rotatingAngle = DVector.y > 0 ? Vector3.Angle(DVector, Vector3.right) : -Vector3.Angle(DVector, Vector3.right);
+			transform.Rotate(Vector3.forward, rotatingAngle - rotatingAngle_Temp);
+			rotatingAngle_Temp = rotatingAngle;
 
 			timer += Time.deltaTime;
 			yield return null;

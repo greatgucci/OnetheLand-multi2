@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Diana_Bullet3_HolyWater : Bullet {
-	float scale=5f;
-	float sustainment_time=5f;
 
 	public void Init_Diana_Bullet3_HolyWater(int _shooterNum, int domicile_gameobject)
 	{
@@ -26,8 +24,7 @@ public class Diana_Bullet3_HolyWater : Bullet {
 		}
 		DVector = commuobject.GetComponent<Bullet> ().DVector;
 		FavoriteFunction.RotateBullet(gameObject);
-		transform.localScale *= scale;
-		Invoke ("DestroyToServer",sustainment_time);
+
 	}
 	protected override void OnTriggerStay2D (Collider2D collision)
 	{
