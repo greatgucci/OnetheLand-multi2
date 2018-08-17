@@ -57,4 +57,23 @@ public class FavoriteFunction : MonoBehaviour {
 
         return warningSquare_Temp;
     }
+
+    //degree 값을 입력받으면 radian으로 변환하여 x축 기준으로 그만큼 회전시킨 벡터를 반환합니다.
+    public static Vector3 PIVectorCal(float degree)
+    {
+        float resultAngle;
+        Vector3 dVector;
+
+        Debug.Log(degree);
+
+        resultAngle = (2 * Mathf.PI * (degree / 360f));
+
+        dVector.x = Mathf.Cos(resultAngle);
+        dVector.y = Mathf.Sin(resultAngle);
+        dVector.z = 0f;
+
+        dVector.Normalize();
+
+        return dVector;
+    }
 }
