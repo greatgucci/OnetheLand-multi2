@@ -15,6 +15,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private float fullHp;
     private float currentSkillGage;
     private float fullSkillGage;
+    private float isFlip; // 1일 경우 오른쪽, -1일 경우 왼쪽을 보고 있는 거임
     private float globalCool = 0.5f;
     private PlayerControl playerControl;
     public float[] cooltime = new float[9];
@@ -140,8 +141,13 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 if (cooltime[i] > 0f)
                 {
                     cooltime[i] -= Time.deltaTime * cooltimeSpd;
-
                 }
+            }
+
+            if ((transform.position.x - Aim_Object.aimVector_Temp.x) * (transform.position.x - aimVector.x) < 0)
+            {
+                Debug.Log(transform.position.x - Aim_Object.aimVector_Temp.x);
+                Debug.Log("Flip");
             }
 
             aimVector = Aim_Object.aimVector_Temp;

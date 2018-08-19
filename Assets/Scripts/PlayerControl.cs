@@ -17,9 +17,15 @@ public class PlayerControl : Photon.PunBehaviour
     public float speed = 6f;
     private float distance = 0.8f;
     int pNum;
+<<<<<<< HEAD
     private bool isInputAble = true;
     private bool isFaceRight = false;
     private bool IsFaceRight
+=======
+    private bool isInputAble = false;
+    private bool isDash = false;
+    public bool IsInputAble
+>>>>>>> origin/Hoseong
     {
         get { return isFaceRight; }
         set
@@ -114,7 +120,7 @@ public class PlayerControl : Photon.PunBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
         {
-            Teleport(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
 
 		if (Input.GetKeyDown (KeyCode.Mouse0) && playerData.cooltime [Attack_default_Num] <= 0f) {
@@ -188,8 +194,12 @@ public class PlayerControl : Photon.PunBehaviour
 
     protected virtual void Move(float x, float y)
     {
+        if (isDash == true)
+        {
+            return;
+        }
         rgbd.velocity = new Vector2(0f, 0f);
-        
+
         if (pNum == 1)
         {
             if (x > 0 && transform.position.x < 9)
@@ -238,6 +248,40 @@ public class PlayerControl : Photon.PunBehaviour
 
     }
 
+    protected void Dash(float x, float y)
+    {
+        StartCoroutine(DashPlay(x, y));
+    }
+
+    IEnumerator DashPlay(float x, float y)
+    {
+        isDash = true;
+
+        float timer = 0f;
+        speed = 18f;
+
+        while(true)
+        {
+            if (timer >= 0.25f)
+            {
+                break;
+            }
+
+            rgbd.velocity = new Vector2(0f, 0f);
+
+            speed -= Time.deltaTime * 48f;
+            rgbd.velocity += new Vector2(x, y) * speed;
+
+            if (transform.position.x > 9 || transform.position.x < -9 || transform.position.y > 5 || transform.position.y < -5)
+                rgbd.velocity = new Vector2(0f, 0f);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        speed = 6f;
+        isDash = false;
+    }
     protected virtual void Teleport(float x, float y)
     {
         Vector3 targetPos = transform.position + new Vector3(x * distance, y * distance);      

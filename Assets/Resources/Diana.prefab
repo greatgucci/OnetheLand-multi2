@@ -104,9 +104,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4600928263341782}
-  - component: {fileID: 114204681711631756}
+  - component: {fileID: 114070586388336626}
   m_Layer: 0
-  m_Name: Skill3
+  m_Name: Skill4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,6 +177,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1877589501791790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4202935598967476}
+  - component: {fileID: 114204681711631756}
+  m_Layer: 0
+  m_Name: Skill3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1931047082929026
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +226,7 @@ Transform:
   - {fileID: 4530162130656794}
   - {fileID: 4432458983497876}
   - {fileID: 4094673173620836}
+  - {fileID: 4202935598967476}
   - {fileID: 4600928263341782}
   - {fileID: 4625288196146342}
   - {fileID: 4748940277183008}
@@ -268,6 +285,19 @@ Transform:
   m_Father: {fileID: 4010785594686688}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4202935598967476
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877589501791790}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4010785594686688}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4432458983497876
 Transform:
   m_ObjectHideFlags: 1
@@ -305,7 +335,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4010785594686688}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4625288196146342
 Transform:
@@ -318,7 +348,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4010785594686688}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4748940277183008
 Transform:
@@ -331,7 +361,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4010785594686688}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4887055014725048
 Transform:
@@ -441,12 +471,24 @@ MonoBehaviour:
   cooltimeSpd: 1
   aimVector: {x: 0, y: 0, z: 0}
   aimPosition: {x: 0, y: 0, z: 0}
---- !u!114 &114204681711631756
+--- !u!114 &114070586388336626
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1623629496812636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c894c44a5cb69b946b7faf848eedc3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 1
+--- !u!114 &114204681711631756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877589501791790}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5cef3cb8b70b294a94fa699e2b88c2f, type: 3}
@@ -535,8 +577,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 2
+  instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114622119561851220
@@ -561,8 +603,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114893273799927700}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 3
+  instantiationId: 3
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114643998583210856
@@ -599,8 +641,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114070406105643242}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114893273799927700
@@ -630,6 +672,7 @@ MonoBehaviour:
   - {fileID: 114253175364419900}
   - {fileID: 114351294726396030}
   - {fileID: 114204681711631756}
+  - {fileID: 114070586388336626}
   Attack_defaults:
   - {fileID: 114325323128680112}
   - {fileID: 114284653285212918}
