@@ -7,11 +7,18 @@ public enum PlayMode
     WAITING,
     ONLINE
 }
+public enum GameUpdate
+{
+    START,
+    GAMING,
+    END,
+}
 /// <summary>
 /// No Syncronized Class
 /// </summary>
 public class PlayerManager : MonoBehaviour
 {
+    public GameUpdate gameUpdate = GameUpdate.START;
     public PlayMode playMode = PlayMode.WAITING;
     public static PlayerManager instance;
     private void Awake()
@@ -35,15 +42,5 @@ public class PlayerManager : MonoBehaviour
             return Opponent;
         }
     }
-    public PlayerControl GetPlayerControlByNum(int i)
-    {
-        if (Local.playerNum == i)
-        {
-            return Local.GetComponentInParent<PlayerControl>();
-        }
-        else
-        {
-            return Opponent.GetComponentInParent<PlayerControl>();
-        }
-    }
+
 }

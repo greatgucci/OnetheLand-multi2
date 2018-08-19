@@ -11,11 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 
+  AppID: 86f44cba-83e9-4fc9-9a27-4256eee29887
   VoiceAppID: 
   ChatAppID: 
-  HostType: 0
-  PreferredRegion: 0
+  HostType: 1
+  PreferredRegion: 9
   EnabledRegions: -1
   Protocol: 0
   ServerAddress: 
@@ -77,4 +77,12 @@ MonoBehaviour:
   - Init_Diana_Bullet2_default_Range_RPC
   - Init_Diana_Bullet3_default_firezone_RPC
   - Init_Diana_Bullet3_default_RPC
+  - Init_Diana_Bullet4_Cross_RPC
+  - Init_Diana_Bullet4_RPC
+  - GameUpdate_RPC
+  - GetStun_RPC
+  - SetColliderEnable_RPC
+  - SetInputEnable_RPC
+  - SetIsFaceRight
+  - GameOver_RPC
   DisableAutoOpenWizard: 1

@@ -2035,7 +2035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelectedCharIndex: 0
   debug: {fileID: 972882213}
-  versionName: 0.3
+  versionName: 0.9
   Loglevel: 0
   LanIp: 192.168.0.12
   LanPort: 5055

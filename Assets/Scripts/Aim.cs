@@ -11,9 +11,9 @@ public class Aim : Photon.PunBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         myPD = PlayerManager.instance.Local;
-
     }
 	
 	// Update is called once per frame

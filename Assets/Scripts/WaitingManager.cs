@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class WaitingManager : Photon.PunBehaviour
 {
-    PlayerControl self;
     public static WaitingManager instance;
     private void Awake()
     {
@@ -25,8 +24,8 @@ public class WaitingManager : Photon.PunBehaviour
             PlayerInsantiate(PlayerPrefs.GetInt("Character"));
             
         }
-        InputSetOk(true);
         MakePuppet();
+        PlayerManager.instance.gameUpdate = GameUpdate.GAMING;
     }
     #region Photon Messages
 
@@ -59,7 +58,7 @@ public class WaitingManager : Photon.PunBehaviour
     }
     public void PlayerInsantiate(int i)
     {
-        self = PhotonNetwork.Instantiate(this.playerPrefabs[i].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0).GetComponent<PlayerControl>();
+        PhotonNetwork.Instantiate(this.playerPrefabs[i].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0).GetComponent<PlayerControl>();
         if (PhotonNetwork.isMasterClient)
         {
             PlayerManager.instance.myPnum = 1;
@@ -74,13 +73,6 @@ public class WaitingManager : Photon.PunBehaviour
     private void Update()
     {
         ping.text = "Ping : " + PhotonNetwork.GetPing();
-    }
-    private void InputSetOk(bool b)
-    {
-        if(self != null)
-        {
-            self.IsInputAble = b;
-        }
     }
     private void MakePuppet()
     {

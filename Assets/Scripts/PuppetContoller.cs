@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuppetContoller : MonoBehaviour {
+public class PuppetContoller : PlayerControl {
 
     PlayerData playerData;
     private void Awake()
@@ -14,20 +14,11 @@ public class PuppetContoller : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        playerData.SetPlayerNum(2);
+        playerData.SetPlayerNum(2,this);
         SetPlayerPos(playerData.playerNum);
     }
-
-    protected virtual void SetPlayerPos(int pnum)
+    protected override void LateUpdate()
     {
-        if (pnum == 1)
-        {
-            transform.position = new Vector3(-4, 0, 0);
-        }
-        else if (pnum == 2)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-            transform.position = new Vector3(4, 0, 0);
-        }
+        return;
     }
 }

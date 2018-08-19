@@ -29,7 +29,7 @@ public class Diana_Bullet3_default : Bullet
 		{
 			oNum = 1;
 		}
-		DVector = vector;dm
+		DVector = vector;
 		destination = vector3;
 		FavoriteFunction.RotateBullet (gameObject);
 		rgbd.velocity = DVector * speed;

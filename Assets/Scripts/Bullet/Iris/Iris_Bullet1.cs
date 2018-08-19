@@ -84,6 +84,7 @@ public class Iris_Bullet1 : Bullet {
 
             ("IrisSkill1Animation", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill1Animation>();
             iris_Skill1Animation.Init_Iris_Skill1Animation(shooterNum);
+            
             DestroyToServer();
         }
     }

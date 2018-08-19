@@ -12,17 +12,15 @@ public class Diana_Bullet4 : Bullet
     protected void Init_Diana_Bullet4_RPC(int _shooterNum)
     {
         SetTag(type.bullet);
-        StartCoroutine(Rotate_Cross);
+        StartCoroutine(Rotate_Cross());
     }
-    private IEnumerator Rotate_Cross
-    {
-        get
-        {
+    private IEnumerator Rotate_Cross()
+    {              
             DVector = new Vector3(Mathf.Cos(30 * Mathf.Deg2Rad), Mathf.Sin(30 * Mathf.Deg2Rad), 0f);
             for (int i = 0; i < 12; i++)
             {
-                FavoriteFunction.RotateBullet(gameObject);
-            }
-        }
+            FavoriteFunction.RotateBullet(gameObject);
+            yield return null;
+            }      
     }
 }

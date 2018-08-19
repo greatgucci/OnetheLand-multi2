@@ -4,7 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// 규칙 : 로컬의 캐릭터 데이터는 로컬에서만 수정하도록 한다.
-/// Local에서 이동,Hp(동기화됨),스킬게이지(동기화됨) 관리하는 스크립트
+/// Hp(동기화됨),스킬게이지(동기화됨) 관리하는 스크립트
+/// 네트워크 상에서는 플레이어에 관해 이것으로 접근한다.
 /// </summary>
 public class PlayerData : Photon.PunBehaviour, IPunObservable
 {
@@ -15,6 +16,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private float currentSkillGage;
     private float fullSkillGage;
     private float globalCool = 0.5f;
+    private PlayerControl playerControl;
     public float[] cooltime = new float[9];
     public float cooltimeSpd = 1f;
     Aim Aim_Object;
@@ -26,7 +28,11 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     { get { return currentHp; }
         set
         {
-            if(photonView.isMine )
+            if(PlayerManager.instance.gameUpdate == GameUpdate.END) //게임 종료시에는 체력 변화 없음
+            {
+                return;
+            }
+            if(photonView.isMine)
             {
                 currentHp = value;
                 UpdateHpUI(currentHp);
@@ -180,12 +186,35 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         }
     }
 
-    public void SetPlayerNum(int pnum)
+    public void SetPlayerNum(int pnum,PlayerControl pc)
     {
+        playerControl = pc;
         playerNum = pnum;
         transform.parent.gameObject.tag = "Player" + pnum;
         transform.parent.gameObject.name = gameObject.name + "_P" + pnum;
     }
     #endregion
+    /// <summary>
+    /// 플레이어의 콜라이더 설정,한 클라에서만 호출 하면 자동으로 연동함 , 수동으로 조절
+    /// </summary>
+    /// <param name="b"></param>
+    public void SetColliderEnable(bool b)
+    {
+        playerControl.photonView.RPC("IsColEnable_RPC", PhotonTargets.All, b);
+    }
+    /// <summary>
+    /// 한클라에서만 호출하면 자동으로 연동함 , 자동으로 1초후 풀림
+    /// </summary>
+    public void GetStun()
+    {
+        playerControl.photonView.RPC("GetStun_RPC", PhotonTargets.All);
+    }
 
+    /// <summary>
+    /// 한클라에서만 호출하면 자동으로 연동함 , 수동으로 조절
+    /// </summary>
+    public void SetInputEnable(bool b)
+    {
+        playerControl.photonView.RPC("SetInputEnable_RPC", PhotonTargets.All,b);
+    }
 }

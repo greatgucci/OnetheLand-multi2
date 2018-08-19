@@ -13,25 +13,23 @@ public class NetworkManager : Photon.PunBehaviour {
     public GameObject[] playerPrefabs;
     public Text ping;
     public Text timeText;
-    private PlayerControl self;
 
     public Text tempGameStartText;
     public Text tempGameOverText;
-    #region Photon Messages
-
     private void Start()
     {
 
         PlayerManager.instance.playMode = PlayMode.ONLINE;
-        
+
         PlayerInsantiate(PlayerPrefs.GetInt("Character"));
 
-        if(photonView.isMine)
+        if (PhotonNetwork.isMasterClient)
         {
             StartCoroutine(GameStartRoutine());
         }
     }
- 
+
+    #region Photon Messages
     public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
     {
         PhotonNetwork.SetMasterClient(PhotonNetwork.player);
@@ -54,7 +52,7 @@ public class NetworkManager : Photon.PunBehaviour {
     }
     public void PlayerInsantiate(int i)
     {
-        self = PhotonNetwork.Instantiate(this.playerPrefabs[i].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0).GetComponent<PlayerControl>();
+        PhotonNetwork.Instantiate(this.playerPrefabs[i].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0).GetComponent<PlayerControl>();
         if (PhotonNetwork.isMasterClient)
         {
             PlayerManager.instance.myPnum = 1;
@@ -66,8 +64,7 @@ public class NetworkManager : Photon.PunBehaviour {
     }
     public void GameOver(int loser)
     {
-        Debug.Log(loser + " is Lose");
-        StartCoroutine(GameOverRoutine(loser));
+        photonView.RPC("GameOver_RPC", PhotonTargets.All, loser);
     }
     #endregion
 
@@ -77,6 +74,14 @@ public class NetworkManager : Photon.PunBehaviour {
     }
 
     #region PUNRPC
+    [PunRPC]
+    private void GameOver_RPC(int loser)
+    {
+        if(PhotonNetwork.isMasterClient)
+        {
+            StartCoroutine(GameOverRoutine(loser));
+        }
+    }
     [PunRPC]
     private void StartTimeCount()
     {
@@ -118,15 +123,12 @@ public class NetworkManager : Photon.PunBehaviour {
     {
         PhotonNetwork.LoadLevel(1);
     }
-    #endregion
-    /// <summary>
-    /// 로컬 플레이어의 인풋을 설정합니다.
-    /// </summary>
     [PunRPC]
-    private void InputSetOk(bool b)
+    private void GameUpdate_RPC(GameUpdate update)
     {
-       self.IsInputAble = b;
+        PlayerManager.instance.gameUpdate = update;
     }
+    #endregion
 
     /// <summary>
     /// 방장 쪽에서 루틴돌림
@@ -138,19 +140,16 @@ public class NetworkManager : Photon.PunBehaviour {
         photonView.RPC("GameStartEffect", PhotonTargets.AllViaServer);
         yield return new WaitForSeconds(2.9f);
         photonView.RPC("GameStartEffectOff", PhotonTargets.AllViaServer);
-        photonView.RPC("InputSetOk", PhotonTargets.AllViaServer, true);
+        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.GAMING);
         photonView.RPC("StartTimeCount", PhotonTargets.AllViaServer);
     }
 
     /// <summary>
-    /// 패배자 쪽에서 루틴 돌림 인풋,연출 동기화
+    /// 방장 쪽에서 루틴 돌림 인풋,연출 동기화
     /// </summary>
     IEnumerator GameOverRoutine(int loser)
     {
-        PlayerManager.instance.GetPlayerControlByNum(1).IsColEnable(false);
-        PlayerManager.instance.GetPlayerControlByNum(2).IsColEnable(false);
-
-        photonView.RPC("InputSetOk", PhotonTargets.AllViaServer, false);
+        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.END);
         photonView.RPC("GameOverEffect", PhotonTargets.AllViaServer, loser); 
         yield return new WaitForSeconds(3f);
         LeaveRoom();
@@ -162,12 +161,24 @@ public class NetworkManager : Photon.PunBehaviour {
     /// <returns></returns>
     IEnumerator TimeCount()
     {
-         float t =99;
-        while(true)
+         float t =30;
+        while(t>0)
         {
             t -= Time.deltaTime;
             timeText.text = "" + (int)t;
             yield return null;
+        }
+        if(PhotonNetwork.isMasterClient)
+        {
+            if(PlayerManager.instance.GetPlayerByNum(1).CurrentHp >= PlayerManager.instance.GetPlayerByNum(2).CurrentHp)
+            {
+                StartCoroutine(GameOverRoutine(2));
+
+            }
+            else if(PlayerManager.instance.GetPlayerByNum(1).CurrentHp < PlayerManager.instance.GetPlayerByNum(2).CurrentHp)
+            {
+                StartCoroutine(GameOverRoutine(1));
+            }
         }
     }
 }
