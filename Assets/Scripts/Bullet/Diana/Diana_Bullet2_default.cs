@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Diana_Bullet2_default : Bullet 
 {
-    GameObject commuObject;
     bool damaged =false;
 	public void Init_Diana_Bullet2_default(int _shooterNum, Vector3 vector)
 	{
@@ -13,6 +12,8 @@ public class Diana_Bullet2_default : Bullet
 	[PunRPC]
 	private void Init_Diana_Bullet2_default_RPC(int _shooterNum, Vector3 vector)
 	{
+        damaged = false;
+        damage = 100;
 		SetTag (type.Range_Attack);
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
@@ -25,7 +26,7 @@ public class Diana_Bullet2_default : Bullet
 		}
 		DVector = vector;
 		FavoriteFunction.RotateBullet (gameObject);
-		Invoke ("DestroyToServer",1f);
+		Invoke ("DestroyToServer",0.2f);
 	}
 	protected override void OnTriggerStay2D(Collider2D collision)
 	{

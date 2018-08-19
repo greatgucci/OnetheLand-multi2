@@ -39,7 +39,7 @@ public class Diana_Bullet2_explosion : Bullet {
 		{
 			oNum = 1;
 		}
-		transform.localScale=transform.localScale*explosion_scale;
+		transform.localScale*=explosion_scale;
 		Invoke ("DestroyToServer", 0.3f);
 	}
 }

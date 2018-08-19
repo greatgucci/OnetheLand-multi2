@@ -46,3 +46,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Range_Attack
+    uniqueID: 2934090821
+    locked: 0
+  - name: Warning
+    uniqueID: 4140292195
+    locked: 0

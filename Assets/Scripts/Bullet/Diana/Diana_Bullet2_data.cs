@@ -13,9 +13,9 @@ public class Diana_Bullet2_data : Bullet {
 	{
 		photonView.RPC ("Init_Diana_Bullet2_RPC", PhotonTargets.All, _shooterNum, domicile_gameObject);
 	}
-	public void Init_Diana_Bullet2_parent(int _shooterNum, Vector3 position)
+	public void Init_Diana_Bullet2_parent(int _shooterNum, Vector3 position, Vector3 dVector)
 	{
-		photonView.RPC ("Init_Diana_Bullet2_parent_RPC", PhotonTargets.All, _shooterNum, position);
+		photonView.RPC ("Init_Diana_Bullet2_parent_RPC", PhotonTargets.All, _shooterNum, position, dVector);
 	}
 	[PunRPC]
 	protected void Init_Diana_Bullet2_RPC(int _shooterNum, int domicile_gameObject)
@@ -53,14 +53,14 @@ public class Diana_Bullet2_data : Bullet {
 		StartCoroutine (collision (_shooterNum, DVector));
 	}
 	[PunRPC]
-	protected void Init_Diana_Bullet2_parent_RPC(int _shooterNum, Vector3 position)
+	protected void Init_Diana_Bullet2_parent_RPC(int _shooterNum, Vector3 position, Vector3 dVector)
 	{
 
 		distance = 4f;
 		explosion_scale = 4f;
 		speed = 7f;
 		shooterNum=_shooterNum;
-		DVector = PlayerManager.instance.Local.aimVector.normalized;
+		DVector = dVector;
 		start_position_output = position;
 		FavoriteFunction.RotateBullet(gameObject);
 		rgbd.velocity = new Vector2(DVector.x,DVector.y) * speed;
@@ -74,14 +74,18 @@ public class Diana_Bullet2_data : Bullet {
 		d_b_w = PhotonNetwork.Instantiate ("Diana_Bullet2_Warning",transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet2_Warning>();
 		d_b_w.Init_Diana_Bullet2_Warning (_shooterNum, distance, dVector);
 		while (true) {
-			distance_current = (transform.position-start_position_output).magnitude;
-			if(distance_current>distance)
+			distance_current += Mathf.Abs((transform.position-start_position_output).magnitude);
+			if(distance_current>=distance)
 			{
 				if(PlayerManager.instance.myPnum == _shooterNum)
 					collision_after ();
 				break;
 			}
-			yield return null;
+            else
+            {
+                start_position_output = transform.position;
+                yield return null;
+            }
 		}
 		if(PlayerManager.instance.myPnum == _shooterNum)
 			DestroyToServer();

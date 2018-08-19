@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Diana_Bullet2_default_Range : Bullet 
 {
-	public void Init_Diana_Bullet2_default_Range(int _shooterNum, int domicil_gameobject)
+    Vector3 dVector;
+    GameObject parent;
+
+    public void Init_Diana_Bullet2_default_Range(int _shooterNum, int domicil_gameobject, Vector3 dVector)
 	{
-		photonView.RPC ("Init_Diana_Bullet2_default_Range_RPC", PhotonTargets.All,_shooterNum , domicil_gameobject);
+		photonView.RPC ("Init_Diana_Bullet2_default_Range_RPC", PhotonTargets.All,_shooterNum , domicil_gameobject, dVector);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet2_default_Range_RPC(int _shooterNum, int domicil_gameobject)
+	private void Init_Diana_Bullet2_default_Range_RPC(int _shooterNum, int domicil_gameobject, Vector3 dVector)
 	{
 		SetTag (type.warning);
-		GameObject parent = PhotonView.Find (domicil_gameobject).gameObject;
+		parent = PhotonView.Find (domicil_gameobject).gameObject;
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
 		{
@@ -22,30 +25,31 @@ public class Diana_Bullet2_default_Range : Bullet
 		{
 			oNum = 1;
 		}
-		transform.parent = parent.transform;
-		DVector = PlayerManager.instance.GetPlayerByNum (shooterNum).aimVector.normalized;
-		FavoriteFunction.RotateBullet (gameObject);
+        this.dVector = dVector;
+		transform.SetParent(parent.transform);
 		StartCoroutine(MoveDianaSkillLine());
 	}
-
-	protected override void OnTriggerStay2D(Collider2D collision)
+   
+    protected override void OnTriggerStay2D(Collider2D collision)
 	{
 	}
 	IEnumerator MoveDianaSkillLine()//질문을 해보도록 함. 과연 레이저 형식이 나은지 아니면 탄환이 나은지
 	{
-		float rotatingAngle;
-		float rotatingAngle_Temp = 0f;
 		float timer = 0f;
 
 		while (true)
 		{
 
-			if (timer > 0.1f)
+			if (timer > 1f)
 			{
 				break;
 			}
-
-			timer += Time.deltaTime;
+            transform.localPosition = new Vector3(0f, 0f, 0f);
+            transform.rotation = Quaternion.identity;
+            DVector = (dVector.normalized - parent.transform.position.normalized).normalized;
+            Debug.Log(DVector);
+            FavoriteFunction.RotateBullet(gameObject);
+            timer += Time.deltaTime;
 			yield return null;
 		}
 		if (PlayerManager.instance.myPnum == shooterNum) {

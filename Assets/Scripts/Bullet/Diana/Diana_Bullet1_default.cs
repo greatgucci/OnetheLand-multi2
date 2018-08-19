@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Diana_Bullet1_default : Bullet {
 
-	public void Init_Diana_Bullet1_default(int _shooterNum, int angle)
+	public void Init_Diana_Bullet1_default(int _shooterNum, int angle, Vector3 position)
 	{
-		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum, angle);
+		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum, angle, position);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet1_default_RPC(int _shooterNum, int angle)
+	private void Init_Diana_Bullet1_default_RPC(int _shooterNum, int angle, Vector3 position)
 	{
 		SetTag (type.bullet);
 		speed =7f;
@@ -22,10 +22,9 @@ public class Diana_Bullet1_default : Bullet {
 		{
 			oNum = 1;
 		}
-		DVector = (PlayerManager.instance.GetPlayerByNum(shooterNum).aimPosition-transform.position).normalized+ new Vector3 (0f,Mathf.Sin(angle*Mathf.Deg2Rad));
-		DVector += new Vector3 (0f,DVector.y*Mathf.Sin(angle*Mathf.Deg2Rad));
+		DVector = (position.normalized-transform.position.normalized).normalized+ new Vector3 (0f,Mathf.Sin(angle*Mathf.Deg2Rad));
 		FavoriteFunction.RotateBullet(gameObject);
-		rgbd.velocity = DVector * speed;
+		rgbd.velocity = DVector.normalized * speed;
 	}
 
 

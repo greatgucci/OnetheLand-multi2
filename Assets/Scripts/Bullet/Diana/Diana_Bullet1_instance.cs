@@ -5,18 +5,16 @@ using UnityEngine;
 public class Diana_Bullet1_instance : Bullet {
 
     GameObject commuObject;
-	Vector3 oPosition;
 	float angle;
-	public void Init_Diana_Bullet1_default(int _shooterNum,int communicatingObject)
+	public void Init_Diana_Bullet1_default(int _shooterNum,int direction, int position, Vector3 dVector)
 	{
-		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum,communicatingObject);
+		photonView.RPC ("Init_Diana_Bullet1_default_RPC", PhotonTargets.All,_shooterNum,direction,position, dVector);
 	}
 	[PunRPC]
-	private void Init_Diana_Bullet1_default_RPC(int _shooterNum, int communicatingObject)
+	private void Init_Diana_Bullet1_default_RPC(int _shooterNum, int direction, int position, Vector3 dVector)
 	{
 		SetTag (type.bullet);
 		shooterNum = _shooterNum;
-		commuObject = PhotonView.Find(communicatingObject).gameObject;
 		if (shooterNum == 1)
 		{
 			oNum = 2;
@@ -25,13 +23,14 @@ public class Diana_Bullet1_instance : Bullet {
 		{
 			oNum = 1;
 		}
-		angle= commuObject.GetComponent<Diana_Bullet1>().direction==1 ? 75f* Mathf.Deg2Rad : -75f* Mathf.Deg2Rad;
-		DVector = commuObject.GetComponent<Diana_Bullet1>().DVector + new Vector3 (Mathf.Cos (angle), Mathf.Sin (angle), 0f);
+		angle = direction==1 ? 105f* Mathf.Deg2Rad : -105f* Mathf.Deg2Rad;
+		DVector = DVector + new Vector3 (Mathf.Cos (angle), Mathf.Sin (angle), 0f);
 		DVector = DVector.normalized;
-		transform.Translate (DVector*commuObject.GetComponent<Diana_Bullet1>().direction*commuObject.GetComponent<Diana_Bullet1>().position);
+		transform.Translate (DVector*direction*position);
 		FavoriteFunction.RotateBullet(gameObject);
 		speed = 6f;
 		rgbd.velocity = DVector * speed;
+        Invoke("DestroyToServer",4f/*sustain time*/);
 	}
 }
 
