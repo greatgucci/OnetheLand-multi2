@@ -25,11 +25,13 @@ public class Diana_Skill4_default : Skills
 	IEnumerator ShooterBullet()
 	{
 		Vector3 position_temp = transform.position;
+        Vector3 destination;
 		for (int i = 0; i < 6; i++) {
 			Diana_Bullet4_default d_b_d = PhotonNetwork.Instantiate
 				("Diana_Bullet4_default", transform.position, Quaternion.identity,0).
 				GetComponent<Diana_Bullet4_default>();
-			d_b_d.Init_Diana_Bullet4_default(PlayerManager.instance.myPnum);
+            destination = PlayerManager.instance.Local.aimPosition;
+			d_b_d.Init_Diana_Bullet4_default(PlayerManager.instance.myPnum, destination);
 			yield return new WaitForSeconds (0.2f);
 		}
 		yield return new WaitForSeconds (0.3f);
@@ -37,7 +39,8 @@ public class Diana_Skill4_default : Skills
 			Diana_Bullet4_default d_b_d = PhotonNetwork.Instantiate
 				("Diana_Bullet4_default", transform.position, Quaternion.identity,0).
 				GetComponent<Diana_Bullet4_default>();
-			d_b_d.Init_Diana_Bullet4_default(PlayerManager.instance.myPnum,angle[i]);
+            destination = PlayerManager.instance.Local.aimPosition;
+            d_b_d.Init_Diana_Bullet4_default(PlayerManager.instance.myPnum,angle[i],destination);
 		}
 		yield return null;
 	}

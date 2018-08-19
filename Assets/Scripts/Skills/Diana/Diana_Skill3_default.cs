@@ -12,8 +12,9 @@ public class Diana_Skill3_default : Skills
 		}
 		Diana_Bullet3_default diana_bullet3;
 		Vector3 vector3 = PlayerManager.instance.Local.aimPosition;
+        Vector3 vector = PlayerManager.instance.Local.aimVector;
 		diana_bullet3=PhotonNetwork.Instantiate("Diana_Bullet3_default", transform.position, Quaternion.identity,0).GetComponent<Diana_Bullet3_default>();
-		diana_bullet3.Init_Diana_Bullet3_default(PlayerManager.instance.myPnum,vector3);
+		diana_bullet3.Init_Diana_Bullet3_default(PlayerManager.instance.myPnum,vector3,vector);
 		StartCoroutine(Waiting());
 	}
 

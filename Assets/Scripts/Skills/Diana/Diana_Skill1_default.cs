@@ -28,7 +28,8 @@ public class Diana_Skill1_default : Skills
 			Diana_Bullet1_default d_b_d = PhotonNetwork.Instantiate
 				("Diana_Bullet1_default", transform.position, Quaternion.identity,0).
 				GetComponent<Diana_Bullet1_default>();
-			d_b_d.Init_Diana_Bullet1_default(PlayerManager.instance.myPnum, angle[i%3]);
+            Vector3 position= PlayerManager.instance.Local.aimPosition;
+            d_b_d.Init_Diana_Bullet1_default(PlayerManager.instance.myPnum, angle[i%3], position);
 			yield return new WaitForSeconds (0.2f);
 		}
 	}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Diana_Bullet3_HolyWater : Bullet {
 
 	float scale = 4f;
+    float sustaniate_tiem = 4f;
 	public void Init_Diana_Bullet3_HolyWater(int _shooterNum, Vector3 direction)
 	{
 		photonView.RPC ("Init_Diana_Bullet3_HolyWater_RPC", PhotonTargets.All,_shooterNum,direction);
@@ -23,6 +24,7 @@ public class Diana_Bullet3_HolyWater : Bullet {
 			oNum = 1;
 		}
 		DVector = direction;
+        Invoke("DestroyToServer", sustaniate_tiem);
 		FavoriteFunction.RotateBullet(gameObject);
 		transform.localScale *= scale;
 
