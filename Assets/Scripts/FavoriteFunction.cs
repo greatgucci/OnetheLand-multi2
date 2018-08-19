@@ -76,4 +76,26 @@ public class FavoriteFunction : MonoBehaviour {
 
         return dVector;
     }
+
+    //주어진 이니셜 벡터를 디그리 각도 값으로 회전시킨 벡터 반환
+    public static Vector3 VectorRotationWithDegree(Vector3 initialVector, float degAngle)
+    {
+        Vector3 resultVector;
+
+        float x2, y2;
+        float angleWithX;
+        float angleSum;
+
+        angleWithX = Vector3.Angle(initialVector, Vector3.right);
+        angleSum = angleWithX + degAngle;
+
+        x2 = Mathf.Cos(angleSum * Mathf.Deg2Rad);
+        y2 = Mathf.Sin(angleSum * Mathf.Deg2Rad);
+
+        resultVector.x = x2;
+        resultVector.y = y2;
+        resultVector.z = 0;
+
+        return resultVector;
+    }
 }

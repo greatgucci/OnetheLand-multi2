@@ -27,7 +27,7 @@ public class Iris_Skill3Targeting : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        speed = 3.5f;
+        speed = 1f;
 
         StartCoroutine(MoveIrisSKill3Targeting());
     }

@@ -43,9 +43,9 @@ public class Iris_Skill3R : Skills {
         view = iris_Skill3Targeting.GetComponent<PhotonView>();
 
         iris_Skill3RCircle = PhotonNetwork.Instantiate("Iris_Skill3RCircle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill3RCircle>();
-        iris_Skill3RCircle.Init_Iris_Skill3RCircle(PlayerManager.instance.myPnum, view.viewID, 0);
+        iris_Skill3RCircle.Init_Iris_Skill3RCircle(PlayerManager.instance.myPnum, view.viewID, 0, PlayerManager.instance.Local.aimVector);
         iris_Skill3RCircle = PhotonNetwork.Instantiate("Iris_Skill3RCircle", transform.position, Quaternion.identity, 0).GetComponent<Iris_Skill3RCircle>();
-        iris_Skill3RCircle.Init_Iris_Skill3RCircle(PlayerManager.instance.myPnum, view.viewID, 1);
+        iris_Skill3RCircle.Init_Iris_Skill3RCircle(PlayerManager.instance.myPnum, view.viewID, 1, PlayerManager.instance.Local.aimVector);
         yield return null;
     }
 }

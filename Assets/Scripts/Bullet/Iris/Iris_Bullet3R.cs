@@ -63,9 +63,8 @@ public class Iris_Bullet3R : Bullet {
         while (true)
         {
 
-            if (timer > 2f)
+            if (timer > 1.2f)
             {
-                DestroyToServer();
                 break;
             }
 
@@ -79,5 +78,15 @@ public class Iris_Bullet3R : Bullet {
             timer += Time.deltaTime;
             yield return null;
         }
+
+        transform.localScale = new Vector3(60f, 0.375f, 1f);
+
+        yield return new WaitForSeconds(0.1f);
+
+        transform.localScale = new Vector3(60f, 0.1f, 1f);
+
+        yield return new WaitForSeconds(0.05f);
+
+        DestroyToServer();
     }
 }

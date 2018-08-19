@@ -11,14 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 
+  AppID: 86f44cba-83e9-4fc9-9a27-4256eee29887
   VoiceAppID: 
   ChatAppID: 
-  HostType: 0
-  PreferredRegion: 0
+  HostType: 1
+  PreferredRegion: 9
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 
+  ServerAddress: 192.168.0.12
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 0
@@ -74,4 +74,10 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - StartTimeCount
+  - Init_Diana_Bullet2_default_Range_RPC
+  - Init_Diana_Bullet3_default_firezone_RPC
+  - Init_Diana_Bullet3_default_RPC
+  - Init_Iris_BulletE_RPC
+  - Init_Iris_BulletERangeAttack_RPC
+  - Init_Iris_BulletShift_RPC
   DisableAutoOpenWizard: 1
