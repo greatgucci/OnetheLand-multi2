@@ -19,7 +19,7 @@ public class Diana_Skill4 : Skills
         //기도 드리는 모션
         yield return new WaitForSeconds(0.2f);
         Diana_Bullet4 diana_bullet4;
-        diana_bullet4 = PhotonNetwork.Instantiate("Diana_Bullet4", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet4>();
+		diana_bullet4 = PhotonNetwork.Instantiate("Diana_Bullet4", new Vector3 (0f,0f,0f), Quaternion.identity, 0).GetComponent<Diana_Bullet4>();
         diana_bullet4.Init_Diana_Bullet4(PlayerManager.instance.myPnum);
     }
 
