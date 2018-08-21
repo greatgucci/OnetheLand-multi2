@@ -468,6 +468,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  - 0
   cooltimeSpd: 1
   aimVector: {x: 0, y: 0, z: 0}
   aimPosition: {x: 0, y: 0, z: 0}

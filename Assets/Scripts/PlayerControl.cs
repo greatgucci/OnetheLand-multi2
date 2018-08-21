@@ -123,7 +123,7 @@ public class PlayerControl : Photon.PunBehaviour
 
         else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f)
         {
-            DoSkill(9);
+            DoSkill(4);
         }
 
 		if (Input.GetKeyDown (KeyCode.Mouse0) && playerData.cooltime [Attack_default_Num] <= 0f) {
