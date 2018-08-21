@@ -38,9 +38,9 @@ GameObject:
   - component: {fileID: 4010785594686688}
   - component: {fileID: 50714131008691534}
   - component: {fileID: 114622119561851220}
-  - component: {fileID: 114934314157569822}
   - component: {fileID: 114893273799927700}
   - component: {fileID: 61144438098015452}
+  - component: {fileID: 114112322192915258}
   m_Layer: 0
   m_Name: Diana
   m_TagString: Untagged
@@ -484,6 +484,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 1
+--- !u!114 &114112322192915258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1109795412530634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcc9ec66fb5803d44b4079c41c718ff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Skills:
+  - {fileID: 114325323128680112}
+  - {fileID: 114253175364419900}
+  - {fileID: 114351294726396030}
+  - {fileID: 114204681711631756}
+  - {fileID: 114070586388336626}
+  speed: 6
 --- !u!114 &114204681711631756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -658,28 +676,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastUpdateTime: 25
---- !u!114 &114934314157569822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1109795412530634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a91f9db9f9fa2645ac7c6597a5ba840, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Skills:
-  - {fileID: 114253175364419900}
-  - {fileID: 114351294726396030}
-  - {fileID: 114204681711631756}
-  - {fileID: 114070586388336626}
-  Attack_defaults:
-  - {fileID: 114325323128680112}
-  - {fileID: 114284653285212918}
-  - {fileID: 114643998583210856}
-  - {fileID: 114326156464719198}
-  speed: 3
 --- !u!212 &212414388066669724
 SpriteRenderer:
   m_ObjectHideFlags: 1
