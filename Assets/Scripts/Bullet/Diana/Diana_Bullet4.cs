@@ -18,19 +18,7 @@ public class Diana_Bullet4 : Bullet
     [PunRPC]
     protected void Init_Diana_Bullet4_RPC(int _shooterNum)
     {
-<<<<<<< HEAD
-        SetTag(type.bullet);
-        StartCoroutine(Rotate_Cross());
-    }
-    private IEnumerator Rotate_Cross()
-    {              
-            DVector = new Vector3(Mathf.Cos(30 * Mathf.Deg2Rad), Mathf.Sin(30 * Mathf.Deg2Rad), 0f);
-            for (int i = 0; i < 12; i++)
-            {
-            FavoriteFunction.RotateBullet(gameObject);
-            yield return null;
-            }      
-=======
+
 		shooterNum = _shooterNum;
 		if (shooterNum == 1)
 		{
@@ -67,7 +55,6 @@ public class Diana_Bullet4 : Bullet
         }
 		stop = true;
 
->>>>>>> origin/Hoseong
     }
 	private IEnumerator ShootBullet()
 	{

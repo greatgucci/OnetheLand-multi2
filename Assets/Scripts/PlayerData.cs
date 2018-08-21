@@ -18,7 +18,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private float isFlip; // 1일 경우 오른쪽, -1일 경우 왼쪽을 보고 있는 거임
     private float globalCool = 0.5f;
     private PlayerControl playerControl;
-    public float[] cooltime = new float[9];
+    public float[] cooltime = new float[10];
     public float cooltimeSpd = 1f;
     Aim Aim_Object;
     PlayerData opponent;

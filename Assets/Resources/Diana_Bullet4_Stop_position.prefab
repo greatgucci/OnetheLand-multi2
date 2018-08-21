@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4492338585291176}
   - component: {fileID: 212868772348642620}
   m_Layer: 0
-  m_Name: Diana_Bullet4_Stop_poistion
+  m_Name: Diana_Bullet4_Stop_position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

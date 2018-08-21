@@ -37,7 +37,7 @@ public class Iris_Bullet2 : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 75;
+        damage = 25;
 
         irisBullet2Num_Temp = bulNum;
 

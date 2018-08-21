@@ -526,7 +526,6 @@ MonoBehaviour:
   - {fileID: 114510713744260264}
   - {fileID: 114510713744260264}
   speed: 3
-  distance: 0.8
 --- !u!212 &212743204496224284
 SpriteRenderer:
   m_ObjectHideFlags: 1

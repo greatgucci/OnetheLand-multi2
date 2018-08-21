@@ -69,8 +69,8 @@ public class Iris_Skill3RCircle : Bullet {
 
         yield return new WaitForSeconds(0.2f);
 
-        warningSquare = FavoriteFunction.WarningSquare(transform.position + new Vector3(0f, -0.3f, 0f), 1f, 10f);
-        warningSquare.transform.localScale = new Vector3(30f, 0.75f, 1f);
+        warningSquare = FavoriteFunction.WarningSquare(transform.position + new Vector3(0f, -0.3f, 0f), 1f, 0.5f);
+        warningSquare.transform.localScale = new Vector3(30f, 0.5f, 1f);
 
         DVector = commuObject.transform.position - transform.position;
         DVector.Normalize();

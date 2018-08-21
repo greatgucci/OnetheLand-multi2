@@ -15,6 +15,7 @@ public class Iris_SkillShift : Skills {
         iris_BulletShift = GameObject.Find("iris_BulletShift_" + PlayerManager.instance.myPnum);
         if (iris_BulletShift != null)
         {
+            StartCoroutine(ShiftEffect1());
             teleportPosition = iris_BulletShift.transform.position;
             iris_BulletShift.GetComponent<Iris_BulletShift>().Init_Iris_BulletShift(PlayerManager.instance.myPnum);
 
@@ -41,4 +42,15 @@ public class Iris_SkillShift : Skills {
         isRunning = false;
     }
 
+    IEnumerator ShiftEffect1()
+    {
+        GameObject effect_Vanish;
+        GameObject effect_Teleport;
+
+        effect_Vanish = PhotonNetwork.Instantiate("Iris_VanishEffect", transform.position, Quaternion.identity, 0);
+
+        yield return null;
+
+        effect_Teleport = PhotonNetwork.Instantiate("Iris_TeleportEffect", transform.position, Quaternion.identity, 0);
+    }
 }

@@ -85,4 +85,8 @@ MonoBehaviour:
   - SetInputEnable_RPC
   - SetIsFaceRight
   - GameOver_RPC
+  - Init_Diana_Bullet4_instance_RPC
+  - Init_Iris_BulletE_RPC
+  - Init_Iris_BulletERangeAttack_RPC
+  - Init_Iris_BulletShift_RPC
   DisableAutoOpenWizard: 1

@@ -36,7 +36,7 @@ public class Iris_BulletLeft : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 75;
+        damage = 50;
         speed = 6f;
 
 

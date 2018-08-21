@@ -161,7 +161,7 @@ public class NetworkManager : Photon.PunBehaviour {
     /// <returns></returns>
     IEnumerator TimeCount()
     {
-         float t =30;
+         float t =180;
         while(t>0)
         {
             t -= Time.deltaTime;

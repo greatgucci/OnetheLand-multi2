@@ -17,15 +17,11 @@ public class PlayerControl : Photon.PunBehaviour
     public float speed = 6f;
     private float distance = 0.8f;
     int pNum;
-<<<<<<< HEAD
-    private bool isInputAble = true;
     private bool isFaceRight = false;
-    private bool IsFaceRight
-=======
-    private bool isInputAble = false;
+    private bool isInputAble = true;
     private bool isDash = false;
-    public bool IsInputAble
->>>>>>> origin/Hoseong
+
+    private bool IsFaceRight
     {
         get { return isFaceRight; }
         set
@@ -80,11 +76,12 @@ public class PlayerControl : Photon.PunBehaviour
     /// </summary>
     protected virtual void LateUpdate ()
     {
-        if(!photonView.isMine || !isInputAble || PlayerManager.instance.gameUpdate != GameUpdate.GAMING)
+        if (!photonView.isMine || !isInputAble || PlayerManager.instance.gameUpdate != GameUpdate.GAMING)
         {
             rgbd.velocity = Vector2.zero;
             return;
         }
+
 
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
@@ -99,6 +96,7 @@ public class PlayerControl : Photon.PunBehaviour
          * 6 : 일반 공격 3
          * 7 : 일반 공격 4
          * 8 : 대시
+         * 9 : 궁극기
          *         PlayerManager.instance.Local.SetCooltime(스킬 숫자, 클타임);
          * ...으로 각 스킬 스크립트에서 쿨타임 넣음
         */
@@ -121,6 +119,11 @@ public class PlayerControl : Photon.PunBehaviour
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
         {
             Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f)
+        {
+            DoSkill(9);
         }
 
 		if (Input.GetKeyDown (KeyCode.Mouse0) && playerData.cooltime [Attack_default_Num] <= 0f) {
@@ -200,52 +203,30 @@ public class PlayerControl : Photon.PunBehaviour
         }
         rgbd.velocity = new Vector2(0f, 0f);
 
-        if (pNum == 1)
-        {
-            if (x > 0 && transform.position.x < 9)
+        Vector2 moveVector;
+        moveVector = new Vector2(x, y);
+        moveVector.Normalize();
+        speed = 6f;
+
+        
+            if (x > 0 && transform.position.x > 9)
+            {   
+                moveVector = new Vector2(0,moveVector.y);
+            }
+            if (x < 0 && transform.position.x < -9)
             {
-                
-                rgbd.velocity += new Vector2(x, 0f) * speed;
+                moveVector = new Vector2(0, moveVector.y);
+            }
+            if (y > 0 && transform.position.y > 5)
+            {
+                moveVector = new Vector2(moveVector.x, 0);
+            }
+            if (y < 0 && transform.position.y < -5)
+            {
+             moveVector = new Vector2(moveVector.x, 0);
             }
 
-            if (x < 0 && transform.position.x > -9)
-            {
-                rgbd.velocity += new Vector2(x, 0f) * speed;
-            }
-
-            if (y > 0 && transform.position.y < 5)
-            {
-                rgbd.velocity += new Vector2(0f, y) * speed;
-            }
-
-            if (y < 0 && transform.position.y > -5)
-            {
-                rgbd.velocity += new Vector2(0f, y) * speed;
-            }
-        }
-        else if (pNum ==2 )
-        {
-            if (x > 0 && transform.position.x < 9)
-            {
-                rgbd.velocity += new Vector2(x, 0f) * speed;
-            }
-
-            if (x < 0 && transform.position.x > -9)
-            {
-                rgbd.velocity += new Vector2(x, 0f) * speed;
-            }
-
-            if (y > 0 && transform.position.y < 5)
-            {
-                rgbd.velocity += new Vector2(0f, y) * speed;
-            }
-
-            if (y < 0 && transform.position.y > -5)
-            {
-                rgbd.velocity += new Vector2(0f, y) * speed;
-            }
-        }
-
+        rgbd.velocity += moveVector*speed;
     }
 
     protected void Dash(float x, float y)
@@ -260,7 +241,11 @@ public class PlayerControl : Photon.PunBehaviour
         float timer = 0f;
         speed = 18f;
 
-        while(true)
+        Vector2 moveVector;
+        moveVector = new Vector2(x, y);
+        moveVector.Normalize();
+
+        while (true)
         {
             if (timer >= 0.25f)
             {
@@ -270,7 +255,7 @@ public class PlayerControl : Photon.PunBehaviour
             rgbd.velocity = new Vector2(0f, 0f);
 
             speed -= Time.deltaTime * 48f;
-            rgbd.velocity += new Vector2(x, y) * speed;
+            rgbd.velocity += moveVector * speed;
 
             if (transform.position.x > 9 || transform.position.x < -9 || transform.position.y > 5 || transform.position.y < -5)
                 rgbd.velocity = new Vector2(0f, 0f);
@@ -282,49 +267,7 @@ public class PlayerControl : Photon.PunBehaviour
         speed = 6f;
         isDash = false;
     }
-    protected virtual void Teleport(float x, float y)
-    {
-        Vector3 targetPos = transform.position + new Vector3(x * distance, y * distance);      
-        if (pNum == 1)
-        {
-            if(targetPos.x>9)
-            {
-                targetPos = new Vector3(9, targetPos.y);
-            }
-            if (targetPos.x < -9)
-            {
-                targetPos = new Vector3(-9, targetPos.y);
-            }
-            if (targetPos.y > 5)
-            {
-                targetPos = new Vector3(targetPos.x, 5);
-            }
-            if (targetPos.y < -5)
-            {
-                targetPos = new Vector3(targetPos.x, -5);
-            } 
-        }
-        else if (pNum == 2)
-        {
-            if (targetPos.x < -9)
-            {
-                targetPos = new Vector3(-9, targetPos.y);
-            }
-            if (targetPos.x > 9)
-            {
-                targetPos = new Vector3(9, targetPos.y);
-            }
-            if (targetPos.y > 5)
-            {
-                targetPos = new Vector3(targetPos.x, 5);
-            }
-            if (targetPos.y < -5)
-            {
-                targetPos = new Vector3(targetPos.x, -5);
-            }
-        }
-        StartCoroutine(TeleportRoutine(targetPos));
-    }
+
     protected virtual void SetPlayerPos(int pnum)
     {
         if (pnum == 1)
@@ -377,18 +320,5 @@ public class PlayerControl : Photon.PunBehaviour
             isInputAble = true;
         }
     }
-    private float teleportSpeed = 12f;
-    IEnumerator TeleportRoutine(Vector3 targetPosition)
-    {
-        col.enabled = false;
-        float time = 0f;
-        Vector3 currentPos = transform.position;
-        while(time<1)
-        {
-            time += Time.deltaTime * teleportSpeed;
-            transform.position = Vector3.Lerp(currentPos, targetPosition, time);
-            yield return null;
-        }
-        col.enabled = true;
-    }
+
 }
