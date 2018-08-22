@@ -7,40 +7,62 @@ using UnityEngine;
 /// </summary>
 public class DianaControl : PlayerControl {
 
-    protected override void LateUpdate()
+	public bool skill_can=false;
+	public bool skill4_create = false;
+	public bool skill1_playing = false;
+	public GameObject pray;
+	protected override bool LateUpdate()
     {
-        base.LateUpdate();// *<주의>* 이거 빼먹으면안대용!
 
+		if (!base.LateUpdate ()) 
+		{
+			return false;
+		}// *<주의>* 이거 빼먹으면안대용!
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
+		Debug.Log (skill_can);
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
-            DoSkill(0);
+			if (!skill1_playing)
+			{
+				DoSkill(0);//좌
+
+				pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
+			}
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
-            DoSkill(1);//Skill1
+			DoSkill(1);//우
+			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
-            DoSkill(2);//Skill2
+			DoSkill(2);//E skill1
+			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
         }
-        else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
+		else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
-            DoSkill(3);//Skill2
+			DoSkill(3);//R skill2
+			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f)
+		else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f)&&skill_can)
         {
-            DoSkill(4);
+			skill_can = false;
+			DoSkill(4);//LeftShift skill3
+			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
         }
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
         {
-            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+			Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f)
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
-            DoSkill(5);
-        }
-
+            DoSkill(5);//Q 궁
+		}
+		if(skill4_create&&pray.GetComponent<Diana_Skill4_Pray> ().praying_time>=60f)
+		{
+			//승리
+		}
+		return true;
     }
 }

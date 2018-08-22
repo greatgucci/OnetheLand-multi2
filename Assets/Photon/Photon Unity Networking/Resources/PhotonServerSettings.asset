@@ -18,7 +18,7 @@ MonoBehaviour:
   PreferredRegion: 9
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 
+  ServerAddress: 192.168.0.12
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 0
@@ -90,4 +90,12 @@ MonoBehaviour:
   - Init_Iris_BulletERangeAttack_RPC
   - Init_Iris_BulletShift_RPC
   - Init_Iris_BulletQ_RPC
+  - Init_Diana_NormalBullet_RPC
+  - Init_Diana_SpecialBullet_RPC
+  - GetSilence_RPC
+  - Init_Diana_HolyLand_RPC
+  - Heresy_Sign_RPC
+  - Shadow_RPC
+  - Diana_Thunder_RPC
+  - Diana_Thunder_Create_RPC
   DisableAutoOpenWizard: 1

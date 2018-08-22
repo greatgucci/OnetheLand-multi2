@@ -215,7 +215,10 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         playerControl.photonView.RPC("GetStun_RPC", PhotonTargets.All);
     }
-
+	public void GetSilence()
+	{
+		playerControl.photonView.RPC("GetSilence_RPC", PhotonTargets.All);
+	}
     /// <summary>
     /// 한클라에서만 호출하면 자동으로 연동함 , 수동으로 조절
     /// </summary>

@@ -38,7 +38,7 @@ public class Bullet : Photon.PunBehaviour
         {
             if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
             {
-                return;
+                return; 
             }
 
             if (collision.tag == "Player" + oNum)

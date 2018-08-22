@@ -7,9 +7,12 @@ using UnityEngine;
 /// </summary>
 public class IrisControl : PlayerControl
 {
-    protected override void LateUpdate()
+    protected override bool LateUpdate()
     {
-        base.LateUpdate();// 이거 빼먹으면안대용!
+		if (!base.LateUpdate ()) 
+		{
+			return false;
+		}// *<주의>* 이거 빼먹으면안대용!
 
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if(Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0]<=0)
@@ -41,7 +44,7 @@ public class IrisControl : PlayerControl
             DoSkill(5);
         }
 
-
+		return true;
     }
 
 

@@ -19,6 +19,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
     protected bool isDash = false;
     protected PlayerAnimation playerAnimation;
     protected PlayerData playerData;
+	protected bool isSkillAble=true;
     protected bool IsFaceRight
     {
         get { return isFaceRight; }
@@ -71,12 +72,12 @@ public abstract class PlayerControl : Photon.PunBehaviour
     /// <summary>
     /// 입력 여기서 처리
     /// </summary>
-    protected virtual void LateUpdate ()
+	protected virtual bool LateUpdate ()
     {
         if (!photonView.isMine || !isInputAble || PlayerManager.instance.gameUpdate != GameUpdate.GAMING)
         {
             rgbd.velocity = Vector2.zero;
-            return;
+			return false;
         }
 
 
@@ -88,6 +89,10 @@ public abstract class PlayerControl : Photon.PunBehaviour
         {
             photonView.RPC("SetIsFaceRight", PhotonTargets.All, true);
         }
+		if (!isSkillAble) {
+			return false;
+		}
+		return true;
     }
 
     /*
@@ -126,6 +131,11 @@ public abstract class PlayerControl : Photon.PunBehaviour
     {
         StartCoroutine(StunRoutine());
     }
+	[PunRPC]
+	protected void GetSilence_RPC()
+	{
+		StartCoroutine(SilenceRoutine());
+	}
     [PunRPC]
     protected void SetInputEnable_RPC(bool b)
     {
@@ -266,5 +276,19 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isInputAble = true;
         }
     }
-
+	protected IEnumerator SilenceRoutine()
+	{
+		//GameObject silence;
+		if (photonView.isMine)
+		{
+			isSkillAble = false;
+		}
+		yield return new WaitForSeconds(1f);
+		//DestroyImmediate(silence);
+		yield return new WaitForEndOfFrame();
+		if (photonView.isMine)
+		{
+			isSkillAble = true;
+		}
+	}
 }
