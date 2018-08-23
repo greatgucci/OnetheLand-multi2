@@ -98,4 +98,9 @@ public class FavoriteFunction : MonoBehaviour {
 
         return resultVector;
     }
+    
+    //궁극기 연출
+
+
+
 }
