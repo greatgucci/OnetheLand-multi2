@@ -18,8 +18,7 @@ public class DianaControl : PlayerControl {
 		{
 			return false;
 		}// *<주의>* 이거 빼먹으면안대용!
-        Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		Debug.Log (skill_can);
+		Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
 			if (!skill1_playing)
