@@ -2,24 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MoveState
+{
+    NONE,
+    MoveFront,
+    MoveBack,
+    Idle
+}
 /// <summary>
 /// Input과 컨트롤을 관리
 /// </summary>
 public abstract class PlayerControl : Photon.PunBehaviour
 {
+    protected MoveState moveState = MoveState.NONE;
     protected Rigidbody2D rgbd;
     protected BoxCollider2D col;
+
     public Skills[] Skills;
+    public MultiSound[] VoiceClip;
+
     protected GameObject StunEffect;
     public float speed = 6f;
     protected float distance = 0.8f;
     int pNum;
-    protected bool isFaceRight = false;
     protected bool isInputAble = true;
+    protected bool isMoveAble = true;
+    protected bool isSkillAble = true;
     protected bool isDash = false;
+    protected bool isFaceRight = true;
+
     protected PlayerAnimation playerAnimation;
     protected PlayerData playerData;
-	protected bool isSkillAble=true;
+    protected AudioSource voiceAudio;
+
     protected bool IsFaceRight
     {
         get { return isFaceRight; }
@@ -28,25 +43,42 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isFaceRight = value;
             if (isFaceRight)
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                transform.localScale = new Vector3(-1, 1, 1);
             }
             else
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(1, 1, 1);
             }
         }
     }
 
-    protected void Awake()
+    protected virtual void MoveAnimationChange(MoveState move)
     {
+    }
+
+    protected virtual void PlayVoice(int i)
+    {
+        if (voiceAudio.isPlaying)
+        {
+            voiceAudio.Stop();
+        }
+        voiceAudio.clip = VoiceClip[i].RandomSound;
+        voiceAudio.Play();
+    }
+
+
+    protected virtual void Awake()
+    {
+        voiceAudio = transform.Find("Voice").GetComponent<AudioSource>();
         rgbd = GetComponent<Rigidbody2D>();
         playerData = transform.Find("PlayerData").GetComponent<PlayerData>();
         playerAnimation = GetComponentInChildren<PlayerAnimation>();
         col = GetComponent<BoxCollider2D>();
         StunEffect = Resources.Load("Effects/Stun") as GameObject;
     }
+
     // Use this for initialization
-    protected void Start ()
+    protected virtual void Start ()
     {
         pNum = PlayerManager.instance.myPnum;
         if (photonView.isMine)
@@ -67,6 +99,8 @@ public abstract class PlayerControl : Photon.PunBehaviour
         }
         playerData.SetStatus(1000,100,1000,0);
         SetPlayerPos(playerData.playerNum);
+
+        PlayerManager.instance.Updated();
     }
 
     /// <summary>
@@ -89,12 +123,20 @@ public abstract class PlayerControl : Photon.PunBehaviour
         {
             photonView.RPC("SetIsFaceRight", PhotonTargets.All, true);
         }
-		if (!isSkillAble) {
-			return false;
-		}
+
+        if (isMoveAble)      
+            MoveControl();       
+
+        if (isSkillAble)
+        SkillControl();
 		return true;
     }
-
+    protected virtual void MoveControl()
+    {
+    }
+    protected virtual void SkillControl()
+    {
+    }
     /*
 * 0 : 마우스 우클릭
 * 1 : E
@@ -127,14 +169,14 @@ public abstract class PlayerControl : Photon.PunBehaviour
     }
 
     [PunRPC]
-    protected void GetStun_RPC()
+    protected void GetStun_RPC(float t)
     {
-        StartCoroutine(StunRoutine());
+        StartCoroutine(StunRoutine(t));
     }
 	[PunRPC]
-	protected void GetSilence_RPC()
+	protected void GetSilence_RPC(float t)
 	{
-		StartCoroutine(SilenceRoutine());
+		StartCoroutine(SilenceRoutine(t));
 	}
     [PunRPC]
     protected void SetInputEnable_RPC(bool b)
@@ -144,7 +186,11 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isInputAble = b;
         }
     }
-
+    [PunRPC]
+    protected void GetFetter_RPC(float t)
+    {
+        StartCoroutine(FetterRoutine(t));
+    }
     protected void DoSkill(int skillNum)
     {
         Skills[skillNum].Excute();
@@ -163,7 +209,6 @@ public abstract class PlayerControl : Photon.PunBehaviour
         moveVector = new Vector2(x, y);
         moveVector.Normalize();
         speed = 6f;
-
         
             if (x > 0 && transform.position.x > 9)
             {   
@@ -181,6 +226,27 @@ public abstract class PlayerControl : Photon.PunBehaviour
             {
              moveVector = new Vector2(moveVector.x, 0);
             }
+
+        if (x > 0 && isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveFront);
+        }
+        else if (x > 0 && !isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveBack);
+        }
+        else if (x < 0 && isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveBack);
+        }
+        else if (x < 0 && !isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveFront);
+        }
+        else
+        {
+            MoveAnimationChange(MoveState.Idle);
+        }
 
         rgbd.velocity += moveVector*speed;
     }
@@ -228,39 +294,44 @@ public abstract class PlayerControl : Photon.PunBehaviour
     {
         if (pnum == 1)
         {
+            Debug.Log("FaceRight");
             transform.position = new Vector3(-4, 0, 0);
-            isFaceRight = true;
+            IsFaceRight = true;
         }
         else if (pnum == 2)
         {
-            isFaceRight = false;
-            transform.localScale = new Vector3(-1, 1, 1);
+            IsFaceRight = false;
             transform.position = new Vector3(4, 0, 0);
         }
+    }
+    /// <summary>
+    /// 애니메이션 t초후에 멈추는 함수
+    /// </summary>
+    protected virtual void SetAnimationLayerEmpty(float t)
+    {
+        if(emptyLayerRoutine != null)
+        {
+            StopCoroutine(emptyLayerRoutine);
+        }
+        emptyLayerRoutine = StartCoroutine(AnimationEmptyLayerRoutine(t));
     }
     #endregion
     public void WinAnim()
     {
         if (photonView.isMine)
         {
-
+            playerAnimation.ChangeAnim(7, false);
         }
     }
     public void LoseAnim()
     {
         if (photonView.isMine)
         {
-
+           playerAnimation.ChangeAnim(8,false);
         }
     }
-    public void StartAnim()
-    {
-        if (photonView.isMine)
-        {
 
-        }
-    }
-    protected IEnumerator StunRoutine()
+    protected IEnumerator StunRoutine(float t)
     {
         GameObject stun = Instantiate(StunEffect, transform);
 
@@ -268,7 +339,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
         {
             isInputAble = false;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(t);
         DestroyImmediate(stun);
         yield return new WaitForEndOfFrame();
         if (photonView.isMine)
@@ -276,14 +347,14 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isInputAble = true;
         }
     }
-	protected IEnumerator SilenceRoutine()
+	protected IEnumerator SilenceRoutine(float t)
 	{
 		//GameObject silence;
 		if (photonView.isMine)
 		{
 			isSkillAble = false;
 		}
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(t);
 		//DestroyImmediate(silence);
 		yield return new WaitForEndOfFrame();
 		if (photonView.isMine)
@@ -291,4 +362,25 @@ public abstract class PlayerControl : Photon.PunBehaviour
 			isSkillAble = true;
 		}
 	}
+    protected IEnumerator FetterRoutine(float t)
+    {
+        //GameObject silence;
+        if (photonView.isMine)
+        {
+            isMoveAble = false;
+        }
+        yield return new WaitForSeconds(t);
+        //DestroyImmediate(silence);
+        yield return new WaitForEndOfFrame();
+        if (photonView.isMine)
+        {
+            isMoveAble = true;
+        }
+    }
+    Coroutine emptyLayerRoutine;
+    protected IEnumerator AnimationEmptyLayerRoutine(float t)
+    {
+        yield return new WaitForSeconds(t);
+        playerAnimation.SetAnimationLayerEmpty();
+    }
 }

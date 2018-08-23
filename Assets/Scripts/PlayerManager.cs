@@ -30,7 +30,6 @@ public class PlayerManager : MonoBehaviour
     public PlayerData Opponent;
     public int myPnum;
 
-    int count;
     
     public PlayerData GetPlayerByNum(int i)
     {
@@ -40,6 +39,16 @@ public class PlayerManager : MonoBehaviour
         }else
         {
             return Opponent;
+        }
+    }
+
+    int count;
+    public void Updated()
+    {
+        count++;
+        if(count>=2)
+        {
+            NetworkManager.instance.PlayerReady(myPnum);
         }
     }
 

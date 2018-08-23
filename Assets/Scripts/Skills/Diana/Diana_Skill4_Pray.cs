@@ -35,7 +35,7 @@ public class Diana_Skill4_Pray : Skills {
 				praying = false;
 				break;
 			}
-			yield return null;
+            yield return null;
 		}
 		praying_time += praying_time_temp;
 	}

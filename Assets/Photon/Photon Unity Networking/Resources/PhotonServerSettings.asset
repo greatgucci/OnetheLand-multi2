@@ -99,4 +99,9 @@ MonoBehaviour:
   - Init_Diana_NormalBullet_RPC
   - Init_Diana_SpecialBullet_RPC
   - Shadow_RPC
+  - MakeSound_RPC
+  - PlayEffectSound_RPC
+  - GetFetter_RPC
+  - PlayerReady_RPC
+  - SetAnimationLayerEmpty_RPC
   DisableAutoOpenWizard: 1

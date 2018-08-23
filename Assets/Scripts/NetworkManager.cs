@@ -13,7 +13,8 @@ public class NetworkManager : Photon.PunBehaviour {
     public GameObject[] playerPrefabs;
     public Text ping;
     public Text timeText;
-
+    private bool isP1Ready;
+    private bool isP2Ready;
     public Text tempGameStartText;
     public Text tempGameOverText;
     private void Start()
@@ -66,6 +67,10 @@ public class NetworkManager : Photon.PunBehaviour {
     {
         photonView.RPC("GameOver_RPC", PhotonTargets.All, loser);
     }
+    public void PlayerReady(int pNum)
+    {
+        photonView.RPC("PlayerReady_RPC", PhotonTargets.All,pNum);
+    }
     #endregion
 
     private void Update()
@@ -73,10 +78,23 @@ public class NetworkManager : Photon.PunBehaviour {
         ping.text = "Ping : " + PhotonNetwork.GetPing();
     }
 
+
     #region PUNRPC
+    [PunRPC]
+    private void PlayerReady_RPC(int pNum)
+    {
+        if(pNum == 1)
+        {
+            isP1Ready = true;
+        }else if(pNum==2)
+        {
+            isP2Ready = true;
+        }
+    }
     [PunRPC]
     private void GameOver_RPC(int loser)
     {
+        UIManager.instance.StopTime();
         if(PhotonNetwork.isMasterClient)
         {
             StartCoroutine(GameOverRoutine(loser));
@@ -85,38 +103,22 @@ public class NetworkManager : Photon.PunBehaviour {
     [PunRPC]
     private void StartTimeCount()
     {
-        StartCoroutine(TimeCount());
+        UIManager.instance.StartTime();
     }
 
     [PunRPC]
     private void GameStartEffect()
-    {
-        tempGameStartText.rectTransform.anchoredPosition = new Vector3(0, 0, 0);
-
-        if (PlayerManager.instance.myPnum == 1)
-        {
-            tempGameStartText.text = "YOUR PLAYER 1 \n <<<<<<<<<";
-        }else if(PlayerManager.instance.myPnum == 2)
-        {
-            tempGameStartText.text = "YOUR PLAYER 2 \n >>>>>>>>>";
-        }
+    {        
+        UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character,PlayerManager.instance.GetPlayerByNum(2).character);
     }
     [PunRPC]
     private void GameStartEffectOff()
     {
-        tempGameStartText.rectTransform.anchoredPosition = new Vector3(0, 2000, 0);
     }
     [PunRPC]    
     private void GameOverEffect(int loser)
     {
-        tempGameOverText.rectTransform.anchoredPosition = new Vector3(0, 0, 0);
-        if(PlayerManager.instance.Local.playerNum == loser)
-        {
-            tempGameOverText.text = "넌 졌어";
-        }else
-        {
-            tempGameOverText.text = "당신은 승리";
-        }
+
     }
     [PunRPC]
     private void GoToWaiting()
@@ -136,9 +138,17 @@ public class NetworkManager : Photon.PunBehaviour {
     /// <returns></returns>
     IEnumerator GameStartRoutine()
     {
-        yield return new WaitForSeconds(0.1f);
+        while(true)
+        {
+            if(isP1Ready&&isP2Ready)
+            {
+                break;
+            }
+            yield return null;
+        }
+        yield return null;
         photonView.RPC("GameStartEffect", PhotonTargets.AllViaServer);
-        yield return new WaitForSeconds(2.9f);
+        yield return new WaitForSeconds(2.5f);
         photonView.RPC("GameStartEffectOff", PhotonTargets.AllViaServer);
         photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.GAMING);
         photonView.RPC("StartTimeCount", PhotonTargets.AllViaServer);
@@ -155,30 +165,5 @@ public class NetworkManager : Photon.PunBehaviour {
         LeaveRoom();
     }
 
-    /// <summary>
-    /// 시작 지점만 동기화
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator TimeCount()
-    {
-         float t =180;
-        while(t>0)
-        {
-            t -= Time.deltaTime;
-            timeText.text = "" + (int)t;
-            yield return null;
-        }
-        if(PhotonNetwork.isMasterClient)
-        {
-            if(PlayerManager.instance.GetPlayerByNum(1).CurrentHp >= PlayerManager.instance.GetPlayerByNum(2).CurrentHp)
-            {
-                StartCoroutine(GameOverRoutine(2));
 
-            }
-            else if(PlayerManager.instance.GetPlayerByNum(1).CurrentHp < PlayerManager.instance.GetPlayerByNum(2).CurrentHp)
-            {
-                StartCoroutine(GameOverRoutine(1));
-            }
-        }
-    }
 }

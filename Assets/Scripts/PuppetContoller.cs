@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class PuppetContoller : PlayerControl {
 
-    PlayerData playerData;
-    private void Awake()
+    private new void Awake()
     {
         playerData = transform.Find("PlayerData").GetComponent<PlayerData>();
     }
     // Use this 
 
     // Use this for initialization
-    void Start ()
+    new void Start ()
     {
         playerData.SetPlayerNum(2,this);
         SetPlayerPos(playerData.playerNum);

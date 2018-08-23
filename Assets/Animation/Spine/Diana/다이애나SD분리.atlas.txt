@@ -1,0 +1,181 @@
+
+다이애나SD분리.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+LHand_Pray
+  rotate: true
+  xy: 93, 6
+  size: 53, 63
+  orig: 53, 63
+  offset: 0, 0
+  index: -1
+RHand_Pray
+  rotate: false
+  xy: 1895, 1628
+  size: 53, 63
+  orig: 53, 63
+  offset: 0, 0
+  index: -1
+arm-l-under
+  rotate: true
+  xy: 639, 1150
+  size: 70, 64
+  orig: 70, 64
+  offset: 0, 0
+  index: -1
+arm-l-upper
+  rotate: true
+  xy: 301, 2
+  size: 68, 132
+  orig: 68, 132
+  offset: 0, 0
+  index: -1
+arm-r-under
+  rotate: false
+  xy: 443, 893
+  size: 78, 85
+  orig: 78, 85
+  offset: 0, 0
+  index: -1
+arm-r-upper
+  rotate: false
+  xy: 443, 980
+  size: 78, 135
+  orig: 78, 135
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 1668, 1693
+  size: 338, 353
+  orig: 338, 353
+  offset: 0, 0
+  index: -1
+crossbow
+  rotate: false
+  xy: 706, 1596
+  size: 960, 450
+  orig: 960, 450
+  offset: 0, 0
+  index: -1
+foot-l
+  rotate: true
+  xy: 2008, 1990
+  size: 56, 38
+  orig: 56, 38
+  offset: 0, 0
+  index: -1
+foot-r
+  rotate: true
+  xy: 402, 136
+  size: 58, 39
+  orig: 58, 39
+  offset: 0, 0
+  index: -1
+hair
+  rotate: false
+  xy: 2, 1222
+  size: 702, 824
+  orig: 702, 824
+  offset: 0, 0
+  index: -1
+hand-l
+  rotate: false
+  xy: 158, 9
+  size: 40, 50
+  orig: 40, 50
+  offset: 0, 0
+  index: -1
+hand-r
+  rotate: false
+  xy: 443, 1117
+  size: 194, 103
+  orig: 194, 103
+  offset: 0, 0
+  index: -1
+hand_normal
+  rotate: false
+  xy: 523, 990
+  size: 47, 54
+  orig: 47, 54
+  offset: 0, 0
+  index: -1
+hand_normal_l
+  rotate: false
+  xy: 523, 990
+  size: 47, 54
+  orig: 47, 54
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 706, 1132
+  size: 462, 520
+  orig: 462, 520
+  offset: 0, 0
+  index: -1
+head_eyeClosed
+  rotate: false
+  xy: 1228, 1074
+  size: 462, 520
+  orig: 462, 520
+  offset: 0, 0
+  index: -1
+rifle
+  rotate: true
+  xy: 2, 196
+  size: 1024, 439
+  orig: 1024, 439
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0000_arm-l-upper-복사
+  rotate: false
+  xy: 1668, 1600
+  size: 124, 91
+  orig: 124, 91
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0000s_0000_hand-r-복사
+  rotate: false
+  xy: 523, 1046
+  size: 90, 69
+  orig: 90, 69
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0000s_0001_shotgun
+  rotate: false
+  xy: 2, 61
+  size: 297, 133
+  orig: 297, 133
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0000s_0002_arm-r-under-복사
+  rotate: false
+  xy: 1794, 1615
+  size: 99, 76
+  orig: 99, 76
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0000s_0003_arm-r-upper-복사
+  rotate: false
+  xy: 301, 72
+  size: 99, 122
+  orig: 99, 122
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0001_arm-l-under-복사
+  rotate: false
+  xy: 2, 2
+  size: 89, 57
+  orig: 89, 57
+  offset: 0, 0
+  index: -1
+다이애나SD분리-(1)_0000s_0000s_0002_hand-l-복사
+  rotate: false
+  xy: 443, 846
+  size: 69, 45
+  orig: 69, 45
+  offset: 0, 0
+  index: -1
