@@ -91,4 +91,12 @@ MonoBehaviour:
   - Init_Iris_BulletShift_RPC
   - Init_Iris_BulletQ_RPC
   - FrameImageChange_RPC
+  - Diana_Thunder_Create_RPC
+  - Diana_Thunder_RPC
+  - GetSilence_RPC
+  - Heresy_Sign_RPC
+  - Init_Diana_HolyLand_RPC
+  - Init_Diana_NormalBullet_RPC
+  - Init_Diana_SpecialBullet_RPC
+  - Shadow_RPC
   DisableAutoOpenWizard: 1
