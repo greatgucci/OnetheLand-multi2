@@ -5,23 +5,22 @@ using UnityEngine;
 /// <summary>
 /// Input과 컨트롤을 관리
 /// </summary>
-public class PlayerControl : Photon.PunBehaviour
+public abstract class PlayerControl : Photon.PunBehaviour
 {
-    private Rigidbody2D rgbd;
-    private BoxCollider2D col;
+    protected Rigidbody2D rgbd;
+    protected BoxCollider2D col;
     public Skills[] Skills;
-	public Skills[] Attack_defaults;
-    GameObject StunEffect;
-	private Skills Attack_default;
-	private int Attack_default_Num=4;
+    protected GameObject StunEffect;
     public float speed = 6f;
-    private float distance = 0.8f;
+    protected float distance = 0.8f;
     int pNum;
-    private bool isFaceRight = false;
-    private bool isInputAble = true;
-    private bool isDash = false;
-
-    private bool IsFaceRight
+    protected bool isFaceRight = false;
+    protected bool isInputAble = true;
+    protected bool isDash = false;
+    protected PlayerAnimation playerAnimation;
+    protected PlayerData playerData;
+	protected bool isSkillAble=true;
+    protected bool IsFaceRight
     {
         get { return isFaceRight; }
         set
@@ -37,9 +36,8 @@ public class PlayerControl : Photon.PunBehaviour
             }
         }
     }
-    PlayerAnimation playerAnimation;
-    PlayerData playerData;
-    private void Awake()
+
+    protected void Awake()
     {
         rgbd = GetComponent<Rigidbody2D>();
         playerData = transform.Find("PlayerData").GetComponent<PlayerData>();
@@ -48,7 +46,7 @@ public class PlayerControl : Photon.PunBehaviour
         StunEffect = Resources.Load("Effects/Stun") as GameObject;
     }
     // Use this for initialization
-    void Start ()
+    protected void Start ()
     {
         pNum = PlayerManager.instance.myPnum;
         if (photonView.isMine)
@@ -74,97 +72,53 @@ public class PlayerControl : Photon.PunBehaviour
     /// <summary>
     /// 입력 여기서 처리
     /// </summary>
-    protected virtual void LateUpdate ()
+	protected virtual bool LateUpdate ()
     {
         if (!photonView.isMine || !isInputAble || PlayerManager.instance.gameUpdate != GameUpdate.GAMING)
         {
             rgbd.velocity = Vector2.zero;
-            return;
+			return false;
         }
 
 
-        Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-
-        /*
-         * 0 : 마우스 우클릭
-         * 1 : E
-         * 2 : R
-         * 3 : 좌 Shift
-         * 4 : 일반 공격 1
-         * 5 : 일반 공격 2
-         * 6 : 일반 공격 3
-         * 7 : 일반 공격 4
-         * 8 : 대시
-         * 9 : 궁극기
-         *         PlayerManager.instance.Local.SetCooltime(스킬 숫자, 클타임);
-         * ...으로 각 스킬 스크립트에서 쿨타임 넣음
-        */
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[0] <= 0f)
-        {
-            DoSkill(0);//Skill1
-        }
-		else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[1] <= 0f)
-        {
-            DoSkill(1);//Skill2
-        }
-        else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[2] <= 0f)
-        {
-            DoSkill(2);//Skill2
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[3] <= 0f)
-        {
-            DoSkill(3);
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
-        {
-            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f)
-        {
-            DoSkill(4);
-        }
-
-		if (Input.GetKeyDown (KeyCode.Mouse0) && playerData.cooltime [Attack_default_Num] <= 0f) {
-			AttackSet (Attack_default_Num-4);
-			Attack_default.Excute ();
-		}
-
-		if(Input.GetKeyDown (KeyCode.Alpha1))
-		{
-			Attack_default_Num = 4;
-		}
-		else if(Input.GetKeyDown (KeyCode.Alpha2))
-		{
-			Attack_default_Num = 5;
-		}
-		else if(Input.GetKeyDown (KeyCode.Alpha3))
-		{
-			Attack_default_Num = 6;
-		}
-		else if(Input.GetKeyDown (KeyCode.Alpha4))
-		{
-			Attack_default_Num = 7;
-		}
-        if(IsFaceRight && playerData.aimVector.x<0)
+        if (IsFaceRight && playerData.aimVector.x < 0)
         {
             photonView.RPC("SetIsFaceRight", PhotonTargets.All, false);
-        }else if(!IsFaceRight && playerData.aimVector.x>0)
+        }
+        else if (!IsFaceRight && playerData.aimVector.x > 0)
         {
             photonView.RPC("SetIsFaceRight", PhotonTargets.All, true);
         }
+		if (!isSkillAble) {
+			return false;
+		}
+		return true;
     }
+
+    /*
+* 0 : 마우스 우클릭
+* 1 : E
+* 2 : R
+* 3 : 좌 Shift
+* 4 : 일반 공격 1
+* 5 : 일반 공격 2
+* 6 : 일반 공격 3
+* 7 : 일반 공격 4
+* 8 : 대시
+* 9 : 궁극기
+*         PlayerManager.instance.Local.SetCooltime(스킬 숫자, 클타임);
+* ...으로 각 스킬 스크립트에서 쿨타임 넣음
+*/
 
     #region privates
     [PunRPC]
-    private void SetIsFaceRight(bool b)
+    protected void SetIsFaceRight(bool b)
     {
         IsFaceRight = b;
     }
 
     [PunRPC]
-    private void SetColliderEnable_RPC(bool b)
+    protected void SetColliderEnable_RPC(bool b)
     {
         if(photonView.isMine)
         {
@@ -173,12 +127,17 @@ public class PlayerControl : Photon.PunBehaviour
     }
 
     [PunRPC]
-    private void GetStun_RPC()
+    protected void GetStun_RPC()
     {
         StartCoroutine(StunRoutine());
     }
+	[PunRPC]
+	protected void GetSilence_RPC()
+	{
+		StartCoroutine(SilenceRoutine());
+	}
     [PunRPC]
-    private void SetInputEnable_RPC(bool b)
+    protected void SetInputEnable_RPC(bool b)
     {
         if(photonView.isMine)
         {
@@ -186,14 +145,11 @@ public class PlayerControl : Photon.PunBehaviour
         }
     }
 
-    private void DoSkill(int skillNum)
+    protected void DoSkill(int skillNum)
     {
         Skills[skillNum].Excute();
     }
-	private void AttackSet(int skillNum)
-	{
-		Attack_default = Attack_defaults [skillNum];
-	}
+
 
     protected virtual void Move(float x, float y)
     {
@@ -234,7 +190,7 @@ public class PlayerControl : Photon.PunBehaviour
         StartCoroutine(DashPlay(x, y));
     }
 
-    IEnumerator DashPlay(float x, float y)
+    protected IEnumerator DashPlay(float x, float y)
     {
         isDash = true;
 
@@ -304,7 +260,7 @@ public class PlayerControl : Photon.PunBehaviour
 
         }
     }
-    IEnumerator StunRoutine()
+    protected IEnumerator StunRoutine()
     {
         GameObject stun = Instantiate(StunEffect, transform);
 
@@ -320,5 +276,19 @@ public class PlayerControl : Photon.PunBehaviour
             isInputAble = true;
         }
     }
-
+	protected IEnumerator SilenceRoutine()
+	{
+		//GameObject silence;
+		if (photonView.isMine)
+		{
+			isSkillAble = false;
+		}
+		yield return new WaitForSeconds(1f);
+		//DestroyImmediate(silence);
+		yield return new WaitForEndOfFrame();
+		if (photonView.isMine)
+		{
+			isSkillAble = true;
+		}
+	}
 }

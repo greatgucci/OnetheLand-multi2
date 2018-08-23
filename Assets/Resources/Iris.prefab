@@ -53,9 +53,9 @@ GameObject:
   - component: {fileID: 4222060864469588}
   - component: {fileID: 50446441122711732}
   - component: {fileID: 114330495187917152}
-  - component: {fileID: 114616438044381276}
   - component: {fileID: 114275294353388144}
   - component: {fileID: 61409032414229660}
+  - component: {fileID: 114295258335355070}
   m_Layer: 0
   m_Name: Iris
   m_TagString: Untagged
@@ -409,6 +409,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastUpdateTime: 25
+--- !u!114 &114295258335355070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160235350697254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a576ecf0272cc245957a0b78cd2cbd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Skills:
+  - {fileID: 114795632176137984}
+  - {fileID: 114815530735051908}
+  - {fileID: 114612477606244044}
+  - {fileID: 114522823259900058}
+  - {fileID: 114851539244416386}
+  - {fileID: 114071470419158340}
+  speed: 6
 --- !u!114 &114330495187917152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -485,29 +504,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 1
---- !u!114 &114616438044381276
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160235350697254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a91f9db9f9fa2645ac7c6597a5ba840, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Skills:
-  - {fileID: 114815530735051908}
-  - {fileID: 114612477606244044}
-  - {fileID: 114522823259900058}
-  - {fileID: 114851539244416386}
-  - {fileID: 114071470419158340}
-  Attack_defaults:
-  - {fileID: 114795632176137984}
-  - {fileID: 114795632176137984}
-  - {fileID: 114795632176137984}
-  - {fileID: 114795632176137984}
-  speed: 3
 --- !u!114 &114795632176137984
 MonoBehaviour:
   m_ObjectHideFlags: 1

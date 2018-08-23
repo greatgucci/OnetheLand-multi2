@@ -17,8 +17,8 @@ public class PuppetContoller : PlayerControl {
         playerData.SetPlayerNum(2,this);
         SetPlayerPos(playerData.playerNum);
     }
-    protected override void LateUpdate()
+    protected override bool LateUpdate()
     {
-        return;
+		return false;
     }
 }
