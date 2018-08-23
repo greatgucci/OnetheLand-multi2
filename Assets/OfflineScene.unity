@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.20069203, g: 0.21173525, b: 0.2352941, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -2297,7 +2297,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a50ee1ff487b8ee489dedc6c31253751, type: 3}
   - {fileID: 21300000, guid: 8080c87cd93c94c4084a196b4c5829b5, type: 3}
   - {fileID: 21300000, guid: ee6c7751b3118754a9b8eec40420f6a7, type: 3}
-  dianaIcon: []
+  dianaIcon:
+  - {fileID: 21300000, guid: a3aef24741088394eb150b9c81d90d30, type: 3}
+  - {fileID: 21300000, guid: d206f42fec93e9e4195643ca4d9745bd, type: 3}
+  - {fileID: 21300000, guid: e51255f07a95a37489f623427a34fc9c, type: 3}
+  - {fileID: 21300000, guid: de8eaeaa6976fbd4383fd190de8ca7cf, type: 3}
+  - {fileID: 21300000, guid: 79d1b37e74609c147a5276f3a222969d, type: 3}
+  - {fileID: 21300000, guid: 513d9232c1cf92c44a8c592814e35381, type: 3}
 --- !u!95 &798850324
 Animator:
   serializedVersion: 3
