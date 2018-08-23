@@ -41,7 +41,7 @@ public class Iris_BulletQTrigger : MonoBehaviour {
             iris_BulletQ = PhotonNetwork.Instantiate("Iris_BulletQ", c.transform.position, Quaternion.identity, 0)
                 .GetComponent<Iris_BulletQ>();
             iris_BulletQ.Init_Iris_BulletQ(PlayerManager.instance.myPnum);
-            Destroy(c.gameObject);
+            c.GetComponent<Bullet>().DestroyToServer();
         }
     }
 }

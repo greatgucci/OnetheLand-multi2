@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public enum NetWorkMode
 {
-    LAN,
-    CLOUD
+    CLOUD,
+    LAN
 }
 public class photonScript : Photon.PunBehaviour
 {
@@ -34,6 +34,7 @@ public class photonScript : Photon.PunBehaviour
         PhotonNetwork.AuthValues = new AuthenticationValues(Random.Range(int.MinValue, int.MaxValue).ToString());
 
         PlayerPrefs.SetInt("Character", 0);
+        DataManager.Initalization();
     }
 
     #region CallBacks
@@ -72,10 +73,10 @@ public class photonScript : Photon.PunBehaviour
         switch (i)
         {
             case 0:
-                netWorkMode = NetWorkMode.LAN;
+                netWorkMode = NetWorkMode.CLOUD;
                 break;
             case 1:
-                netWorkMode = NetWorkMode.CLOUD;
+                netWorkMode = NetWorkMode.LAN;
                 break;
         }
     }
