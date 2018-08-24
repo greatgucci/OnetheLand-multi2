@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour {
 
     Image p1Skg, p2Skg;
     Image p1Hp, p2Hp;
-    Text StartEventTimer;
+    Image GameStartImage;
     Animator animator;
 
     public Sprite Iris, Diana;
@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour {
         p2CharacterEvent = transform.Find("Event").Find("P2Event").GetComponent<Image>();
         timeText = transform.Find("texts").Find("Time").GetComponent<Text>();
 
-        StartEventTimer = transform.Find("Event").Find("Timer").GetComponent<Text>();
+        GameStartImage = transform.Find("Event").Find("Timer").GetComponent<Image>();
         animator = GetComponent<Animator>();
     }
 
@@ -149,24 +149,13 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    public void StartEventTimerUpdate(int i)
-    {
-        if (i == 3)
-        {
-            StartEventTimer.text = "Start";
-            return;
-        }
-
-        StartEventTimer.text = "" + (3-i);
-        //StartEventTimer.sprite = StartEventTimerSprites[i];
-    }
     public void StartEventTimerOn()
     {
-        StartEventTimer.enabled = true;
+        GameStartImage.enabled = true;
     }
     public void StartEventTimerOff()
     {
-        StartEventTimer.enabled = false;
+        GameStartImage.enabled = false;
     }
     public void WinnerCharacterOn(int winner)
     {

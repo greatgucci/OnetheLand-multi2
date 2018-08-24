@@ -46,7 +46,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             {
                 if(currentHp>value)
                 {
-                    PlayHitSound();//내가 맞는소리는 로컬에서만
+                    //PlayHitSound();//내가 맞는소리는 로컬에서만
                 }
                 currentHp = value*(1-defense);
                 UpdateHpUI(currentHp);
