@@ -112,4 +112,7 @@ MonoBehaviour:
   - SetParent_RPC
   - Impact_RPC
   - SetActiveToServer_RPC
+  - Destroy_white_RPC
+  - Map_White_RPC
+  - Pray_Win_RPC
   DisableAutoOpenWizard: 1
