@@ -12,7 +12,7 @@ public class Iris_BulletQ : Bullet {
     [PunRPC]
     protected void Init_Iris_BulletQ_RPC(int _shooterNum)
     {
-        Invoke("DestroyToServer", 10f);
+        Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
         if (shooterNum == 1)
         {

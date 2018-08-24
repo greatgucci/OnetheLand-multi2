@@ -18,7 +18,7 @@ public class Iris_Skill1Animation : Bullet {
     [PunRPC]
     protected void Init_Iris_Skill1Animation_RPC(int _shooterNum)
     {
-        Invoke("DestroyToServer", 10f);
+        Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
         if (shooterNum == 1)
         {

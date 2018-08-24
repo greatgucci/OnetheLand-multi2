@@ -21,7 +21,7 @@ public class Iris_BulletLeft : Bullet {
     {
         DVector = aimDVector;
         bulNum = num;
-        Invoke("DestroyToServer", 10f);
+        Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
         if (shooterNum == 1)
         {

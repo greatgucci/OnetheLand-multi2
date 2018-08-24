@@ -18,7 +18,7 @@ public class Iris_Bullet1 : Bullet {
     protected void Init_Iris_Bullet1_RPC(int _shooterNum, Vector3 _aimVector, Vector3 _aimPosition)
     {
         Debug.Log(_aimVector);
-        Invoke("DestroyToServer", 10f);
+        Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
         aimVector = _aimVector;
         oPosition_Temp = _aimPosition;
