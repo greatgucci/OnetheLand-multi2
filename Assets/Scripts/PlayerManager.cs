@@ -45,6 +45,9 @@ public class PlayerManager : MonoBehaviour
     int count;
     public void Updated()
     {
+        if (playMode == PlayMode.WAITING)
+            return;
+
         count++;
         if(count>=2)
         {

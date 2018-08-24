@@ -942,7 +942,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6483f308400f04897909531543ffbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dianaSkillIcon: []
+  dianaSkillIcon:
+  - {fileID: 21300000, guid: 1f79263246af9e2429afcb4112294028, type: 3}
+  - {fileID: 21300000, guid: fe3fb3608d8e2f744b5a3d89331429eb, type: 3}
+  - {fileID: 21300000, guid: 0df38070224f4cb4cbdade190fee3d4b, type: 3}
+  - {fileID: 21300000, guid: b389f73c5ad09454f912f194c35db998, type: 3}
+  - {fileID: 21300000, guid: 950f18f88507f914fb239b4f2dfbae30, type: 3}
+  - {fileID: 21300000, guid: ef0547ccd8f940e44b109765b79cb251, type: 3}
   irisSkillIcon:
   - {fileID: 21300000, guid: bf8f07cd2066bb147b9b78a749fa7697, type: 3}
   - {fileID: 21300000, guid: 38d62284dd39a314383780fecf3251ae, type: 3}
