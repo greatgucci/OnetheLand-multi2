@@ -882,6 +882,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 2398a1f5501634c4eba6c90b94aa5341, type: 3}
     - {fileID: 8300000, guid: 63c4ba405afb83f4785b9ce4a5baa2c6, type: 3}
     - {fileID: 8300000, guid: 53ce675d37ca681429de637fc63948b6, type: 3}
+  StartVoice:
+    audioClips:
+    - {fileID: 8300000, guid: aafbada37dd70244ea98fd2158efac8e, type: 3}
+    - {fileID: 8300000, guid: abd9480e785a125438ceb26332ac9b05, type: 3}
+  WinVoice:
+    audioClips:
+    - {fileID: 8300000, guid: eb172bdb2cbe1e442b5ab7610b02ccf5, type: 3}
+    - {fileID: 8300000, guid: d95c84bc203fd1b4ea728a9151dbfaeb, type: 3}
   aimVector: {x: 0, y: 0, z: 0}
   aimPosition: {x: 0, y: 0, z: 0}
   character: 1

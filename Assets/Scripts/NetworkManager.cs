@@ -174,11 +174,11 @@ public class NetworkManager : Photon.PunBehaviour {
         UIManager.instance.SetCharacterStart(1, true);
         UIManager.instance.SetCharacterStart(2, false);
         PlayerManager.instance.GetPlayerByNum(1).PlayStartVoice();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         UIManager.instance.SetCharacterStart(1, false);
         UIManager.instance.SetCharacterStart(2, true);
         PlayerManager.instance.GetPlayerByNum(2).PlayStartVoice();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         UIManager.instance.CharacterStartOff();
         yield return new WaitForSeconds(0.5f);
         UIManager.instance.StartEventTimerOn();

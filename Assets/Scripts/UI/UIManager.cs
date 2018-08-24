@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour {
 
     public static UIManager instance;
 
-    Image p1CharacterPortrait, p2CharacterPortrait;
+    Image p1Portrait, p2Portrait;
     Image p1CharacterEvent, p2CharacterEvent;
     Text timeText;
 
@@ -27,8 +27,8 @@ public class UIManager : MonoBehaviour {
         p1Skg = transform.Find("HpUI").Find("P1Status").Find("SkillGuage1").GetComponent<Image>();
         p2Skg = transform.Find("HpUI").Find("P2Status").Find("SkillGuage2").GetComponent<Image>();
 
-        p1CharacterPortrait = transform.Find("HpUI").Find("P1Status").Find("CharacterFrame1").Find("CharacterImage").GetComponent<Image>();
-        p1CharacterPortrait = transform.Find("HpUI").Find("P2Status").Find("CharacterFrame2").Find("CharacterImage").GetComponent<Image>();
+        p1Portrait = transform.Find("HpUI").Find("P1Status").Find("CharacterFrame1").Find("CharacterImage").GetComponent<Image>();
+        p2Portrait = transform.Find("HpUI").Find("P2Status").Find("CharacterFrame2").Find("CharacterImage").GetComponent<Image>();
 
         p1CharacterEvent = transform.Find("Event").Find("P1Event").GetComponent<Image>();
         p2CharacterEvent = transform.Find("Event").Find("P2Event").GetComponent<Image>();
@@ -67,21 +67,23 @@ public class UIManager : MonoBehaviour {
         switch(player1)
         {
             case Character.DIANA:
-                p1CharacterPortrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleScreen_Face_Diana_NEW");
+                p1Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleScreen_Face_Diana_NEW");
                 break;
 
             case Character.IRIS:
-                p1CharacterPortrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleUI_Face_Iris");
+                p1Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleUI_Face_Iris");
                 break;
         }
         switch(player2)
         {
             case Character.DIANA:
-                p2CharacterPortrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleScreen_Face_Diana_NEW");
+                Debug.Log("호출은되는뎅..");
+                p2Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleScreen_Face_Diana_NEW");
                 break;
 
             case Character.IRIS:
-                p2CharacterPortrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleUI_Face_Iris");
+                Debug.Log("호출은되는뎅..");
+                p2Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleUI_Face_Iris");
                 break;
         }
     }
@@ -106,11 +108,11 @@ public class UIManager : MonoBehaviour {
         switch (player2)
         {
             case Character.DIANA:
-                p2CharacterPortrait.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Diana_Normal_NEW");
+                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Diana_Normal_NEW");
                 break;
 
             case Character.IRIS:
-                p2CharacterPortrait.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Iris_Normal");
+                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Iris_Normal");
                 break;
         }
     }
