@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UIMatser : MonoBehaviour {
 
+    UISound uiSound;
+
     Animator animator;
     GameObject uiMain;
     GameObject uiCharacterSelection;
@@ -30,6 +32,7 @@ public class UIMatser : MonoBehaviour {
 
     private void Awake()
     {
+        uiSound = GetComponent<UISound>();
         animator = GetComponent<Animator>();
 
         mainB_Start = transform.Find("Main").Find("GameStartButtonIdle").gameObject;
@@ -72,11 +75,11 @@ public class UIMatser : MonoBehaviour {
     public void HoverIn_MainB_Start()
     {
         mainB_Start_Point.SetActive(true);
+        uiSound.PlayChoose();
     }
 
     public void HoverOut_MainB_Start()
     {
-
         mainB_Start_Point.SetActive(false);
     }
 
@@ -84,6 +87,7 @@ public class UIMatser : MonoBehaviour {
     {
         animator.Play("Click_Point_Start");
         StartCoroutine(MainB_Start_UILoad());
+        uiSound.PlayDecision();
     }
 
     IEnumerator MainB_Start_UILoad()
@@ -100,6 +104,7 @@ public class UIMatser : MonoBehaviour {
     public void HoverIn_MainB_Option()
     {
         mainB_Option_Point.SetActive(true);
+        uiSound.PlayChoose();
     }
 
     public void HoverOut_MainB_Option()
@@ -111,6 +116,7 @@ public class UIMatser : MonoBehaviour {
     {
         animator.Play("Click_Point_Option");
         StartCoroutine(MainB_Option_UILoad());
+        uiSound.PlayDecision();
     }
 
     IEnumerator MainB_Option_UILoad()
@@ -127,6 +133,7 @@ public class UIMatser : MonoBehaviour {
     public void HoverIn_MainB_Credit()
     {
         mainB_Credit_Point.SetActive(true);
+        uiSound.PlayChoose();
     }
 
     public void HoverOut_MainB_Credit()
@@ -138,6 +145,7 @@ public class UIMatser : MonoBehaviour {
     {
         animator.Play("Click_Point_Credit");
         StartCoroutine(MainB_Credit_UILoad());
+        uiSound.PlayDecision();
     }
 
     IEnumerator MainB_Credit_UILoad()
@@ -151,9 +159,15 @@ public class UIMatser : MonoBehaviour {
     #endregion
 
     #region CharacSelecUI
+    public void HoverIn()
+    {
+        uiSound.PlayChoose();
+    }
+
     public void Click_CharacB_BackToMain()
     {
         StartCoroutine(CharacB_BackToMain_UILoad());
+        uiSound.PlayDecision();
     }
 
     IEnumerator CharacB_BackToMain_UILoad()
@@ -206,11 +220,11 @@ public class UIMatser : MonoBehaviour {
 
         if (i == 0 || i == 1 || i == 3 || i == 4)
         {
-            descriptionWindow.transform.position = iconTransform.position + new Vector3(350f, -150f, 0f);
+            descriptionWindow.transform.position = iconTransform.position + new Vector3(525f, -225f, 0f);
         }
         else
         {
-            descriptionWindow.transform.position = iconTransform.position + new Vector3(-200f, -150f, 0f);
+            descriptionWindow.transform.position = iconTransform.position + new Vector3(-300f, -225f, 0f);
         }
 
         SetTextDescription(i);
@@ -259,6 +273,7 @@ public class UIMatser : MonoBehaviour {
     #region OptionUI
     public void Click_Option_BackToMain()
     {
+        uiSound.PlayDecision();
         StartCoroutine(Option_BackToMain_UILoad());
     }
 

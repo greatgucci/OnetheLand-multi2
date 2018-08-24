@@ -59,7 +59,6 @@ public class DianaControl : PlayerControl {
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(2f);
             DoSkill(5);//Q 궁
             OnStartPrayAnimation();
         }
