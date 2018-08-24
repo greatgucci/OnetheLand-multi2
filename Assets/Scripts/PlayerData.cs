@@ -124,11 +124,19 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         for (int i = 0; i < cooltime.Length; i++)
         {
-            cooltime[i] += globalCool;
 
-            if(i == skillNum)
+            if (i == skillNum)
             {
                 cooltime[i] = _cooltime;
+                SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+            }
+            else
+            {
+                if (cooltime[i] <= globalCool)
+                {
+                    cooltime[i] += globalCool;
+                    SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+                }
             }
         }
     }
