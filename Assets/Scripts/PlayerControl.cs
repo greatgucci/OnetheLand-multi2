@@ -172,27 +172,25 @@ public abstract class PlayerControl : Photon.PunBehaviour
     [PunRPC]
     protected void GetStun_RPC(float t)
     {
-		if (photonView.isMine) 
-		{
+
 			if (StunCoroutine != null)
 			{
 				StopCoroutine (StunCoroutine);
 			}
 			StunCoroutine=StartCoroutine(StunRoutine(t));
-		}
+		
 
     }
 	[PunRPC]
 	protected void GetSilence_RPC(float t)
 	{
-		if (photonView.isMine) 
-		{
+
 			if (SilenceCoroutine != null) 
 			{
 				StopCoroutine (SilenceCoroutine);
 			}
 			SilenceCoroutine = StartCoroutine(SilenceRoutine(t));
-		}
+		
 	}
     [PunRPC]
     protected void SetInputEnable_RPC(bool b)
