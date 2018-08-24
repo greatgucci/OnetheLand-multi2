@@ -6,6 +6,7 @@ public class Diana_Skill4_Pray : Skills {
 
 	public float praying_time;
 	public bool praying;
+	GameObject impact;
 	void Start()
 	{
 		transform.parent.GetComponent<DianaControl> ().pray = gameObject;
@@ -13,31 +14,34 @@ public class Diana_Skill4_Pray : Skills {
 	}
 	public override void Excute ()
 	{
-		StartCoroutine (Pray ());
+		if (!praying) 
+		{
+			impact= PhotonNetwork.Instantiate("Diana_Pray",transform.position,Quaternion.identity,0);
+			impact.transform.SetParent (transform);
+			StartCoroutine (Pray ());
+		}
+		else 
+		{
+			praying = false;
+			impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
+		}
+			
 	}
 	IEnumerator Pray()
 	{
-		GameObject impact= PhotonNetwork.Instantiate("Diana_Pray",transform.position,Quaternion.identity,0);
-		impact.transform.SetParent (transform);
+		
 		float praying_time_temp=0;
 		praying = true;
-		float speed = transform.parent.gameObject.GetComponent<DianaControl> ().speed;
-		transform.parent.gameObject.GetComponent<DianaControl> ().speed = 0f;
 		while (true)
 		{
-			
+
+			PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(Time.deltaTime);
 			praying_time_temp += Time.deltaTime;
             if (praying_time_temp > 1f)
             {
-                praying = true;
             }
-			if (praying_time_temp>3f)
-				//
-			if ((Input.GetKeyUp (KeyCode.Q) || !Input.GetKey (KeyCode.Q))||Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.A)) 
+			if (!praying) 
 			{
-				impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
-				transform.parent.gameObject.GetComponent<DianaControl> ().speed = speed;
-				praying = false;
 				break;
 			}
             yield return null;
