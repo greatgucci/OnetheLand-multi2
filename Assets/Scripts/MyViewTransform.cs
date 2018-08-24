@@ -18,14 +18,10 @@ public class MyViewTransform : Photon.MonoBehaviour, IPunObservable
             return;
             //Do nothing, 로컬에서는 아무것도 안함
         }
-        if((realPosition-transform.position).magnitude>=0.75f)
-        {
-            transform.position = realPosition;
-        }
-        else
-        {
-            transform.position = Vector3.Lerp(transform.position, realPosition, lastUpdateTime * Time.deltaTime);
-        }
+        
+        
+        transform.position = Vector3.Lerp(transform.position, realPosition, lastUpdateTime * Time.deltaTime);
+        
 
     }
 

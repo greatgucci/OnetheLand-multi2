@@ -85,6 +85,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
         {
             PlayerManager.instance.Local = playerData;
             playerData.SetPlayerNum(PlayerManager.instance.myPnum,this);
+            transform.Find("LocalPoint").gameObject.SetActive(true);
         }
         else
         {
