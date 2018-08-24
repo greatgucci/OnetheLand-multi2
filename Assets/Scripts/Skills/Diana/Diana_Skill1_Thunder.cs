@@ -6,17 +6,8 @@ public class Diana_Skill1_Thunder : Skills
 {
 	public override void Excute ()
 	{
-		if (isRunning)
-			return;
 		transform.parent.gameObject.GetComponent<DianaControl> ().skill1_playing = true;
 		StartCoroutine (Directing ());
-	}
-	bool isRunning = false;
-	IEnumerator Waiting()
-	{
-		isRunning = true;
-		yield return new WaitForSeconds(1 / delay);
-		isRunning = false;
 	}
 
 	IEnumerator Directing()

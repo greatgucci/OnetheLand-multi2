@@ -129,6 +129,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
         if (isSkillAble)
         SkillControl();
+		
 		return true;
     }
     protected virtual void MoveControl()
@@ -171,12 +172,27 @@ public abstract class PlayerControl : Photon.PunBehaviour
     [PunRPC]
     protected void GetStun_RPC(float t)
     {
-        StartCoroutine(StunRoutine(t));
+		if (photonView.isMine) 
+		{
+			if (StunCoroutine != null)
+			{
+				StopCoroutine (StunCoroutine);
+			}
+			StunCoroutine=StartCoroutine(StunRoutine(t));
+		}
+
     }
 	[PunRPC]
 	protected void GetSilence_RPC(float t)
 	{
-		StartCoroutine(SilenceRoutine(t));
+		if (photonView.isMine) 
+		{
+			if (SilenceCoroutine != null) 
+			{
+				StopCoroutine (SilenceCoroutine);
+			}
+			SilenceCoroutine = StartCoroutine(SilenceRoutine(t));
+		}
 	}
     [PunRPC]
     protected void SetInputEnable_RPC(bool b)
@@ -340,7 +356,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
            playerAnimation.ChangeAnim(8,false);
         }
     }
-
+	Coroutine StunCoroutine;
     protected IEnumerator StunRoutine(float t)
     {
         GameObject stun = Instantiate(StunEffect, transform);
@@ -357,20 +373,20 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isInputAble = true;
         }
     }
+
+	Coroutine SilenceCoroutine;
 	protected IEnumerator SilenceRoutine(float t)
 	{
 		//GameObject silence;
-		if (photonView.isMine)
-		{
-			isSkillAble = false;
-		}
+
+		isSkillAble = false;
+		
 		yield return new WaitForSeconds(t);
 		//DestroyImmediate(silence);
 		yield return new WaitForEndOfFrame();
-		if (photonView.isMine)
-		{
-			isSkillAble = true;
-		}
+
+		isSkillAble = true;
+
 	}
     protected IEnumerator FetterRoutine(float t)
     {
