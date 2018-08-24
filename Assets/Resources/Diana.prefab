@@ -665,9 +665,9 @@ MonoBehaviour:
   cooltime:
   - 0
   - 0
-  - 0
-  - 0
-  - 0
+  - 5
+  - 8
+  - 6
   - 0
   - 0
   - 0
@@ -679,18 +679,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 9b739ee0c144f5b4598c1dd7ac08bfb5, type: 3}
     - {fileID: 8300000, guid: b2d008e3f40b3244aa511bdbd0bcaabd, type: 3}
     - {fileID: 8300000, guid: 25ed5923f14b7ad4cb846f627b73e3c9, type: 3}
-  StartVoice:
-    audioClips:
-    - {fileID: 8300000, guid: 273d523ca53502948a974b92ce19bb0c, type: 3}
-    - {fileID: 8300000, guid: b6793074d62baf548b5981b86dd7ae29, type: 3}
-  WinVoice:
-    audioClips:
-    - {fileID: 8300000, guid: b456e68ed4a09674db75fb649b54dc1a, type: 3}
-    - {fileID: 8300000, guid: ce8d9dae940925f41b0bd43ff26b6b38, type: 3}
-    - {fileID: 8300000, guid: ee03b092c6ea9ad41b52456651454aa1, type: 3}
   aimVector: {x: 0, y: 0, z: 0}
   aimPosition: {x: 0, y: 0, z: 0}
   character: 0
+  currentPrayGage: 0
   HitSoundRan: 100
 --- !u!114 &114112322192915258
 MonoBehaviour:
@@ -726,6 +718,7 @@ MonoBehaviour:
   skill1_playing: 0
   pray: {fileID: 0}
   isPraying: 0
+  idannakin: {fileID: 0}
 --- !u!114 &114160678133799954
 MonoBehaviour:
   m_ObjectHideFlags: 1
