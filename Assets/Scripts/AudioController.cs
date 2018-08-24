@@ -30,6 +30,7 @@ public class AudioController : MonoBehaviour {
     AudioSource bgm;
     private void Awake()
     {
+
         instance = this;
         bgm = GetComponent<AudioSource>();
         photonView = GetComponent<PhotonView>();

@@ -25,8 +25,6 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     PlayerData opponent;
     protected AudioSource voice2;
     public MultiSound hitSource;
-    public MultiSound StartVoice;
-    public MultiSound WinVoice;
 
     public Vector3 aimVector = new Vector3(0f,0f,0f);
     public Vector3 aimPosition = new Vector3(0f, 0f, 0f);
@@ -126,11 +124,19 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         for (int i = 0; i < cooltime.Length; i++)
         {
-            cooltime[i] += globalCool;
 
-            if(i == skillNum)
+            if (i == skillNum)
             {
                 cooltime[i] = _cooltime;
+                SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+            }
+            else
+            {
+                if (cooltime[i] <= globalCool)
+                {
+                    cooltime[i] += globalCool;
+                    SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+                }
             }
         }
     }
@@ -260,14 +266,6 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         playerControl.photonView.RPC("SetInputEnable_RPC", PhotonTargets.All,b);
     }
 
-    public void PlayStartVoice()
-    {
-        photonView.RPC("PlayStartVoice_RPC", PhotonTargets.All);
-    }
-    public void PlayWinVoice()
-    {
-        photonView.RPC("PlayWinVoice_RPC", PhotonTargets.All);
-    }
     public void PlayWinAnime()
     {
         photonView.RPC("PlayWinAnime_RPC", PhotonTargets.All);
@@ -287,20 +285,6 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private void PlayLoseAnime_RPC()
     {
         playerControl.LoseAnim();
-    }
-    [PunRPC]
-    private void PlayStartVoice_RPC()
-    {
-        voice2.Stop();
-        voice2.clip = StartVoice.RandomSound;
-        voice2.Play();
-    }
-    [PunRPC]
-    private void PlayWinVoice_RPC()
-    {
-        voice2.Stop();
-        voice2.clip = WinVoice.RandomSound;
-        voice2.Play();
     }
 
 }

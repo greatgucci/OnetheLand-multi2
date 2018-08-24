@@ -15,7 +15,7 @@ public class Iris_SkillQ : Skills {
 
         iris_BulletQTrigger = Instantiate(Resources.Load("Iris_BulletQTrigger") as GameObject, new Vector2(-9f, 0f), Quaternion.identity);
         iris_BulletQTrigger.GetComponent<Iris_BulletQTrigger>().IrisQMove();
-
+        AudioController.instance.PlayEffectSound(Character.IRIS, 8);
         StartCoroutine(UltDirectionCoroutine());
 
         StartCoroutine(Waiting());

@@ -12,6 +12,7 @@ public class Iris_SkillLeft : Skills {
         StartCoroutine(Shoot_IrisSkillLeft());
         StartCoroutine(Waiting());
 
+        Debug.Log(AudioController.instance);
         AudioController.instance.PlayEffectSound(Character.IRIS, 0);
     }
 

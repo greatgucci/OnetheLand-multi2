@@ -15,6 +15,8 @@ public class Iris_SkillE : Skills {
         iris_BulletE = PhotonNetwork.Instantiate("Iris_BulletE", transform.position, Quaternion.identity, 0).GetComponent<Iris_BulletE>();
         iris_BulletE.Init_Iris_BulletE(PlayerManager.instance.myPnum, PlayerManager.instance.Local.aimVector);
 
+        AudioController.instance.PlayEffectSound(Character.IRIS, 2);
+
         StartCoroutine(Waiting());
     }
 

@@ -31,6 +31,7 @@ public class Iris_SkillShift : Skills {
             iris_BulletShift.name = "iris_BulletShift_" + PlayerManager.instance.myPnum;
         }
 
+        AudioController.instance.PlayEffectSound(Character.IRIS, 4);
 
         StartCoroutine(Waiting());
     }

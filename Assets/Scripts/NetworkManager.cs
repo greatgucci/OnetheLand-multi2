@@ -9,6 +9,7 @@ public class NetworkManager : Photon.PunBehaviour {
     private void Awake()
     {
         instance = this;
+        characterVoice = GetComponent<AudioSource>();
     }
     public GameObject[] playerPrefabs;
     public Text ping;
@@ -169,16 +170,17 @@ public class NetworkManager : Photon.PunBehaviour {
     Coroutine StartEffectRoutine;
     IEnumerator StartEffect()
     {
+        yield return null;
         UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
         UIManager.instance.CharacterStartOn(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
         UIManager.instance.SetCharacterStart(1, true);
         UIManager.instance.SetCharacterStart(2, false);
-        PlayerManager.instance.GetPlayerByNum(1).PlayStartVoice();
-        yield return new WaitForSeconds(3f);
+        PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(1).character);
+        yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
         UIManager.instance.SetCharacterStart(1, false);
         UIManager.instance.SetCharacterStart(2, true);
-        PlayerManager.instance.GetPlayerByNum(2).PlayStartVoice();
-        yield return new WaitForSeconds(3f);
+        PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(2).character);
+        yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
         UIManager.instance.CharacterStartOff();
         yield return new WaitForSeconds(0.5f);
         UIManager.instance.StartEventTimerOn();
@@ -187,6 +189,7 @@ public class NetworkManager : Photon.PunBehaviour {
             UIManager.instance.StartEventTimerUpdate(i);//1..2..3
             yield return new WaitForSeconds(1f);
         }
+        
         UIManager.instance.StartEventTimerUpdate(3);//START!
         yield return new WaitForSeconds(1f);
         UIManager.instance.StartEventTimerOff();
@@ -205,11 +208,61 @@ public class NetworkManager : Photon.PunBehaviour {
         PlayerManager.instance.GetPlayerByNum(loser).PlayLoseAnime();
         PlayerManager.instance.GetPlayerByNum(winner).PlayWinAnime();
         yield return new WaitForSeconds(1f);
-
         UIManager.instance.WinnerCharacterOn(winner);
-        PlayerManager.instance.GetPlayerByNum(winner).PlayWinVoice();
-        yield return new WaitForSeconds(2f);
+        UIManager.instance.SetCharacterStart(winner, true);
+        PlayCharacterWinSound(PlayerManager.instance.GetPlayerByNum(winner).character);
+        yield return new WaitForSeconds(3.5f);
         UIManager.instance.PlayEndBlackAnimation();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
+    }
+
+    private AudioSource characterVoice;
+    public MultiSound dianaStart;
+    public MultiSound irisStart;
+    public MultiSound dianaWin;
+    public MultiSound irisWin;
+    public AudioClip GameStart;
+    public AudioClip CountDown;
+
+    private void PlayCharacterStartSound(Character cha)
+    {
+        characterVoice.Stop();
+        switch(cha)
+        {
+            case Character.DIANA:
+                characterVoice.clip = dianaStart.RandomSound;
+                break;
+            case Character.IRIS:
+                characterVoice.clip = irisStart.RandomSound;
+                break;
+        }
+        characterVoice.Play();
+    }
+
+    private void PlayCharacterWinSound(Character cha)
+    {
+        characterVoice.Stop();
+        switch (cha)
+        {
+            case Character.DIANA:
+                characterVoice.clip = dianaWin.RandomSound;
+                break;
+            case Character.IRIS:
+                characterVoice.clip = irisWin.RandomSound;
+                break;
+        }
+        characterVoice.Play();
+    }
+    private void PlayCountdownSound()
+    {
+        characterVoice.Stop();
+        characterVoice.clip = CountDown;
+        characterVoice.Play();
+    }
+    private void PlayStartSound()
+    {
+        characterVoice.Stop();
+        characterVoice.clip = GameStart;
+        characterVoice.Play();
     }
 }
