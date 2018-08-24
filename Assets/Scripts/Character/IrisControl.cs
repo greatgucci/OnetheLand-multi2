@@ -47,6 +47,7 @@ public class IrisControl : PlayerControl
             DoSkill(2);//Skill2
             playerAnimation.AddAnimationLayer(5, false);
             SetAnimationLayerEmpty(0.667f);
+            PlayerManager.instance.Local.SetCooltime(1, 4f);
         }
         else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
@@ -60,7 +61,7 @@ public class IrisControl : PlayerControl
             DoSkill(4);
             playerAnimation.AddAnimationLayer(6, false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(4, 0.7f);
+            PlayerManager.instance.Local.SetCooltime(4, 4f);
         }
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
         {
@@ -68,11 +69,12 @@ public class IrisControl : PlayerControl
             AudioController.instance.PlayEffectSound(Character.IRIS, 7);
             //?
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f)
+        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && PlayerManager.instance.Local.CurrentSkillGage >= 100f)
         {
             DoSkill(5);
             SetAnimationLayerEmpty(0.667f);
             playerAnimation.AddAnimationLayer(5, false);
+            PlayerManager.instance.Local.CurrentSkillGage -= 100f;
         }
     }
     protected override void MoveAnimationChange(MoveState move)

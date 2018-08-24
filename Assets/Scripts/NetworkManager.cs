@@ -183,14 +183,9 @@ public class NetworkManager : Photon.PunBehaviour {
         yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
         UIManager.instance.CharacterStartOff();
         yield return new WaitForSeconds(0.5f);
-        UIManager.instance.StartEventTimerOn();
-        for (int i = 0; i < 3; i++)
-        {
-            UIManager.instance.StartEventTimerUpdate(i);//1..2..3
-            yield return new WaitForSeconds(1f);
-        }
-        
-        UIManager.instance.StartEventTimerUpdate(3);//START!
+
+        PlayStartSound();
+        UIManager.instance.StartEventTimerOn();//START!
         yield return new WaitForSeconds(1f);
         UIManager.instance.StartEventTimerOff();
     }
@@ -221,8 +216,7 @@ public class NetworkManager : Photon.PunBehaviour {
     public MultiSound irisStart;
     public MultiSound dianaWin;
     public MultiSound irisWin;
-    public AudioClip GameStart;
-    public AudioClip CountDown;
+    public MultiSound GameStart;
 
     private void PlayCharacterStartSound(Character cha)
     {
@@ -253,16 +247,11 @@ public class NetworkManager : Photon.PunBehaviour {
         }
         characterVoice.Play();
     }
-    private void PlayCountdownSound()
-    {
-        characterVoice.Stop();
-        characterVoice.clip = CountDown;
-        characterVoice.Play();
-    }
+
     private void PlayStartSound()
     {
         characterVoice.Stop();
-        characterVoice.clip = GameStart;
+        characterVoice.clip = GameStart.RandomSound;
         characterVoice.Play();
     }
 }

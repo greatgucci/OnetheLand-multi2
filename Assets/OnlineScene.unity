@@ -120,6 +120,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: dianaWin.audioClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: GameStart.audioClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4838629005973378, guid: 0965124549306b948a86ae2a49ca3a95, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -175,7 +185,7 @@ Prefab:
         type: 2}
       propertyPath: GameStart
       value: 
-      objectReference: {fileID: 8300000, guid: 03a82a9aed79c7e42b4c74f8d98b26aa, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
         type: 2}
       propertyPath: CountDown
@@ -201,6 +211,41 @@ Prefab:
       propertyPath: irisStart.audioClips.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: 27a2c41188945a7489206ae5ab3b897c, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: GameStart.audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 078a0dc738d36d04c8ef35fa304345e1, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: dianaStart.audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d32536ec2f0f74c428173a42d9aa45e8, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: dianaStart.audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8639453f9cf113848b43c348a9e0b47c, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: dianaWin.audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9754f57e5d800ea48b34c8411abfb31d, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: dianaWin.audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 41ae53c5884fa4d47b36d0705aa7c07f, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: dianaWin.audioClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: GameStart.audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 997f2c660cda5d240bff66b8b3d3f5e7, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0965124549306b948a86ae2a49ca3a95, type: 2}
   m_IsPrefabParent: 0
@@ -2259,13 +2304,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dianaEffectSound: []
   irisEffectSound:
-  - {fileID: 1668214878719360, guid: 1ef9afa6d7e86f3428617259c22622d6, type: 2}
-  - {fileID: 1624182892256600, guid: d3c6ab01ee5b98748a646921205b07f7, type: 2}
+  - {fileID: 1502496492322882, guid: fee36275ff0f6ba49865c394719dfd87, type: 2}
+  - {fileID: 1523294543108548, guid: 515973e0a17ac27448ccdda57d543531, type: 2}
   - {fileID: 1085144896137798, guid: 0b00b74801a978b46aa870cb830cf6cc, type: 2}
-  - {fileID: 1204191665650988, guid: 69d8b7edcee9057478dfe3b39c270a08, type: 2}
-  - {fileID: 1851047883259412, guid: 4695b0341b9b4174a82f158adbaf8f6e, type: 2}
+  - {fileID: 1558672103555954, guid: 3ff4950f3c293e04387bd574796d585a, type: 2}
+  - {fileID: 1083812552129148, guid: e4da4cbff4568de44a8053212be66826, type: 2}
   - {fileID: 1993131924967254, guid: 8aa92d97f8d5ad34c894cd7af09f7232, type: 2}
-  - {fileID: 1019801262402630, guid: 43a651c25d8931b40b7ba2222ed29fc1, type: 2}
+  - {fileID: 1390005146039412, guid: 43a651c25d8931b40b7ba2222ed29fc1, type: 2}
+  - {fileID: 1222105204508776, guid: 47921e6c719647f4c922efef1af1aff8, type: 2}
+  - {fileID: 1772919598486942, guid: c9e48a13083449a43a6f277bfd9ddfea, type: 2}
 --- !u!4 &1013304542
 Transform:
   m_ObjectHideFlags: 0
@@ -2540,7 +2587,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 19}
-  m_SizeDelta: {x: 1000, y: 252.1}
+  m_SizeDelta: {x: 4391, y: 469}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1100441556
 MonoBehaviour:
@@ -2550,31 +2597,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1100441554}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9852941, g: 0.9852941, b: 0.9852941, a: 1}
-  m_RaycastTarget: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: d5b589b3eac3b254d98af3c4c7cdcc06, type: 3}
-    m_FontSize: 200
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 300
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 50
+  m_Sprite: {fileID: 21300000, guid: eb6f73b2bfae22440bd10ca7a283da3d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!222 &1100441557
 CanvasRenderer:
   m_ObjectHideFlags: 0

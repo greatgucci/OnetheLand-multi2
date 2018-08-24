@@ -8,6 +8,7 @@ public class Iris_Bullet3R : Bullet {
 
     public void Init_Iris_Bullet3R(int _shooterNum, int communicatingObject)
     {
+        AudioController.instance.PlayEffectSound(Character.IRIS, 6);
         photonView.RPC("Init_Iris_Bullet3R_RPC", PhotonTargets.All, _shooterNum, communicatingObject);
     }
 

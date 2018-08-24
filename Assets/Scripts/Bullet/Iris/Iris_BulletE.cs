@@ -15,7 +15,7 @@ public class Iris_BulletE : Bullet {
     protected void Init_Iris_BulletE_RPC(int _shooterNum, Vector3 aimDVector)
     {
         DVector = aimDVector;
-        Invoke("DestroyToServer", 10f);
+        Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
         if (shooterNum == 1)
         {
@@ -37,7 +37,7 @@ public class Iris_BulletE : Bullet {
     {
         if (oNum == PlayerManager.instance.myPnum)
         {
-            warningCircle = FavoriteFunction.WarningCircle(transform.position, 1f, 1f);
+            warningCircle = FavoriteFunction.WarningCircle(transform.position, 2f, 1f);
             warningCircle.transform.parent = transform;
         }
 

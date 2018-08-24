@@ -12,7 +12,7 @@ public class Iris_BulletERangeAttack : Bullet {
     [PunRPC]
     protected void Init_Iris_BulletERangeAttack_RPC(int _shooterNum)
     {
-        Invoke("DestroyToServer", 10f);
+        Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
         if (shooterNum == 1)
         {
@@ -29,7 +29,7 @@ public class Iris_BulletERangeAttack : Bullet {
     {
         damage = 100;
 
-        transform.localScale *= 2;
+        transform.localScale *= 4;
         StartCoroutine(DestroyBomb());
     }
 
