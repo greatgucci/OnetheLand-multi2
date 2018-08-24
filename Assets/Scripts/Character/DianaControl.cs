@@ -33,7 +33,7 @@ public class DianaControl : PlayerControl {
 		PlayerManager.instance.Local.CurrentPrayGage = pray.GetComponent<Diana_Skill4_Pray> ().praying_time;
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
-            PlayerManager.instance.Local.SetCooltime(0, 1f);
+            PlayerManager.instance.Local.SetCooltime(0, 0.25f);
             if (start) 
 			{
 				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
@@ -52,14 +52,14 @@ public class DianaControl : PlayerControl {
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
-            PlayerManager.instance.Local.SetCooltime(1, 2f);
+            PlayerManager.instance.Local.SetCooltime(1, 1f);
             DoSkill(1);//우
             playerAnimation.AddAnimationLayer(4, false);
             pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
-            PlayerManager.instance.Local.SetCooltime(2, 5f);
+            PlayerManager.instance.Local.SetCooltime(2, 2f);
             if (!skill1_playing)
 			{
 	            DoSkill(2);//E skill1
@@ -70,7 +70,7 @@ public class DianaControl : PlayerControl {
         }
         else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
-            PlayerManager.instance.Local.SetCooltime(3, 8f);
+            PlayerManager.instance.Local.SetCooltime(3, 3f);
             if (start) 
 			{
 				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
@@ -88,15 +88,10 @@ public class DianaControl : PlayerControl {
         }
         else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && skill_can)
         {
-            PlayerManager.instance.Local.SetCooltime(4, 6f);
+            PlayerManager.instance.Local.SetCooltime(4, 4f);
             skill_can = false;
 			DoSkill(4);//LeftShift skill3
 			SetActiveToServer (false);
-            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
-        {
-            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         else if (Input.GetKeyDown(KeyCode.Q))
@@ -109,7 +104,7 @@ public class DianaControl : PlayerControl {
         {
             OnCanclePrayAnimation();
         }
-        if (skill4_create && pray.GetComponent<Diana_Skill4_Pray>().praying_time >= 1f)
+        if (skill4_create && pray.GetComponent<Diana_Skill4_Pray>().praying_time >= 40f)
         {
 			PlayerManager.instance.Local.Defense = 1f;
 			diana_pray_win=PhotonNetwork.Instantiate ("Diana_Pray_Win",transform.position,Quaternion.identity,0);

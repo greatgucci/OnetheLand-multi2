@@ -28,7 +28,7 @@ public class Diana_Skill3_Impact : Bullet {
 		float distance;
 		//CurrentHp=PlayerManager.instance.Local.CurrentHp;
 		if (!parentObject.transform.parent.GetComponent<DianaControl> ().pray.GetComponent<Diana_Skill4_Pray> ().praying) {
-			while (time < 0.5f/*&&CurrentHp==PlayerManager.instance.Local.CurrentHp*/) {
+			while (time < 0.2f/*&&CurrentHp==PlayerManager.instance.Local.CurrentHp*/) {
 				parentObject.transform.parent.GetComponent<DianaControl>().OnStartPrayAnimation();
 				time += Time.deltaTime;
 				//기도 모션

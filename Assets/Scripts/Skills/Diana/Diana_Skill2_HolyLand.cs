@@ -20,7 +20,7 @@ public class Diana_Skill2_HolyLand : Skills {
 		if(!transform.parent.GetComponent<DianaControl>().pray.GetComponent<Diana_Skill4_Pray>().praying)
         {
             transform.parent.GetComponent<DianaControl>().OnStartPrayAnimation();
-            while (time < 0.5f && CurrentHp == PlayerManager.instance.Local.CurrentHp)
+            while (time < 0.2f && CurrentHp == PlayerManager.instance.Local.CurrentHp)
             {
                 if ((startposition - transform.position).magnitude > 0f)
                 {
