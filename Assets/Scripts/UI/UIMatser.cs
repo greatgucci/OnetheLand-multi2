@@ -159,11 +159,15 @@ public class UIMatser : MonoBehaviour {
     #endregion
 
     #region CharacSelecUI
+    public void HoverIn()
+    {
+        uiSound.PlayChoose();
+    }
+
     public void Click_CharacB_BackToMain()
     {
         StartCoroutine(CharacB_BackToMain_UILoad());
         uiSound.PlayDecision();
-
     }
 
     IEnumerator CharacB_BackToMain_UILoad()
@@ -269,6 +273,7 @@ public class UIMatser : MonoBehaviour {
     #region OptionUI
     public void Click_Option_BackToMain()
     {
+        uiSound.PlayDecision();
         StartCoroutine(Option_BackToMain_UILoad());
     }
 

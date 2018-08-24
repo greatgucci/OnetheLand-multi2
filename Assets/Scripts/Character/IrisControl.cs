@@ -16,19 +16,19 @@ public class IrisControl : PlayerControl
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
             DoSkill(0);
-           playerAnimation.AddAnimationLayer(3,false);
+            playerAnimation.AddAnimationLayer(3,false);
             SetAnimationLayerEmpty(0.667f);
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
             DoSkill(1);//Skill1
-           playerAnimation.AddAnimationLayer(4, false);
+            playerAnimation.AddAnimationLayer(4, false);
             SetAnimationLayerEmpty(0.667f);
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
             DoSkill(2);//Skill2
-           playerAnimation.AddAnimationLayer(5, false);
+            playerAnimation.AddAnimationLayer(5, false);
             SetAnimationLayerEmpty(0.667f);
         }
         else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
@@ -40,7 +40,7 @@ public class IrisControl : PlayerControl
         else if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f)
         {
             DoSkill(4);
-           playerAnimation.AddAnimationLayer(6, false);
+            playerAnimation.AddAnimationLayer(6, false);
             SetAnimationLayerEmpty(0.667f);
         }
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
