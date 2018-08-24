@@ -109,4 +109,5 @@ MonoBehaviour:
   - PlayVoice_RPC
   - PlayWinAnime_RPC
   - PlayWinVoice_RPC
+  - SetParent_RPC
   DisableAutoOpenWizard: 1
