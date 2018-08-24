@@ -63,12 +63,14 @@ public class IrisControl : PlayerControl
             SetAnimationLayerEmpty(0.667f);
             PlayerManager.instance.Local.SetCooltime(4, 4f);
         }
+        /*
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
         {
             Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             AudioController.instance.PlayEffectSound(Character.IRIS, 7);
             //?
         }
+        */
         else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && PlayerManager.instance.Local.CurrentSkillGage >= 100f)
         {
             DoSkill(5);
