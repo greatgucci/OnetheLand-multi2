@@ -14,7 +14,7 @@ public class Iris_Skill2 : Skills {
         StartCoroutine(Shoot_IrisSkill2());
 
         StartCoroutine(Waiting());
-
+        AudioController.instance.PlayEffectSound(Character.IRIS, 1);
     }
 
     bool isRunning = false;

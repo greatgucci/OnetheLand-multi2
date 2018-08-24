@@ -63,6 +63,7 @@ public class Iris_BulletE : Bullet {
 
         if (shooterNum == PlayerManager.instance.myPnum)
         {
+            AudioController.instance.PlayEffectSound(Character.IRIS, 3);
             Iris_BulletERangeAttack iris_BulletERangeAttack
             = PhotonNetwork.Instantiate("Iris_BulletERangeAttack", transform.position, Quaternion.identity, 0)
             .GetComponent<Iris_BulletERangeAttack>();
