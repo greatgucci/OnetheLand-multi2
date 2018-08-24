@@ -37,6 +37,8 @@ public class Diana_NormalBullet : Bullet{
 			{
 				PlayerManager.instance.Local.CurrentHp -= damage;
 				Heresy_Sign ();
+				SetActiveToServer(true);
+				skillObject.transform.parent.GetComponent<DianaControl> ().idannakin.Impact ();
 				DestroyToServer();
 			}
 			if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
@@ -53,5 +55,14 @@ public class Diana_NormalBullet : Bullet{
 	void Heresy_Sign_RPC()
 	{
 		skillObject.transform.parent.GetComponent<DianaControl> ().skill_can = true;
+	}
+	public void SetActiveToServer(bool ing)
+	{
+		photonView.RPC ("SetActiveToServer_RPC", PhotonTargets.All, ing);
+	}
+	[PunRPC]
+	void SetActiveToServer_RPC(bool ing)
+	{
+		skillObject.transform.parent.GetComponent<DianaControl>().idannakin.gameObject.SetActive (ing);
 	}
 }

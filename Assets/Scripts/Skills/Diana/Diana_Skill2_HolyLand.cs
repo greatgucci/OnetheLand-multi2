@@ -7,18 +7,8 @@ public class Diana_Skill2_HolyLand : Skills {
 	PhotonView view;
 	public override void Excute ()
 	{
-		if (isRunning)
-			return;
 		view = GetComponent<PhotonView> ();
 		StartCoroutine (Casting_Pray ());
-		StartCoroutine (Waiting ());
-	}
-	bool isRunning = false;
-	IEnumerator Waiting()
-	{
-		isRunning = true;
-		yield return new WaitForSeconds(1 / delay);
-		isRunning = false;
 	}
 	IEnumerator Casting_Pray()
 	{
@@ -40,11 +30,11 @@ public class Diana_Skill2_HolyLand : Skills {
                 time += Time.deltaTime;
                 //기도 모션
                 yield return null;
-            }
+			}
+			transform.parent.GetComponent<DianaControl>().OnCanclePrayAnimation();
         }
         if (ing)
         {
-            transform.parent.GetComponent<DianaControl>().OnCanclePrayAnimation();
             Diana_Bullet_HolyLand holyland;
             holyland = PhotonNetwork.Instantiate("Diana_HolyLand",
                 PlayerManager.instance.Opponent.transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet_HolyLand>();

@@ -30,11 +30,8 @@ public class Diana_Bullet_HolyLand :Bullet
 				//데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
 			{
 				Heresy_Sign ();
-				PlayerManager.instance.GetPlayerByNum (oNum).GetSilence ();
-			}
-			if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
-			{
-				PlayerManager.instance.Local.CurrentSkillGage += 1f;
+				SetActiveToServer(true);
+				skillObject.transform.parent.GetComponent<DianaControl> ().idannakin.Impact ();
 			}
 		}
 	}
@@ -46,5 +43,13 @@ public class Diana_Bullet_HolyLand :Bullet
 	void Heresy_Sign_RPC()
 	{
 		skillObject.transform.parent.GetComponent<DianaControl> ().skill_can = true;
+	}public void SetActiveToServer(bool ing)
+	{
+		photonView.RPC ("SetActiveToServer_RPC", PhotonTargets.All, ing);
+	}
+	[PunRPC]
+	void SetActiveToServer_RPC(bool ing)
+	{
+		skillObject.transform.parent.GetComponent<DianaControl>().idannakin.gameObject.SetActive (ing);
 	}
 }

@@ -110,4 +110,6 @@ MonoBehaviour:
   - PlayWinAnime_RPC
   - PlayWinVoice_RPC
   - SetParent_RPC
+  - Impact_RPC
+  - SetActiveToServer_RPC
   DisableAutoOpenWizard: 1
