@@ -100,20 +100,20 @@ public class UIManager : MonoBehaviour {
         switch (player1)
         {
             case Character.DIANA:
-                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Diana_Normal_NEW");
+                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana_NEW");
                 break;
             case Character.IRIS:
-                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Iris_Normal");
+                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Iris");
                 break;
         }
         switch (player2)
         {
             case Character.DIANA:
-                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Diana_Normal_NEW");
+                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana_NEW");
                 break;
 
             case Character.IRIS:
-                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/DialogueScreen_CharacterImage_Iris_Normal");
+                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Iris");
                 break;
         }
     }

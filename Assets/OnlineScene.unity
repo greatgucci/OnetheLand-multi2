@@ -181,6 +181,26 @@ Prefab:
       propertyPath: CountDown
       value: 
       objectReference: {fileID: 8300000, guid: 9f5630ec014e16743968c73bba2e6ac4, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: irisStart.audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d2af7e60ebcc1d4ba2d94e7d90c0a2c, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: irisWin.audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a66e17a98cb5bf54eb94edd97e60fbcd, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: irisWin.audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: e76a4d7cba1d36f489b4ee20ef8d7a68, type: 3}
+    - target: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+        type: 2}
+      propertyPath: irisStart.audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 27a2c41188945a7489206ae5ab3b897c, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0965124549306b948a86ae2a49ca3a95, type: 2}
   m_IsPrefabParent: 0
@@ -1207,8 +1227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef4a749431515e428450c310804561a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Iris: {fileID: 21300000, guid: e38b5ff13e111be42a819a0102539bbb, type: 3}
-  Diana: {fileID: 21300000, guid: f57c23987c1365446836ecb11af26450, type: 3}
+  Iris: {fileID: 21300000, guid: 97957552a7dd6064ba39d1b5cbe6bb8e, type: 3}
+  Diana: {fileID: 21300000, guid: 972635434fee5894fb9a87282f87b715, type: 3}
 --- !u!95 &561992499
 Animator:
   serializedVersion: 3
@@ -1441,7 +1461,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -635, y: -173}
+  m_AnchoredPosition: {x: -680, y: -180}
   m_SizeDelta: {x: 708, y: 925}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712416827
@@ -3758,7 +3778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 684, y: -182}
+  m_AnchoredPosition: {x: 680, y: -180}
   m_SizeDelta: {x: 708, y: 925}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2049401660
