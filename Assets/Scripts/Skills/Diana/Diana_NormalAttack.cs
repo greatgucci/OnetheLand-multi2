@@ -13,7 +13,7 @@ public class Diana_NormalAttack : Skills {
 		Diana_NormalBullet dan_at;
 		DVector = PlayerManager.instance.Local.aimVector.normalized;
 		dan_at = PhotonNetwork.Instantiate ("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet> ();
-		dan_at.Init_Diana_NormalBullet (PlayerManager.instance.myPnum, view.viewID,DVector);
+		dan_at.Init_Diana_NormalBullet (PlayerManager.instance.myPnum, view.viewID,DVector, true);
 		StartCoroutine (Waiting ());
 	}
 	bool isRunning = false;

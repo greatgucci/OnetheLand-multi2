@@ -5,24 +5,52 @@ using UnityEngine;
 public class Diana_NormalBullet : Bullet{
 	GameObject skillObject;
 
-	public void Init_Diana_NormalBullet(int _shooterNum, int domicilnum, Vector3 dVector)
+	public void Init_Diana_NormalBullet(int _shooterNum, int domicilnum, Vector3 dVector, bool type)
 	{
-		photonView.RPC ("Init_Diana_NormalBullet_RPC",PhotonTargets.All,_shooterNum, domicilnum, dVector);
+		photonView.RPC ("Init_Diana_NormalBullet_RPC",PhotonTargets.All,_shooterNum, domicilnum, dVector, type);
 	}
 	[PunRPC]
-	private void Init_Diana_NormalBullet_RPC(int _shooterNum, int domicilnum, Vector3 dVector)
+	private void Init_Diana_NormalBullet_RPC(int _shooterNum, int domicilnum, Vector3 dVector, bool type)
 	{
 		skillObject = PhotonView.Find (domicilnum).gameObject;
 		DVector = dVector;
 		shooterNum = _shooterNum;
 		oNum=shooterNum==1? 2 : 1;
-		speed = 20f;
+		speed = 15f;
 		damage = 100;
 		FavoriteFunction.RotateBullet (gameObject);
 		rgbd.velocity = DVector * speed;
-		Debug.Log (skillObject.transform.parent.gameObject.GetComponent<DianaControl> ().skill_can);
+        if(type)
+            StartCoroutine(Colison(domicilnum));
+        
+    }
+    IEnumerator Colison(int domicilnum)
+    {
+        Vector3 stratposition = transform.position;
+        Diana_NormalBullet bullet;
+        float distance = 0;
+        while (true)
+        {
+            distance += (stratposition - transform.position).magnitude;
+            stratposition = transform.position;
+            if(distance >4f)
+            {
+                if (PlayerManager.instance.myPnum == shooterNum)
+                {
+                    DestroyToServer();
+                    bullet = PhotonNetwork.Instantiate("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet>();
+                    bullet.Init_Diana_NormalBullet(shooterNum, domicilnum, DVector + new Vector3(0f, 0.2f, 0f), false);
+                    bullet = PhotonNetwork.Instantiate("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet>();
+                    bullet.Init_Diana_NormalBullet(shooterNum, domicilnum, DVector + new Vector3(0f, 0f, 0f), false);
+                    bullet = PhotonNetwork.Instantiate("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet>();
+                    bullet.Init_Diana_NormalBullet(shooterNum, domicilnum, DVector + new Vector3(0f, -0.2f, 0f), false);
+                }
+            }
+            yield return null;
+        }
+        
 
-	}
+    }
 	protected override void OnTriggerStay2D (Collider2D collision)
 	{
 		if (isTirggerTime == true)

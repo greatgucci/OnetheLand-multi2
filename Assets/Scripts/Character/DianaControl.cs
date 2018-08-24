@@ -14,11 +14,11 @@ public class DianaControl : PlayerControl {
     public bool isPraying;
 	public Diana_idannakin idannakin;
 	PhotonView view_oponent;
-	GameObject diana_pray_win;
+	public GameObject diana_pray_win;
 	GameObject diana_white;
 	int oNum;
 	bool start;
-	void Start()
+	protected override void Start()
 	{
 		base.Start ();
 		start = true;
@@ -31,8 +31,10 @@ public class DianaControl : PlayerControl {
     {
 
 		PlayerManager.instance.Local.CurrentPrayGage = pray.GetComponent<Diana_Skill4_Pray> ().praying_time;
-        if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
+        if (!skill1_playing)
         {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
+             {
             PlayerManager.instance.Local.SetCooltime(0, 0f);
             if (start) 
 			{
@@ -43,35 +45,33 @@ public class DianaControl : PlayerControl {
 				SetActiveToServer (false);
 				start = false;
 			}
-            if (!skill1_playing)
-            {
                 DoSkill(0);//좌
                 playerAnimation.AddAnimationLayer(3, false);
                 pray.GetComponent<Diana_Skill4_Pray>().praying = false;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
             PlayerManager.instance.Local.SetCooltime(1, 1f);
             DoSkill(1);//우
             playerAnimation.AddAnimationLayer(4, false);
             pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
-        else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
+        if (!skill1_playing)
         {
+            if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
+            {
             PlayerManager.instance.Local.SetCooltime(2, 2f);
-            if (!skill1_playing)
-			{
 	            DoSkill(2);//E skill1
 	            playerAnimation.AddAnimationLayer(5, false);
 	            SetAnimationLayerEmpty(0.633f);
 				pray.GetComponent<Diana_Skill4_Pray>().praying = false;
-			}
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
+        if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
             PlayerManager.instance.Local.SetCooltime(3, 3f);
-            if (start) 
+            if (start)
 			{
 				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
 				view_oponent = PlayerManager.instance.GetPlayerByNum (oNum).GetComponent<PhotonView> ();
@@ -94,24 +94,15 @@ public class DianaControl : PlayerControl {
 			SetActiveToServer (false);
             pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetKey(KeyCode.Q))
         {
             PlayerManager.instance.Local.SetCooltime(9, 0f);
             DoSkill(5);//Q 궁
             OnStartPrayAnimation();
         }
-        if(!pray.GetComponent<Diana_Skill4_Pray>().praying)
+        if(!pray.GetComponent<Diana_Skill4_Pray>().praying && !pray.GetComponent<Diana_Skill4_Pray>().praying)
         {
             OnCanclePrayAnimation();
-        }
-        if (skill4_create && pray.GetComponent<Diana_Skill4_Pray>().praying_time >= 40f)
-        {
-			PlayerManager.instance.Local.Defense = 1f;
-			diana_pray_win=PhotonNetwork.Instantiate ("Diana_Pray_Win",transform.position,Quaternion.identity,0);
-			Pray_Win ();
-			PlayerManager.instance.GetPlayerByNum (2).GetStun (10f);
-			PlayerManager.instance.GetPlayerByNum (1).GetStun (10f);
-			skill4_create = false;
         }
     }
     public void OnStartPrayAnimation()
@@ -162,80 +153,64 @@ public class DianaControl : PlayerControl {
 	}
 
 
-	void Pray_Win()
+	public void Pray_Win(int _shooterNum)
 	{
-		photonView.RPC ("Pray_Win_RPC", PhotonTargets.All);
+		photonView.RPC ("Pray_Win_RPC", PhotonTargets.All, _shooterNum);
 	}
 	[PunRPC]
-	void Pray_Win_RPC()
+	void Pray_Win_RPC(int _shooterNum)
 	{
-		StartCoroutine (Impact ());
-		StartCoroutine (UltDirectionCoroutine ());
+       StartCoroutine(Impact(_shooterNum));
+        
 	}
-	IEnumerator Impact()
+	IEnumerator Impact(int _shooterNum)
 	{
-		yield return new WaitForSeconds (2f);
-		Destroy (diana_pray_win);
-		diana_white=PhotonNetwork.Instantiate ("Diana_White",new Vector3(0f,0f,0f),Quaternion.identity,0);
-		Map_White ();
-		yield return null;
+        if (!(PlayerManager.instance.myPnum == _shooterNum))
+        {
+            diana_white = Instantiate(Resources.Load("Diana_White") as GameObject, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            Map_White(_shooterNum);
+            yield return null;
+        }
 		
 	}
-	void Map_White()
+	void Map_White(int _shooterNum)
 	{
-		photonView.RPC ("Map_White_RPC", PhotonTargets.All);
+		photonView.RPC ("Map_White_RPC", PhotonTargets.All, _shooterNum);
 	}
 	[PunRPC]
-	void Map_White_RPC()
+	void Map_White_RPC(int _shooterNum)
 	{
-		StartCoroutine (WhiteOut ());
+		StartCoroutine (WhiteOut (_shooterNum));
 	}
-	IEnumerator WhiteOut()
+	IEnumerator WhiteOut(int _shooterNum)
 	{
 		for (float i = 0f; i < 255f; i += Time.deltaTime*255) {
-			ColorMap(i);
+            if(!(PlayerManager.instance.myPnum == _shooterNum))
+                ColorMap(i,_shooterNum);
 			yield return null;
 		}
 		yield return new WaitForSeconds (1f);
-		for (float i = 0f; i < 255f; i += Time.deltaTime*255*2) {
-			ColorMap(255-i);
+		for (float i = 0f; i < 255f; i += Time.deltaTime*255*2)
+        {
+            if (!(PlayerManager.instance.myPnum == _shooterNum))
+                ColorMap(255- i,_shooterNum);
 			yield return null;
 		}
 		Destroy_white ();
-		ImWin ();
 	}
-	void ColorMap(float i)
+
+	void ColorMap(float i, int _shooterNum)
 	{
 
-		photonView.RPC ("ColorMap_RPC", PhotonTargets.All, i);
+		photonView.RPC ("ColorMap_RPC", PhotonTargets.All, i, _shooterNum);
 	}
 	[PunRPC]
-	void ColorMap_RPC(float i)
+	void ColorMap_RPC(float i, int _shooterNum)
 	{
-		diana_white.GetComponent<SpriteRenderer> ().color = new Color(1,1,1,i/255);
+        if(PlayerManager.instance.myPnum==_shooterNum)
+		    diana_white.GetComponent<SpriteRenderer> ().color = new Color(1,1,1,i/255);
 	}
-	IEnumerator UltDirectionCoroutine()
-	{
-		float timer = 0f;
-		SpriteRenderer mapColor = GameObject.Find("Map1BackGround").GetComponent<SpriteRenderer>(); //이거 다른 맵에서도 적용 가능하게 바꿔야함
 
-		mapColor.color = new Color(0.6f, 0.6f, 0.8f, 1f);
-
-		yield return new WaitForSeconds(0.5f);
-
-		while (true)
-		{
-			if (timer >= 2f)
-			{
-				break;
-			}
-
-			mapColor.color = new Color(0.6f + (timer * 0.8f), 0.6f + (timer * 0.8f), 0.8f + (timer * 0.4f), 1f);
-
-			timer += Time.deltaTime;
-			yield return null;
-		}
-	}
 
 	void Destroy_white()
 	{
@@ -245,9 +220,5 @@ public class DianaControl : PlayerControl {
 	void Destroy_white_RPC()
 	{
 		Destroy (diana_white);
-	}
-	private void ImWin()
-	{
-		NetworkManager.instance.GameOver (PlayerManager.instance.Opponent.playerNum);
 	}
 }

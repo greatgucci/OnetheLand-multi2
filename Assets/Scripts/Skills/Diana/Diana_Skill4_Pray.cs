@@ -20,8 +20,6 @@ public class Diana_Skill4_Pray : Skills {
 		if (!praying) {
 			transform.parent.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0f,0f);
 			StartCoroutine (Pray ());
-		} else {
-			praying = false;
 		}
 	}
 	IEnumerator Pray()
@@ -43,10 +41,12 @@ public class Diana_Skill4_Pray : Skills {
 				if (PlayerManager.instance.Local.Defense >= 0.6f)
 					PlayerManager.instance.Local.Defense = 0.6f;
 			}
-			if (!praying) 
+			if (!Input.GetKey(KeyCode.Q)||!praying) 
 			{
 				impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
-				break;
+                transform.parent.GetComponent<DianaControl>().Pray_Win(PlayerManager.instance.myPnum);
+                PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum == 1 ? 2:1).GetStun(1f);
+                break;
 			}
             yield return null;
 		}
