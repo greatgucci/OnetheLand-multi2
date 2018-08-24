@@ -23,9 +23,11 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     public float cooltimeSpd = 1f;
     Aim Aim_Object;
     PlayerData opponent;
-    protected AudioSource hitSound;
+    protected AudioSource voice2;
     public MultiSound hitSource;
-    
+    public MultiSound StartVoice;
+    public MultiSound WinVoice;
+
     public Vector3 aimVector = new Vector3(0f,0f,0f);
     public Vector3 aimPosition = new Vector3(0f, 0f, 0f);
     public Character character;
@@ -46,7 +48,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             {
                 if(currentHp>value)
                 {
-                    PlayHitSound();
+                    PlayHitSound();//내가 맞는소리는 로컬에서만
                 }
                 currentHp = value*(1-defense);
                 UpdateHpUI(currentHp);
@@ -136,7 +138,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
 
     void Awake()
     {
-        hitSound = GetComponent<AudioSource>();
+        voice2 = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -152,8 +154,8 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         int ran = Random.Range(0, 100);
         if(ran<=HitSoundRan)
         {
-            hitSound.clip = hitSource.RandomSound;
-            hitSound.Play();
+            voice2.clip = hitSource.RandomSound;
+            voice2.Play();
         }
     }
     private void Update()
@@ -258,6 +260,47 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         playerControl.photonView.RPC("SetInputEnable_RPC", PhotonTargets.All,b);
     }
 
+    public void PlayStartVoice()
+    {
+        photonView.RPC("PlayStartVoice_RPC", PhotonTargets.All);
+    }
+    public void PlayWinVoice()
+    {
+        photonView.RPC("PlayWinVoice_RPC", PhotonTargets.All);
+    }
+    public void PlayWinAnime()
+    {
+        photonView.RPC("PlayWinAnime_RPC", PhotonTargets.All);
+    }
+    public void PlayLoseAnime()
+    {
+        photonView.RPC("PlayLoseAnime_RPC", PhotonTargets.All);
+    }
 
+    [PunRPC]
+    private void PlayWinAnime_RPC()
+    {
+        playerControl.WinAnim();
+    }
+
+    [PunRPC]
+    private void PlayLoseAnime_RPC()
+    {
+        playerControl.LoseAnim();
+    }
+    [PunRPC]
+    private void PlayStartVoice_RPC()
+    {
+        voice2.Stop();
+        voice2.clip = StartVoice.RandomSound;
+        voice2.Play();
+    }
+    [PunRPC]
+    private void PlayWinVoice_RPC()
+    {
+        voice2.Stop();
+        voice2.clip = WinVoice.RandomSound;
+        voice2.Play();
+    }
 
 }

@@ -104,4 +104,9 @@ MonoBehaviour:
   - GetFetter_RPC
   - PlayerReady_RPC
   - SetAnimationLayerEmpty_RPC
+  - PlayLoseAnime_RPC
+  - PlayStartVoice_RPC
+  - PlayVoice_RPC
+  - PlayWinAnime_RPC
+  - PlayWinVoice_RPC
   DisableAutoOpenWizard: 1
