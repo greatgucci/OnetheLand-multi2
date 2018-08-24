@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour {
     Image p1Hp, p2Hp;
     Text StartEventTimer;
     Animator animator;
+
+    public Sprite Iris, Diana;
     //public Sprite[] StartEventTimerSprites;
 
     private void Awake()
@@ -64,26 +66,25 @@ public class UIManager : MonoBehaviour {
     #region GameEvent
     public void SetPortrait(Character player1,Character player2)
     {
+        Debug.Log("Player1 is " +player1.ToString() + "  Player2 is"+player2.ToString());
         switch(player1)
         {
             case Character.DIANA:
-                p1Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleScreen_Face_Diana_NEW");
+                p1Portrait.sprite = Diana;
                 break;
 
             case Character.IRIS:
-                p1Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleUI_Face_Iris");
+                p1Portrait.sprite = Iris;
                 break;
         }
         switch(player2)
         {
             case Character.DIANA:
-                Debug.Log("호출은되는뎅..");
-                p2Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleScreen_Face_Diana_NEW");
+                p2Portrait.sprite = Diana;
                 break;
 
             case Character.IRIS:
-                Debug.Log("호출은되는뎅..");
-                p2Portrait.sprite = Resources.Load<Sprite>("UI/Assets/battleui/BattleUI_Face_Iris");
+                p2Portrait.sprite = Iris;
                 break;
         }
     }
@@ -179,7 +180,7 @@ public class UIManager : MonoBehaviour {
     }
     public void PlayEndBlackAnimation()
     {
-        animator.Play("Black", -1, 0f);
+        animator.Play("Black");
     }
     #endregion
 
