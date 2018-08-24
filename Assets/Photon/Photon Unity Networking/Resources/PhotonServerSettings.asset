@@ -118,4 +118,5 @@ MonoBehaviour:
   - ColorMap_RPC
   - ColorrMap_RPC
   - ColorsMap_RPC
+  - SetRandomSeed
   DisableAutoOpenWizard: 1

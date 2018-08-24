@@ -29,7 +29,7 @@ public class Iris_BulletERangeAttack : Bullet {
     {
         damage = 100;
 
-        transform.localScale *= 4;
+        transform.localScale *= 3;
         StartCoroutine(DestroyBomb());
     }
 
