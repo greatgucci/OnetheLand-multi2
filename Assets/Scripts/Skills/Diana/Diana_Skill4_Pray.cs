@@ -6,38 +6,43 @@ public class Diana_Skill4_Pray : Skills {
 
 	public float praying_time;
 	public bool praying;
+	GameObject impact;
+	PhotonView view;
 	void Start()
 	{
 		transform.parent.GetComponent<DianaControl> ().pray = gameObject;
 		transform.parent.GetComponent<DianaControl> ().skill4_create = true;
+		view = GetComponent<PhotonView> ();
 	}
 	public override void Excute ()
 	{
-		StartCoroutine (Pray ());
+		if (!praying) {
+			transform.parent.GetComponent<Rigidbody2D> ().velocity = new Vector2 (0f,0f);
+			StartCoroutine (Pray ());
+		} else {
+			praying = false;
+		}
 	}
 	IEnumerator Pray()
 	{
-		GameObject impact= PhotonNetwork.Instantiate("Diana_Pray",transform.position,Quaternion.identity,0);
-		impact.transform.SetParent (transform);
+		impact=PhotonNetwork.Instantiate("Diana_Pray",transform.position,Quaternion.identity,0);
+		impact.GetComponent<Diana_pary_aura> ().SetParent(view.viewID);
 		float praying_time_temp=0;
 		praying = true;
-		float speed = transform.parent.gameObject.GetComponent<DianaControl> ().speed;
-		transform.parent.gameObject.GetComponent<DianaControl> ().speed = 0f;
 		while (true)
 		{
-			
+
+			PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(Time.deltaTime);
 			praying_time_temp += Time.deltaTime;
             if (praying_time_temp > 1f)
             {
-                praying = true;
-            }
-			if (praying_time_temp>3f)
-				//
-			if ((Input.GetKeyUp (KeyCode.Q) || !Input.GetKey (KeyCode.Q))||Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.A)) 
+				PlayerManager.instance.Local.Defense = (praying_time_temp + 2) / 10;
+				if (PlayerManager.instance.Local.Defense >= 0.6f)
+					PlayerManager.instance.Local.Defense = 0.6f;
+			}
+			if (!praying) 
 			{
 				impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
-				transform.parent.gameObject.GetComponent<DianaControl> ().speed = speed;
-				praying = false;
 				break;
 			}
             yield return null;
