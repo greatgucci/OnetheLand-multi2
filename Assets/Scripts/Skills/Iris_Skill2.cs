@@ -19,7 +19,6 @@ public class Iris_Skill2 : Skills {
     bool isRunning = false;
     IEnumerator Waiting()
     {
-        PlayerManager.instance.Local.SetCooltime(0, 1.2f);
         isRunning = true;
         yield return new WaitForSeconds(1 / delay);
         isRunning = false;
