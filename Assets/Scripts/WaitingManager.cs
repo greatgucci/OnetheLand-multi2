@@ -9,6 +9,8 @@ public class WaitingManager : Photon.PunBehaviour
     private void Awake()
     {
         instance = this;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
     }
     public GameObject[] playerPrefabs;
     public Text ping;

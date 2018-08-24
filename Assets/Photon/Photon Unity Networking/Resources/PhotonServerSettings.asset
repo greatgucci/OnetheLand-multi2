@@ -115,4 +115,7 @@ MonoBehaviour:
   - Destroy_white_RPC
   - Map_White_RPC
   - Pray_Win_RPC
+  - ColorMap_RPC
+  - ColorrMap_RPC
+  - ColorsMap_RPC
   DisableAutoOpenWizard: 1

@@ -10,6 +10,8 @@ public class NetworkManager : Photon.PunBehaviour {
     {
         instance = this;
         characterVoice = GetComponent<AudioSource>();
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
     }
     public GameObject[] playerPrefabs;
     public Text ping;
@@ -125,6 +127,11 @@ public class NetworkManager : Photon.PunBehaviour {
     {
         PlayerManager.instance.gameUpdate = update;
     }
+    [PunRPC]
+    private void SetRandomSeed(int ran)
+    {
+        Random.InitState(ran);
+    }
     #endregion
     /// <summary>
     /// 방장 쪽에서 루틴돌림
@@ -141,6 +148,7 @@ public class NetworkManager : Photon.PunBehaviour {
             yield return null;
         }
         yield return null;
+        photonView.RPC("SetRandomSeed", PhotonTargets.All, Random.Range(0, int.MaxValue));
         photonView.RPC("GameStartEffect", PhotonTargets.AllViaServer);
         while(StartEffectRoutine ==null)
         {

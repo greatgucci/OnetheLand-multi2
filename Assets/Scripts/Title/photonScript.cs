@@ -26,6 +26,9 @@ public class photonScript : Photon.PunBehaviour
 
     private void Awake()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
         PhotonNetwork.sendRate = 30;
         PhotonNetwork.sendRateOnSerialize = 30;
         PhotonNetwork.logLevel = Loglevel;
