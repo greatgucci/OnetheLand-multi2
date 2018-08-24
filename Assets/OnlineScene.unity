@@ -2308,7 +2308,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf3e53bf285d50b4b95d6fe35bc587a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dianaEffectSound: []
+  dianaEffectSound:
+  - {fileID: 1392570915314100, guid: b783889a9f5ef2647abbc893e114f59a, type: 2}
+  - {fileID: 1415116798621946, guid: 4fc3b2f476c92284db1a6d4626691edf, type: 2}
+  - {fileID: 1425848688864780, guid: 02881b7af214910419ba72e4f2c73488, type: 2}
+  - {fileID: 1921516979685426, guid: 7cdc525084e8fe249af080526fed0ea2, type: 2}
+  - {fileID: 1857594266049716, guid: 55959aff1db026a4b8e8efd50f48f85d, type: 2}
+  - {fileID: 1993131924967254, guid: 8aa92d97f8d5ad34c894cd7af09f7232, type: 2}
+  - {fileID: 1558672103555954, guid: 3ff4950f3c293e04387bd574796d585a, type: 2}
+  - {fileID: 1222105204508776, guid: 47921e6c719647f4c922efef1af1aff8, type: 2}
+  - {fileID: 1988054007252448, guid: c762d8de450973f4ba18093e00a13d77, type: 2}
   irisEffectSound:
   - {fileID: 1502496492322882, guid: fee36275ff0f6ba49865c394719dfd87, type: 2}
   - {fileID: 1523294543108548, guid: 515973e0a17ac27448ccdda57d543531, type: 2}
@@ -2425,7 +2434,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

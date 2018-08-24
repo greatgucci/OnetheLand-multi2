@@ -12,7 +12,8 @@ public class Diana_NormalAttack : Skills {
 		PhotonView view = GetComponent<PhotonView> ();
 		Diana_NormalBullet dan_at;
 		DVector = PlayerManager.instance.Local.aimVector.normalized;
-		dan_at = PhotonNetwork.Instantiate ("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet> ();
+        AudioController.instance.PlayEffectSound(Character.DIANA, 0);
+        dan_at = PhotonNetwork.Instantiate ("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet> ();
 		dan_at.Init_Diana_NormalBullet (PlayerManager.instance.myPnum, view.viewID,DVector, true);
 		StartCoroutine (Waiting ());
 	}
