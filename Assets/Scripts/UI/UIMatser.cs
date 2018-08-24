@@ -206,11 +206,11 @@ public class UIMatser : MonoBehaviour {
 
         if (i == 0 || i == 1 || i == 3 || i == 4)
         {
-            descriptionWindow.transform.position = iconTransform.position + new Vector3(350f, -150f, 0f);
+            descriptionWindow.transform.position = iconTransform.position + new Vector3(525f, -225f, 0f);
         }
         else
         {
-            descriptionWindow.transform.position = iconTransform.position + new Vector3(-200f, -150f, 0f);
+            descriptionWindow.transform.position = iconTransform.position + new Vector3(-300f, -225f, 0f);
         }
 
         SetTextDescription(i);
