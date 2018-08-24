@@ -27,8 +27,10 @@ public class Diana_Skill4_Pray : Skills {
 		{
 			
 			praying_time_temp += Time.deltaTime;
-			if (praying_time_temp>1f)
-				praying = true;
+            if (praying_time_temp > 1f)
+            {
+                praying = true;
+            }
 			if (praying_time_temp>3f)
 				//
 			if ((Input.GetKeyUp (KeyCode.Q) || !Input.GetKey (KeyCode.Q))||Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.A)) 
