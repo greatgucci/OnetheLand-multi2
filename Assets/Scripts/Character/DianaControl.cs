@@ -33,7 +33,8 @@ public class DianaControl : PlayerControl {
 		PlayerManager.instance.Local.CurrentPrayGage = pray.GetComponent<Diana_Skill4_Pray> ().praying_time;
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
-			if (start) 
+            PlayerManager.instance.Local.SetCooltime(0, 1f);
+            if (start) 
 			{
 				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
 				view_oponent = PlayerManager.instance.GetPlayerByNum (oNum).GetComponent<PhotonView> ();
@@ -51,13 +52,15 @@ public class DianaControl : PlayerControl {
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
+            PlayerManager.instance.Local.SetCooltime(1, 2f);
             DoSkill(1);//우
             playerAnimation.AddAnimationLayer(4, false);
             pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
-			if (!skill1_playing)
+            PlayerManager.instance.Local.SetCooltime(2, 5f);
+            if (!skill1_playing)
 			{
 	            DoSkill(2);//E skill1
 	            playerAnimation.AddAnimationLayer(5, false);
@@ -67,7 +70,8 @@ public class DianaControl : PlayerControl {
         }
         else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
-			if (start) 
+            PlayerManager.instance.Local.SetCooltime(3, 8f);
+            if (start) 
 			{
 				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
 				view_oponent = PlayerManager.instance.GetPlayerByNum (oNum).GetComponent<PhotonView> ();
@@ -84,6 +88,7 @@ public class DianaControl : PlayerControl {
         }
         else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && skill_can)
         {
+            PlayerManager.instance.Local.SetCooltime(4, 6f);
             skill_can = false;
 			DoSkill(4);//LeftShift skill3
 			SetActiveToServer (false);
@@ -96,6 +101,7 @@ public class DianaControl : PlayerControl {
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
+            PlayerManager.instance.Local.SetCooltime(9, 0f);
             DoSkill(5);//Q 궁
             OnStartPrayAnimation();
         }

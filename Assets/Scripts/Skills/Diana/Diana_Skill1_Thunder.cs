@@ -31,7 +31,8 @@ public class Diana_Skill1_Thunder : Skills
 				break;
 			yield return null;
 		}
-		//상대한테 범위 instantiate
+        //상대한테 범위 instantiate
+        transform.parent.GetComponent<DianaControl>().skill1_playing = true;
 		Diana_Bullet_Thunder_Create thunder_create;
 		thunder_create = PhotonNetwork.Instantiate ("Diana_Thunder_Creater",rangeObject.transform.position,Quaternion.identity,0).GetComponent<Diana_Bullet_Thunder_Create>();
 		thunder_create.Diana_Thunder_Create (PlayerManager.instance.myPnum,dVector);

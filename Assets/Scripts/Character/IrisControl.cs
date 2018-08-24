@@ -40,7 +40,7 @@ public class IrisControl : PlayerControl
             DoSkill(1);//Skill1
             playerAnimation.AddAnimationLayer(4, false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(1, 1.2f);
+            PlayerManager.instance.Local.SetCooltime(1, 1.0f);
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
