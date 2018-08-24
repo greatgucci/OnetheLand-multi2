@@ -12,11 +12,9 @@ public class NetworkManager : Photon.PunBehaviour {
     }
     public GameObject[] playerPrefabs;
     public Text ping;
-    public Text timeText;
     private bool isP1Ready;
     private bool isP2Ready;
-    public Text tempGameStartText;
-    public Text tempGameOverText;
+
     private void Start()
     {
 
@@ -103,22 +101,18 @@ public class NetworkManager : Photon.PunBehaviour {
     [PunRPC]
     private void StartTimeCount()
     {
-        UIManager.instance.StartTime();
+        UIManager.instance.StartTimer();
     }
 
     [PunRPC]
     private void GameStartEffect()
-    {        
-        UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character,PlayerManager.instance.GetPlayerByNum(2).character);
-    }
-    [PunRPC]
-    private void GameStartEffectOff()
     {
+        StartEffectRoutine = StartCoroutine(StartEffect());
     }
     [PunRPC]    
     private void GameOverEffect(int loser)
     {
-
+        EndEffectRoutine = StartCoroutine(EndEffect(loser));
     }
     [PunRPC]
     private void GoToWaiting()
@@ -131,7 +125,6 @@ public class NetworkManager : Photon.PunBehaviour {
         PlayerManager.instance.gameUpdate = update;
     }
     #endregion
-
     /// <summary>
     /// 방장 쪽에서 루틴돌림
     /// </summary>
@@ -148,10 +141,14 @@ public class NetworkManager : Photon.PunBehaviour {
         }
         yield return null;
         photonView.RPC("GameStartEffect", PhotonTargets.AllViaServer);
-        yield return new WaitForSeconds(2.5f);
-        photonView.RPC("GameStartEffectOff", PhotonTargets.AllViaServer);
-        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.GAMING);
+        while(StartEffectRoutine ==null)
+        {
+            yield return null;
+        }
+        yield return StartEffectRoutine;
+        yield return new WaitForSeconds(0.1f);//wait
         photonView.RPC("StartTimeCount", PhotonTargets.AllViaServer);
+        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.GAMING);
     }
 
     /// <summary>
@@ -160,10 +157,59 @@ public class NetworkManager : Photon.PunBehaviour {
     IEnumerator GameOverRoutine(int loser)
     {
         photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.END);
-        photonView.RPC("GameOverEffect", PhotonTargets.AllViaServer, loser); 
-        yield return new WaitForSeconds(3f);
+        photonView.RPC("GameOverEffect", PhotonTargets.AllViaServer, loser);
+        while (EndEffectRoutine == null)
+        {
+            yield return null;
+        }
+        yield return EndEffectRoutine;
+        yield return new WaitForSeconds(0.1f);
         LeaveRoom();
     }
+    Coroutine StartEffectRoutine;
+    IEnumerator StartEffect()
+    {
+        UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
+        UIManager.instance.CharacterStartOn(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
+        UIManager.instance.SetCharacterStart(1, true);
+        UIManager.instance.SetCharacterStart(2, false);
+        PlayerManager.instance.GetPlayerByNum(1).PlayStartVoice();
+        yield return new WaitForSeconds(1f);
+        UIManager.instance.SetCharacterStart(1, false);
+        UIManager.instance.SetCharacterStart(2, true);
+        PlayerManager.instance.GetPlayerByNum(2).PlayStartVoice();
+        yield return new WaitForSeconds(1f);
+        UIManager.instance.CharacterStartOff();
+        yield return new WaitForSeconds(0.5f);
+        UIManager.instance.StartEventTimerOn();
+        for (int i = 0; i < 3; i++)
+        {
+            UIManager.instance.StartEventTimerUpdate(i);//1..2..3
+            yield return new WaitForSeconds(1f);
+        }
+        UIManager.instance.StartEventTimerUpdate(3);//START!
+        yield return new WaitForSeconds(1f);
+        UIManager.instance.StartEventTimerOff();
+    }
+    Coroutine EndEffectRoutine;
+    IEnumerator EndEffect(int loser)
+    {
+        int winner = 0;
+        if(loser ==1)
+        {
+            winner = 2;
+        }else
+        {
+            winner = 1;
+        }
+        PlayerManager.instance.GetPlayerByNum(loser).PlayLoseAnime();
+        PlayerManager.instance.GetPlayerByNum(winner).PlayWinAnime();
+        yield return new WaitForSeconds(1f);
 
-
+        UIManager.instance.WinnerCharacterOn(winner);
+        PlayerManager.instance.GetPlayerByNum(winner).PlayWinVoice();
+        yield return new WaitForSeconds(2f);
+        UIManager.instance.PlayEndBlackAnimation();
+        yield return new WaitForSeconds(3f);
+    }
 }

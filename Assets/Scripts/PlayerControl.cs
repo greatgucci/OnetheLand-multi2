@@ -56,14 +56,14 @@ public abstract class PlayerControl : Photon.PunBehaviour
     {
     }
 
-    protected virtual void PlayVoice(int i)
+    /// <summary>
+    /// 로컬 캐릭터만 보이스 가능
+    /// </summary>
+    /// <param name="i"></param>
+    public virtual void PlayVoice(int i)
     {
-        if (voiceAudio.isPlaying)
-        {
-            voiceAudio.Stop();
-        }
-        voiceAudio.clip = VoiceClip[i].RandomSound;
-        voiceAudio.Play();
+        if(photonView.isMine)
+        photonView.RPC("PlayVoice_RPC",PhotonTargets.All,i);
     }
 
 
@@ -190,6 +190,16 @@ public abstract class PlayerControl : Photon.PunBehaviour
     protected void GetFetter_RPC(float t)
     {
         StartCoroutine(FetterRoutine(t));
+    }
+    [PunRPC]
+    protected void PlayVoice_RPC(int i)
+    {
+        if (voiceAudio.isPlaying)
+        {
+            voiceAudio.Stop();
+        }
+        voiceAudio.clip = VoiceClip[i].RandomSound;
+        voiceAudio.Play();
     }
     protected void DoSkill(int skillNum)
     {
