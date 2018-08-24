@@ -7,12 +7,13 @@ public class Diana_Skill4_Pray : Skills {
 	public float praying_time;
 	public bool praying;
 	GameObject impact;
+	Diana_pary_aura pary;
 	PhotonView view;
 	void Start()
 	{
 		transform.parent.GetComponent<DianaControl> ().pray = gameObject;
 		transform.parent.GetComponent<DianaControl> ().skill4_create = true;
-		view = GetComponent<PhotonView> ();
+		view = transform.parent.GetComponent<PhotonView> ();
 	}
 	public override void Excute ()
 	{
@@ -26,7 +27,8 @@ public class Diana_Skill4_Pray : Skills {
 	IEnumerator Pray()
 	{
 		impact=PhotonNetwork.Instantiate("Diana_Pray",transform.position,Quaternion.identity,0);
-		impact.GetComponent<Diana_pary_aura> ().SetParent(view.viewID);
+		pary = impact.GetComponent<Diana_pary_aura> ();
+		pary.SetParent(view.viewID);
 		float praying_time_temp=0;
 		praying = true;
 		while (true)
@@ -34,6 +36,7 @@ public class Diana_Skill4_Pray : Skills {
 
 			PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(Time.deltaTime);
 			praying_time_temp += Time.deltaTime;
+			praying_time+=Time.deltaTime;
             if (praying_time_temp > 1f)
             {
 				PlayerManager.instance.Local.Defense = (praying_time_temp + 2) / 10;
@@ -47,6 +50,5 @@ public class Diana_Skill4_Pray : Skills {
 			}
             yield return null;
 		}
-		praying_time += praying_time_temp;
 	}
 }

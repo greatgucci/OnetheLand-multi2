@@ -29,7 +29,8 @@ public class DianaControl : PlayerControl {
     }
     protected override void SkillControl()
     {
-		
+
+		PlayerManager.instance.Local.CurrentPrayGage = pray.GetComponent<Diana_Skill4_Pray> ().praying_time;
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
 			if (start) 
@@ -102,12 +103,14 @@ public class DianaControl : PlayerControl {
         {
             OnCanclePrayAnimation();
         }
-        if (skill4_create && pray.GetComponent<Diana_Skill4_Pray>().praying_time >= 40f)
+        if (skill4_create && pray.GetComponent<Diana_Skill4_Pray>().praying_time >= 1f)
         {
 			PlayerManager.instance.Local.Defense = 1f;
-			PlayerManager.instance.GetPlayerByNum (1).GetStun (10f);
-			PlayerManager.instance.GetPlayerByNum (2).GetStun (10f);
 			diana_pray_win=PhotonNetwork.Instantiate ("Diana_Pray_Win",transform.position,Quaternion.identity,0);
+			Pray_Win ();
+			PlayerManager.instance.GetPlayerByNum (2).GetStun (10f);
+			PlayerManager.instance.GetPlayerByNum (1).GetStun (10f);
+			skill4_create = false;
         }
     }
     public void OnStartPrayAnimation()
@@ -156,6 +159,8 @@ public class DianaControl : PlayerControl {
 	{
 		idannakin.gameObject.SetActive (ing);
 	}
+
+
 	void Pray_Win()
 	{
 		photonView.RPC ("Pray_Win_RPC", PhotonTargets.All);
@@ -170,8 +175,9 @@ public class DianaControl : PlayerControl {
 	{
 		yield return new WaitForSeconds (2f);
 		Destroy (diana_pray_win);
-		diana_white=PhotonNetwork.Instantiate ("Diana_White",transform.position,Quaternion.identity,0);
+		diana_white=PhotonNetwork.Instantiate ("Diana_White",new Vector3(0f,0f,0f),Quaternion.identity,0);
 		Map_White ();
+		yield return null;
 		
 	}
 	void Map_White()
@@ -185,17 +191,27 @@ public class DianaControl : PlayerControl {
 	}
 	IEnumerator WhiteOut()
 	{
-		for (float i = 0f; i > 255f; i += 1f) {
-			diana_white.GetComponent<SpriteRenderer> ().color = new Color(255,255,255,i);
-			yield return new WaitForSeconds (1f / 255);
+		for (float i = 0f; i < 255f; i += Time.deltaTime*255) {
+			ColorMap(i);
+			yield return null;
 		}
 		yield return new WaitForSeconds (1f);
-		for (float i = 0f; i > 255f; i += 1f) {
-			diana_white.GetComponent<SpriteRenderer> ().color = new Color(255,255,255,255-i);
-			yield return new WaitForSeconds (0.5f / 255);
+		for (float i = 0f; i < 255f; i += Time.deltaTime*255*2) {
+			ColorMap(255-i);
+			yield return null;
 		}
 		Destroy_white ();
-		PlayerManager.instance.GetPlayerByNum (oNum).CurrentHp = 0f;
+		ImWin ();
+	}
+	void ColorMap(float i)
+	{
+
+		photonView.RPC ("ColorMap_RPC", PhotonTargets.All, i);
+	}
+	[PunRPC]
+	void ColorMap_RPC(float i)
+	{
+		diana_white.GetComponent<SpriteRenderer> ().color = new Color(1,1,1,i/255);
 	}
 	IEnumerator UltDirectionCoroutine()
 	{
@@ -228,5 +244,9 @@ public class DianaControl : PlayerControl {
 	void Destroy_white_RPC()
 	{
 		Destroy (diana_white);
+	}
+	private void ImWin()
+	{
+		NetworkManager.instance.GameOver (PlayerManager.instance.Opponent.playerNum);
 	}
 }

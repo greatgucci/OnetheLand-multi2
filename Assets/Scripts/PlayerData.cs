@@ -49,7 +49,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                     PlayHitSound();//내가 맞는소리는 로컬에서만
                 }
                 currentHp = value*(1-defense);
-                UpdateHpUI(currentHp);
+                UpdateHpUI();
                 if (currentHp <= 0)
                 {
                     NetworkManager.instance.GameOver(playerNum);
@@ -70,7 +70,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     { get { return currentSkillGage; }
         set
         {
-            if (photonView.isMine)
+			if (photonView.isMine && character == Character.IRIS)
             {
                 if(value>fullSkillGage)
                 {
@@ -79,7 +79,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 {
                     currentSkillGage = value;
                 }
-                UpdateSkgUI(currentSkillGage);
+                UpdateSkgUI();
             }
             else { Debug.Log("주인이 아닌 캐릭터에서 수정에 접근했습니다."); }
         }
@@ -92,6 +92,27 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 fullSkillGage = value;
         }
     }
+	public float currentPrayGage;
+
+	public float CurrentPrayGage
+	{
+		get{return currentPrayGage; }
+		set
+		{
+			if (photonView.isMine && character == Character.DIANA)
+			{
+				if(value>fullSkillGage)
+				{
+					currentPrayGage = fullSkillGage;
+				}else
+				{
+					currentPrayGage = value;
+				}
+				UpdateSkgUI();
+			}
+			else { Debug.Log("주인이 아닌 캐릭터에서 수정에 접근했습니다."); }
+		}
+	}
 
     public void SetStatus(float _fullHp,float _fullSkg,float _hp,float _skg)
     {
@@ -115,8 +136,8 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             fullSkillGage = _fullSkg;
             currentHp = _hp;
             currentSkillGage = _skg;
-            UpdateHpUI(currentHp);
-            UpdateSkgUI(currentSkillGage);
+            UpdateHpUI();
+            UpdateSkgUI();
         }
     }
 
@@ -197,16 +218,23 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     /// <summary>
     /// Local아닐경우 이것으로 UI업데이트
     /// </summary>
-    private void UpdateHpUI(float hp)
+    private void UpdateHpUI()
     {
      if(PlayerManager.instance.playMode == PlayMode.ONLINE)
         UIManager.instance.SetHp(playerNum, currentHp/fullHp);
     }
-    private void UpdateSkgUI(float skg)
+    private void UpdateSkgUI()
     {
         if (PlayerManager.instance.playMode == PlayMode.ONLINE)
         {
-            UIManager.instance.SetSkg(playerNum, currentSkillGage/fullSkillGage);
+			if (character == Character.DIANA) 
+			{
+				UIManager.instance.SetSkg(playerNum, currentPrayGage/fullSkillGage);
+			
+			} else 
+			{
+				UIManager.instance.SetSkg(playerNum, currentSkillGage/fullSkillGage);
+			}
         }
     }
     #region Public
@@ -216,13 +244,16 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         {
             stream.SendNext(currentHp);
             stream.SendNext(currentSkillGage);
+			stream.SendNext (currentPrayGage);
         }
         else//주인이 아니면 받고 UI에 적용
         {
             currentHp = (float)stream.ReceiveNext();
             currentSkillGage = (float)stream.ReceiveNext();
-            UpdateHpUI(currentHp);
-            UpdateSkgUI(currentSkillGage);
+			currentPrayGage = (float)stream.ReceiveNext ();
+
+            UpdateHpUI();
+			UpdateSkgUI ();
         }
     }
 
