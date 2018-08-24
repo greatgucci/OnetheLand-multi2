@@ -33,7 +33,7 @@ public class DianaControl : PlayerControl {
 		PlayerManager.instance.Local.CurrentPrayGage = pray.GetComponent<Diana_Skill4_Pray> ().praying_time;
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
-            PlayerManager.instance.Local.SetCooltime(0, 0.25f);
+            PlayerManager.instance.Local.SetCooltime(0, 0f);
             if (start) 
 			{
 				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;

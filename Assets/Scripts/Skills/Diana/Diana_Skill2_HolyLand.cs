@@ -13,14 +13,12 @@ public class Diana_Skill2_HolyLand : Skills {
 	IEnumerator Casting_Pray()
 	{
 		float time=0;
-		float CurrentHp;
         bool ing = true;
         Vector3 startposition= transform.position;
-		CurrentHp=PlayerManager.instance.Local.CurrentHp;
 		if(!transform.parent.GetComponent<DianaControl>().pray.GetComponent<Diana_Skill4_Pray>().praying)
         {
             transform.parent.GetComponent<DianaControl>().OnStartPrayAnimation();
-            while (time < 0.2f && CurrentHp == PlayerManager.instance.Local.CurrentHp)
+            while (time < 0.2f)
             {
                 if ((startposition - transform.position).magnitude > 0f)
                 {
