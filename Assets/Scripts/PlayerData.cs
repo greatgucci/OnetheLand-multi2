@@ -17,14 +17,23 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private float fullSkillGage;
     private float isFlip; // 1일 경우 오른쪽, -1일 경우 왼쪽을 보고 있는 거임
     private float globalCool = 0.5f;
+    private float defense;
     private PlayerControl playerControl;
     public float[] cooltime = new float[10];
     public float cooltimeSpd = 1f;
     Aim Aim_Object;
     PlayerData opponent;
+    protected AudioSource hitSound;
+    public MultiSound hitSource;
+    
     public Vector3 aimVector = new Vector3(0f,0f,0f);
     public Vector3 aimPosition = new Vector3(0f, 0f, 0f);
-
+    public Character character;
+    public float Defense
+    {
+        get { return defense; }
+        set { defense = value; }
+    }
     public float CurrentHp
     { get { return currentHp; }
         set
@@ -35,7 +44,11 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             }
             if(photonView.isMine)
             {
-                currentHp = value;
+                if(currentHp>value)
+                {
+                    PlayHitSound();
+                }
+                currentHp = value*(1-defense);
                 UpdateHpUI(currentHp);
                 if (currentHp <= 0)
                 {
@@ -121,6 +134,10 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     }
     #endregion
 
+    void Awake()
+    {
+        hitSound = GetComponent<AudioSource>();
+    }
     private void Start()
     {
         if (photonView.isMine)
@@ -129,7 +146,16 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         .GetComponent<Aim>();
         }
     }
-
+    public int HitSoundRan = 20;
+    private void PlayHitSound()
+    {
+        int ran = Random.Range(0, 100);
+        if(ran<=HitSoundRan)
+        {
+            hitSound.clip = hitSource.RandomSound;
+            hitSound.Play();
+        }
+    }
     private void Update()
     {
         if(photonView.isMine)
@@ -211,14 +237,19 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     /// <summary>
     /// 한클라에서만 호출하면 자동으로 연동함 , 자동으로 1초후 풀림
     /// </summary>
-    public void GetStun()
+    public void GetStun(float t=1f)
     {
-        playerControl.photonView.RPC("GetStun_RPC", PhotonTargets.All);
+        playerControl.photonView.RPC("GetStun_RPC", PhotonTargets.All,t);
     }
-	public void GetSilence()
+	public void GetSilence(float t=1f)
 	{
-		playerControl.photonView.RPC("GetSilence_RPC", PhotonTargets.All);
+		playerControl.photonView.RPC("GetSilence_RPC", PhotonTargets.All,t);
 	}
+    public void GetFetter(float t = 1f)
+    {
+        playerControl.photonView.RPC("GetFetter_RPC", PhotonTargets.All, t);
+    }
+
     /// <summary>
     /// 한클라에서만 호출하면 자동으로 연동함 , 수동으로 조절
     /// </summary>
@@ -226,4 +257,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         playerControl.photonView.RPC("SetInputEnable_RPC", PhotonTargets.All,b);
     }
+
+
+
 }

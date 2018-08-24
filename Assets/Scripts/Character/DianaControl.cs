@@ -11,57 +11,103 @@ public class DianaControl : PlayerControl {
 	public bool skill4_create = false;
 	public bool skill1_playing = false;
 	public GameObject pray;
-	protected override bool LateUpdate()
-    {
+    public bool isPraying;
 
-		if (!base.LateUpdate ()) 
-		{
-			return false;
-		}// *<주의>* 이거 빼먹으면안대용!
-		Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    protected override void MoveControl()
+    {
+        Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    }
+    protected override void SkillControl()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
-			if (!skill1_playing)
-			{
-				DoSkill(0);//좌
-
-				pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
-			}
+            if (!skill1_playing)
+            {
+                DoSkill(0);//좌
+                playerAnimation.AddAnimationLayer(3, false);
+                pray.GetComponent<Diana_Skill4_Pray>().praying = false;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
-			DoSkill(1);//우
-			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
+            DoSkill(1);//우
+            playerAnimation.AddAnimationLayer(4, false);
+            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
-			DoSkill(2);//E skill1
-			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
+            DoSkill(2);//E skill1
+            playerAnimation.AddAnimationLayer(5, false);
+            SetAnimationLayerEmpty(0.633f);
+            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
-		else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
+        else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
-			DoSkill(3);//R skill2
-			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
+            DoSkill(3);//R skill2
+            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
-		else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f)&&skill_can)
+        else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && skill_can)
         {
-			skill_can = false;
-			DoSkill(4);//LeftShift skill3
-			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
+            skill_can = false;
+            DoSkill(4);//LeftShift skill3
+            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
         {
-			Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-			pray.GetComponent<Diana_Skill4_Pray> ().praying=false;
+            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
+            PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(2f);
             DoSkill(5);//Q 궁
-		}
-		if(skill4_create&&pray.GetComponent<Diana_Skill4_Pray> ().praying_time>=60f)
-		{
-			//승리
-		}
-		return true;
+            OnStartPrayAnimation();
+        }
+        if(!pray.GetComponent<Diana_Skill4_Pray>().praying)
+        {
+            OnCanclePrayAnimation();
+        }
+        if (skill4_create && pray.GetComponent<Diana_Skill4_Pray>().praying_time >= 60f)
+        {
+        }
     }
+    public void OnStartPrayAnimation()
+    {
+        if (isPraying)
+            return;
+        playerAnimation.AddAnimationLayer(6, false);
+        isPraying = true;
+    }
+    public void OnCanclePrayAnimation()
+    {
+        if(isPraying)
+        {
+            isPraying = false;
+            SetAnimationLayerEmpty(0f);
+        }
+    }
+
+    protected override void MoveAnimationChange(MoveState move)
+    {
+        if (move == moveState)
+            return;
+
+        switch (move)
+        {
+            case MoveState.Idle:
+               playerAnimation.ChangeAnim(0,true);
+                moveState = MoveState.Idle;
+                break;
+            case MoveState.MoveFront:
+               playerAnimation.ChangeAnim(1,true);
+                moveState = MoveState.MoveFront;
+                break;
+            case MoveState.MoveBack:
+                playerAnimation.ChangeAnim(2,true);
+                moveState = MoveState.MoveBack;
+                break;
+        }
+    }
+
+
 }

@@ -6,4 +6,5 @@ public abstract class Skills : MonoBehaviour
 {
     public float delay = 1f;
     public abstract void Excute();
+
 }

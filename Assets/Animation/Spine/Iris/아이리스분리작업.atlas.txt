@@ -1,0 +1,90 @@
+
+아이리스분리작업.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BackHair
+  rotate: false
+  xy: 2, 1115
+  size: 622, 744
+  orig: 622, 744
+  offset: 0, 0
+  index: -1
+FrontHead
+  rotate: false
+  xy: 2, 494
+  size: 474, 619
+  orig: 474, 619
+  offset: 0, 0
+  index: -1
+SideHair
+  rotate: false
+  xy: 2, 494
+  size: 474, 619
+  orig: 474, 619
+  offset: 0, 0
+  index: -1
+LHand
+  rotate: false
+  xy: 1065, 1784
+  size: 59, 75
+  orig: 59, 75
+  offset: 0, 0
+  index: -1
+LLowerArm
+  rotate: false
+  xy: 2, 2
+  size: 82, 104
+  orig: 82, 104
+  offset: 0, 0
+  index: -1
+LUpperArm
+  rotate: false
+  xy: 799, 1505
+  size: 45, 121
+  orig: 45, 121
+  offset: 0, 0
+  index: -1
+LowerBody
+  rotate: false
+  xy: 2, 108
+  size: 171, 384
+  orig: 171, 384
+  offset: 0, 0
+  index: -1
+Neck
+  rotate: false
+  xy: 626, 1475
+  size: 171, 384
+  orig: 171, 384
+  offset: 0, 0
+  index: -1
+RHand
+  rotate: false
+  xy: 478, 770
+  size: 119, 343
+  orig: 119, 343
+  offset: 0, 0
+  index: -1
+RLowerArm
+  rotate: false
+  xy: 175, 188
+  size: 78, 304
+  orig: 78, 304
+  offset: 0, 0
+  index: -1
+RUpperArm
+  rotate: false
+  xy: 626, 1140
+  size: 78, 333
+  orig: 78, 333
+  offset: 0, 0
+  index: -1
+UpperBody
+  rotate: false
+  xy: 799, 1628
+  size: 264, 231
+  orig: 264, 231
+  offset: 0, 0
+  index: -1
