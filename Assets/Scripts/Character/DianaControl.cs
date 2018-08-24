@@ -30,8 +30,7 @@ public class DianaControl : PlayerControl {
     protected override void SkillControl()
     {
 
-		PlayerManager.instance.Local.CurrentPrayGage = pray.GetComponent<Diana_Skill4_Pray> ().praying_time;
-        if (!skill1_playing)
+		if (!skill1_playing)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
              {
@@ -94,30 +93,12 @@ public class DianaControl : PlayerControl {
 			SetActiveToServer (false);
             pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
-        else if (Input.GetKey(KeyCode.Q))
+        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f/* && PlayerManager.instance.Local.CurrentSkillGage >= 100f*/)
         {
-            PlayerManager.instance.Local.SetCooltime(9, 0f);
+            PlayerManager.instance.Local.SetCooltime(9, 10f);
             DoSkill(5);//Q 궁
-            OnStartPrayAnimation();
-        }
-        if(!pray.GetComponent<Diana_Skill4_Pray>().praying && !pray.GetComponent<Diana_Skill4_Pray>().praying)
-        {
-            OnCanclePrayAnimation();
-        }
-    }
-    public void OnStartPrayAnimation()
-    {
-        if (isPraying)
-            return;
-        playerAnimation.AddAnimationLayer(6, false);
-        isPraying = true;
-    }
-    public void OnCanclePrayAnimation()
-    {
-        if(isPraying)
-        {
-            isPraying = false;
-            SetAnimationLayerEmpty(0f);
+            playerAnimation.AddAnimationLayer(6, false);
+            SetAnimationLayerEmpty(6f);
         }
     }
 

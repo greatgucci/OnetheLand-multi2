@@ -17,7 +17,6 @@ public class Diana_Skill2_HolyLand : Skills {
         Vector3 startposition= transform.position;
 		if(!transform.parent.GetComponent<DianaControl>().pray.GetComponent<Diana_Skill4_Pray>().praying)
         {
-            transform.parent.GetComponent<DianaControl>().OnStartPrayAnimation();
             while (time < 0.2f)
             {
                 if ((startposition - transform.position).magnitude > 0f)
@@ -29,10 +28,11 @@ public class Diana_Skill2_HolyLand : Skills {
                 //기도 모션
                 yield return null;
 			}
-			transform.parent.GetComponent<DianaControl>().OnCanclePrayAnimation();
         }
         if (ing)
         {
+
+            AudioController.instance.PlayEffectSound(Character.DIANA, 3);
             Diana_Bullet_HolyLand holyland;
             holyland = PhotonNetwork.Instantiate("Diana_HolyLand",
                 PlayerManager.instance.Opponent.transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet_HolyLand>();

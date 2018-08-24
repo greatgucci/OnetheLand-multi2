@@ -20,8 +20,10 @@ public class Diana_NormalBullet : Bullet{
 		damage = 100;
 		FavoriteFunction.RotateBullet (gameObject);
 		rgbd.velocity = DVector * speed;
-        if(type)
+        if (type)
             StartCoroutine(Colison(domicilnum));
+        else
+            transform.localScale *= 0.6f;
         
     }
     IEnumerator Colison(int domicilnum)

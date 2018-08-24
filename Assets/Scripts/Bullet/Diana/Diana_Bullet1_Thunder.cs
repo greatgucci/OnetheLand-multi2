@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Diana_Bullet1_Thunder : Bullet {
 
-	public void Diana_Thunder(int _shooterNum)
+	public void Diana_Thunder(int _shooterNum, int type)
 	{
-		photonView.RPC ("Diana_Thunder_RPC",PhotonTargets.All,_shooterNum);
+		photonView.RPC ("Diana_Thunder_RPC",PhotonTargets.All,_shooterNum, type);
 	}
 	[PunRPC]
-	void Diana_Thunder_RPC(int _shooterNum)
+	void Diana_Thunder_RPC(int _shooterNum, int type)
 	{
 		shooterNum = _shooterNum;
 		oNum=shooterNum==1? 2 : 1;
 		damage = 120;
+        if(type==2)
+        {
+            transform.localScale *= 1.5f;
+        }
 		StartCoroutine (Thunder ());
 	}
 	IEnumerator Thunder()

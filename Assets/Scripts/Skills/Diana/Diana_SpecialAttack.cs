@@ -11,7 +11,7 @@ public class Diana_SpecialAttack : Skills
             return;
         Diana_SpecialBullet dan_at;
 		dVector = PlayerManager.instance.Local.aimVector.normalized;
-        //AudioController.instance.PlayEffectSound(Character.DIANA, 1);
+        AudioController.instance.PlayEffectSound(Character.DIANA, 1);
         for (int type = 0; type < 5; type++)
         {
             dan_at = PhotonNetwork.Instantiate("Diana_SpecialBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_SpecialBullet>();

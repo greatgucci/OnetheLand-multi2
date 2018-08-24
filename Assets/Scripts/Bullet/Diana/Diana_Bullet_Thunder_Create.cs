@@ -32,10 +32,10 @@ public class Diana_Bullet_Thunder_Create : Bullet {
 				yield return new WaitForSeconds(0.1f);
 				if (PlayerManager.instance.myPnum == shooterNum) {
 
-                    AudioController.instance.PlayEffectSound(Character.DIANA, 3);
+                    AudioController.instance.PlayEffectSound(Character.DIANA, 2);
                     Diana_Bullet1_Thunder thunder;
 					thunder = PhotonNetwork.Instantiate ("Diana_Thunder", transform.position, Quaternion.identity, 0).GetComponent<Diana_Bullet1_Thunder>();
-					thunder.Diana_Thunder (shooterNum);
+					thunder.Diana_Thunder (shooterNum, 1);
 				}
 				i+=1f;
 				if(i>4)

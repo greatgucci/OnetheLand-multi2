@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4142575865977548}
   - component: {fileID: 82597236229815242}
+  - component: {fileID: 114716911659683128}
   m_Layer: 0
   m_Name: Thunder
   m_TagString: Untagged
@@ -120,3 +121,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114716911659683128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1425848688864780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfb4422b2c3a4c479c5d3b5ebc0d303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1
