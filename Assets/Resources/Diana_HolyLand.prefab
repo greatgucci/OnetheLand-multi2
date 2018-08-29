@@ -37,10 +37,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4081587285772190}
   - component: {fileID: 212858215657310752}
-  - component: {fileID: 114306270503546428}
   - component: {fileID: 50090926632425968}
   - component: {fileID: 58526326164021348}
   - component: {fileID: 114490565895345048}
+  - component: {fileID: 114990941440952290}
   m_Layer: 0
   m_Name: Diana_HolyLand
   m_TagString: Untagged
@@ -172,7 +172,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &114306270503546428
+--- !u!114 &114490565895345048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1475055966059196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43596f3e3673e9a45a2026aa96a6dda7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  damage: 100
+  destroyTime: 10
+  rgbd: {fileID: 0}
+  shooterNum: 0
+  oNum: 0
+--- !u!114 &114990941440952290
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -198,23 +215,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114490565895345048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475055966059196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43596f3e3673e9a45a2026aa96a6dda7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  damage: 100
-  destroyTime: 10
-  rgbd: {fileID: 0}
-  shooterNum: 0
-  oNum: 0
 --- !u!198 &198215617199269234
 ParticleSystem:
   m_ObjectHideFlags: 1

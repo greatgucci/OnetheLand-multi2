@@ -183,15 +183,12 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
     }
 	[PunRPC]
-	protected void GetSilence_RPC(float t)
+	protected void GetSilence_RPC(bool b)
 	{
-
-			if (SilenceCoroutine != null) 
-			{
-				StopCoroutine (SilenceCoroutine);
-			}
-			SilenceCoroutine = StartCoroutine(SilenceRoutine(t));
-		
+        if(photonView.isMine)
+        {
+            isMoveAble = b;
+        }
 	}
     [PunRPC]
     protected void SetInputEnable_RPC(bool b)
@@ -202,9 +199,10 @@ public abstract class PlayerControl : Photon.PunBehaviour
         }
     }
     [PunRPC]
-    protected void GetFetter_RPC(float t)
+    protected void GetFetter_RPC(bool b)
     {
-        StartCoroutine(FetterRoutine(t));
+        if (photonView.isMine)
+            isSkillAble = b;
     }
     [PunRPC]
     protected void PlayVoice_RPC(int i)
@@ -356,6 +354,12 @@ public abstract class PlayerControl : Photon.PunBehaviour
         }
     }
 	Coroutine StunCoroutine;
+
+    /// <summary>
+    /// 기절은 코루틴으로
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
     protected IEnumerator StunRoutine(float t)
     {
         GameObject stun = Instantiate(StunEffect, transform);
@@ -373,35 +377,6 @@ public abstract class PlayerControl : Photon.PunBehaviour
         }
     }
 
-	Coroutine SilenceCoroutine;
-	protected IEnumerator SilenceRoutine(float t)
-	{
-		//GameObject silence;
-
-		isSkillAble = false;
-		
-		yield return new WaitForSeconds(t);
-		//DestroyImmediate(silence);
-		yield return new WaitForEndOfFrame();
-
-		isSkillAble = true;
-
-	}
-    protected IEnumerator FetterRoutine(float t)
-    {
-        //GameObject silence;
-        if (photonView.isMine)
-        {
-            isMoveAble = false;
-        }
-        yield return new WaitForSeconds(t);
-        //DestroyImmediate(silence);
-        yield return new WaitForEndOfFrame();
-        if (photonView.isMine)
-        {
-            isMoveAble = true;
-        }
-    }
     Coroutine emptyLayerRoutine;
     protected IEnumerator AnimationEmptyLayerRoutine(float t)
     {

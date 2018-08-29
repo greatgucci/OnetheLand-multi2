@@ -67,9 +67,8 @@ public class DianaControl : PlayerControl {
         if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
             PlayerManager.instance.Local.SetCooltime(3, 3f);
-			DoSkill(3);//R skill2
-
-			PlayerManager.instance.GetPlayerByNum (oNum).GetSilence (2f);
+            Debug.Log("a");
+            DoSkill(3);//R skill2
 
         }
         else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && Creating_HeresyStigma.isExist)

@@ -253,13 +253,13 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         playerControl.photonView.RPC("GetStun_RPC", PhotonTargets.All,t);
     }
-	public void GetSilence(float t=1f)
+	public void GetSilence(bool b)
 	{
-		playerControl.photonView.RPC("GetSilence_RPC", PhotonTargets.All,t);
+		playerControl.photonView.RPC("GetSilence_RPC", PhotonTargets.All,b);
 	}
-    public void GetFetter(float t = 1f)
+    public void GetFetter(bool b)
     {
-        playerControl.photonView.RPC("GetFetter_RPC", PhotonTargets.All, t);
+        playerControl.photonView.RPC("GetFetter_RPC", PhotonTargets.All, b);
     }
 
     /// <summary>
