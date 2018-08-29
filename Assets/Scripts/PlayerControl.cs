@@ -62,7 +62,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
     /// <param name="i"></param>
     public virtual void PlayVoice(int i)
     {
-        if(photonView.isMine)
+        if(photonView.isMine && !voiceAudio.isPlaying)
         photonView.RPC("PlayVoice_RPC",PhotonTargets.All,i);
     }
 
@@ -207,10 +207,6 @@ public abstract class PlayerControl : Photon.PunBehaviour
     [PunRPC]
     protected void PlayVoice_RPC(int i)
     {
-        if (voiceAudio.isPlaying)
-        {
-            voiceAudio.Stop();
-        }
         voiceAudio.clip = VoiceClip[i].RandomSound;
         voiceAudio.Play();
     }

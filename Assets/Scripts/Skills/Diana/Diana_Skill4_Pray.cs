@@ -33,8 +33,8 @@ public class Diana_Skill4_Pray : Skills {
 		pary = impact.GetComponent<Diana_pary_aura> ();
 		pary.SetParent(view.viewID);
         PlayerManager.instance.Local.Defense = 1f;
-        PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum == 1 ? 2 : 1).GetSilence(5f);
-        PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(5f);
+        //PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum == 1 ? 2 : 1).GetSilence(5f);
+        //PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(5f);
         float praying_time_temp=0;
         Diana_Bullet1_Thunder thunder;
         float x;

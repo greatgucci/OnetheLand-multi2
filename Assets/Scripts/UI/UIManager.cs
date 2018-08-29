@@ -15,7 +15,10 @@ public class UIManager : MonoBehaviour {
     Image p1Hp, p2Hp;
     Image GameStartImage;
     Animator animator;
-
+    Image timeRed;
+    Image vsImage;
+    Image you1,you2;
+    Transform SkillIcons;
     public Sprite Iris, Diana;
     //public Sprite[] StartEventTimerSprites;
 
@@ -34,9 +37,15 @@ public class UIManager : MonoBehaviour {
 
         p1CharacterEvent = transform.Find("Event").Find("P1Event").GetComponent<Image>();
         p2CharacterEvent = transform.Find("Event").Find("P2Event").GetComponent<Image>();
+        vsImage = transform.Find("Event").Find("Vs").GetComponent<Image>();
+        
         timeText = transform.Find("texts").Find("Time").GetComponent<Text>();
 
         GameStartImage = transform.Find("Event").Find("Timer").GetComponent<Image>();
+        timeRed = timeText.transform.Find("ClockBG").GetComponent<Image>();
+        SkillIcons = transform.Find("SkillIcon");
+        you1 = transform.Find("HpUI").Find("P1Status").Find("You").GetComponent<Image>();
+        you2 = transform.Find("HpUI").Find("P2Status").Find("You").GetComponent<Image>();
         animator = GetComponent<Animator>();
     }
 
@@ -96,7 +105,6 @@ public class UIManager : MonoBehaviour {
     {
         p1CharacterEvent.enabled = true;
         p2CharacterEvent.enabled = true;
-
         switch (player1)
         {
             case Character.DIANA:
@@ -167,10 +175,40 @@ public class UIManager : MonoBehaviour {
             p2CharacterEvent.enabled = true;
         }
     }
+    public void PlayStartAnimation()
+    {
+        animator.Play("Start");
+    }
     public void PlayEndBlackAnimation()
     {
         animator.Play("Black");
     }
+    public void SkillIconMove(bool b)
+    {
+        if(b)
+        {
+            SkillIcons.position = new Vector3(0, 2000, 0);
+        }
+        else
+        {
+            SkillIcons.position = new Vector3(960, 540, 0);
+        }
+    }
+    public void VsImage(bool b)
+    {
+        vsImage.enabled = b;
+    }
+    public void YouImageOn(int i)
+    {
+        if(i ==1)
+        {
+            you1.enabled = true;
+        }else if(i==2)
+        {
+            you2.enabled = true;
+        }
+    }
+
     #endregion
 
 
@@ -187,8 +225,14 @@ public class UIManager : MonoBehaviour {
     IEnumerator TimeCount()
     {
         float t = 180;
+        bool isRedOn=false;
         while (t > 0)
         {
+            if(t<50 && !isRedOn)
+            {
+                isRedOn = true;
+                timeRed.enabled = true;
+            }
             t -= Time.deltaTime;
             timeText.text = "" + (int)t;
             yield return null;
