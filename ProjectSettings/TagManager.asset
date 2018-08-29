@@ -8,7 +8,10 @@ TagManager:
   - Player2
   - Bullet
   - Warning
-  - Range_Attack
+  - DianaNormalBullet1
+  - DianaNormalBullet2
+  - HolyLand1
+  - HolyLand2
   layers:
   - Default
   - TransparentFX

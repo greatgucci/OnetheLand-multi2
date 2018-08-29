@@ -7,22 +7,31 @@ using UnityEngine;
 /// </summary>
 public class DianaControl : PlayerControl {
 
-	public bool skill_can=false;
-	public bool skill4_create = false;
-	public bool skill1_playing = false;
-	public GameObject pray;
+    public bool skill1_playing = false;
+    public bool skill4_create = false;
+    public GameObject pray;
     public bool isPraying;
-	public Diana_idannakin idannakin;
-	PhotonView view_oponent;
 	public GameObject diana_pray_win;
+    Diana_HeresyStigmaCreate Creating_HeresyStigma;
 	GameObject diana_white;
-	int oNum;
-	bool start;
+    int oNum;
+    PhotonView view_oponent;
 	protected override void Start()
 	{
 		base.Start ();
-		start = true;
+            StartCoroutine(Ready());
 	}
+    private IEnumerator Ready()
+    {
+        yield return new WaitForSeconds(1f);
+        oNum = PlayerManager.instance.myPnum == 1 ? 2 : 1;
+        view_oponent = PlayerManager.instance.GetPlayerByNum(oNum).GetComponent<PhotonView>();
+        if (photonView.isMine)
+        {
+            Creating_HeresyStigma = PhotonNetwork.Instantiate("HeresyStigmaCreate", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<Diana_HeresyStigmaCreate>();
+            Creating_HeresyStigma.Init_InHeresyStigma(PlayerManager.instance.myPnum, view_oponent.viewID);
+        }
+    }
     protected override void MoveControl()
     {
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -33,20 +42,10 @@ public class DianaControl : PlayerControl {
 		if (!skill1_playing)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
-             {
-            PlayerManager.instance.Local.SetCooltime(0, 0f);
-            if (start) 
-			{
-				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
-				view_oponent = PlayerManager.instance.GetPlayerByNum (oNum).GetComponent<PhotonView> ();
-				idannakin = PhotonNetwork.Instantiate ("idannakin",PlayerManager.instance.GetPlayerByNum(oNum).transform.position+new Vector3(0f, 0.9f,0f),Quaternion.identity,0).GetComponent<Diana_idannakin> ();
-				idannakin.SetParent (view_oponent.viewID);
-				SetActiveToServer (false);
-				start = false;
-			}
+            {
+                PlayerManager.instance.Local.SetCooltime(0, 0f);
                 DoSkill(0);//좌
                 playerAnimation.AddAnimationLayer(3, false);
-                pray.GetComponent<Diana_Skill4_Pray>().praying = false;
             }
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
@@ -54,7 +53,6 @@ public class DianaControl : PlayerControl {
             PlayerManager.instance.Local.SetCooltime(1, 1f);
             DoSkill(1);//우
             playerAnimation.AddAnimationLayer(4, false);
-            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
         }
         if (!skill1_playing)
         {
@@ -64,34 +62,23 @@ public class DianaControl : PlayerControl {
 	            DoSkill(2);//E skill1
 	            playerAnimation.AddAnimationLayer(5, false);
 	            SetAnimationLayerEmpty(0.633f);
-				pray.GetComponent<Diana_Skill4_Pray>().praying = false;
             }
         }
         if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
             PlayerManager.instance.Local.SetCooltime(3, 3f);
-            if (start)
-			{
-				oNum = PlayerManager.instance.Local.playerNum == 1 ? 2 : 1;
-				view_oponent = PlayerManager.instance.GetPlayerByNum (oNum).GetComponent<PhotonView> ();
-				idannakin = PhotonNetwork.Instantiate ("idannakin",PlayerManager.instance.GetPlayerByNum(oNum).transform.position+new Vector3(0f, 0.9f,0f),Quaternion.identity,0).GetComponent<Diana_idannakin> ();
-				idannakin.SetParent (view_oponent.viewID);
-				SetActiveToServer (false);
-				start = false;
-			}
 			DoSkill(3);//R skill2
 
 			PlayerManager.instance.GetPlayerByNum (oNum).GetSilence (2f);
-            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
 
         }
-        else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && skill_can)
+        else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && Creating_HeresyStigma.isExist)
         {
             PlayerManager.instance.Local.SetCooltime(4, 4f);
-            skill_can = false;
-			DoSkill(4);//LeftShift skill3
-			SetActiveToServer (false);
-            pray.GetComponent<Diana_Skill4_Pray>().praying = false;
+            Debug.Log(Creating_HeresyStigma.isExist);
+            Creating_HeresyStigma.isExist = false;
+            Debug.Log(Creating_HeresyStigma.isExist);
+            DoSkill(4);//LeftShift skill3
         }
         else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f/* && PlayerManager.instance.Local.CurrentSkillGage >= 100f*/)
         {
@@ -101,7 +88,6 @@ public class DianaControl : PlayerControl {
             SetAnimationLayerEmpty(6f);
         }
     }
-
     protected override void MoveAnimationChange(MoveState move)
     {
         if (move == moveState)
@@ -123,16 +109,6 @@ public class DianaControl : PlayerControl {
                 break;
         }
     }
-	void SetActiveToServer(bool ing)
-	{
-		photonView.RPC ("SetActiveToServer_RPC", PhotonTargets.All, ing);
-	}
-	[PunRPC]
-	void SetActiveToServer_RPC(bool ing)
-	{
-		idannakin.gameObject.SetActive (ing);
-	}
-
 
 	public void Pray_Win(int _shooterNum)
 	{

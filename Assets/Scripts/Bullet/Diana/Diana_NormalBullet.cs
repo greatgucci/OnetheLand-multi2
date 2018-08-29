@@ -18,7 +18,8 @@ public class Diana_NormalBullet : Bullet{
 		oNum=shooterNum==1? 2 : 1;
 		speed = 15f;
 		damage = 100;
-		FavoriteFunction.RotateBullet (gameObject);
+        tag = "DianaNormalBullet" + shooterNum;
+        FavoriteFunction.RotateBullet (gameObject);
 		rgbd.velocity = DVector * speed;
         if (type)
             StartCoroutine(Colison(domicilnum));
@@ -66,9 +67,6 @@ public class Diana_NormalBullet : Bullet{
 				//데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
 			{
 				PlayerManager.instance.Local.CurrentHp -= damage;
-				Heresy_Sign ();
-				SetActiveToServer(true);
-				skillObject.transform.parent.GetComponent<DianaControl> ().idannakin.Impact ();
 				DestroyToServer();
 			}
 			if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
@@ -76,23 +74,5 @@ public class Diana_NormalBullet : Bullet{
 				PlayerManager.instance.Local.CurrentSkillGage += 1f;
 			}
 		}
-	}
-	void Heresy_Sign()
-	{
-		photonView.RPC ("Heresy_Sign_RPC",PhotonTargets.All);
-	}
-	[PunRPC]
-	void Heresy_Sign_RPC()
-	{
-		skillObject.transform.parent.GetComponent<DianaControl> ().skill_can = true;
-	}
-	public void SetActiveToServer(bool ing)
-	{
-		photonView.RPC ("SetActiveToServer_RPC", PhotonTargets.All, ing);
-	}
-	[PunRPC]
-	void SetActiveToServer_RPC(bool ing)
-	{
-		skillObject.transform.parent.GetComponent<DianaControl>().idannakin.gameObject.SetActive (ing);
 	}
 }

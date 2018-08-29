@@ -20,7 +20,6 @@ public class Diana_Skill4_Pray : Skills {
     void Start()
 	{
 		transform.parent.GetComponent<DianaControl> ().pray = gameObject;
-		transform.parent.GetComponent<DianaControl> ().skill4_create = true;
 		view = transform.parent.GetComponent<PhotonView> ();
 	}
 	public override void Excute ()

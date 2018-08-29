@@ -248,7 +248,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1640007419524052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.50051975, y: -0.9160674, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4010785594686688}
@@ -743,12 +743,10 @@ MonoBehaviour:
   - audioClips: []
   - audioClips: []
   speed: 6
-  skill_can: 0
   skill4_create: 0
   skill1_playing: 0
   pray: {fileID: 0}
   isPraying: 0
-  idannakin: {fileID: 0}
   diana_pray_win: {fileID: 0}
 --- !u!114 &114160678133799954
 MonoBehaviour:

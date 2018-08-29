@@ -120,4 +120,8 @@ MonoBehaviour:
   - ColorsMap_RPC
   - SetRandomSeed
   - Warnning_RPC
+  - Init_HeresyStigma_RPC
+  - Destroy_HeresyStigma_RPC
+  - Init_InHeresyStigma_RPC
+  - SkillUse_RPC
   DisableAutoOpenWizard: 1
