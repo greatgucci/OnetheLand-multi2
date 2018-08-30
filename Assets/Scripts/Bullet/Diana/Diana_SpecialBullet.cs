@@ -20,11 +20,11 @@ public class Diana_SpecialBullet : Bullet{
 		FavoriteFunction.RotateBullet (gameObject);
 		rgbd.velocity = DVector * speed;
 		StartCoroutine(Scale_setting());
-
-	}
+    }
     IEnumerator Scale_setting()
     {
-		while (true) {
+		while (true)
+        {
 			transform.localScale *= 0.85f;
 			speed *= 0.9f;
 			rgbd.velocity = DVector * speed;
