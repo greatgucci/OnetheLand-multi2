@@ -129,7 +129,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
             MoveControl();       
 
         if (isSkillAble)
-        SkillControl();
+            SkillControl();
 		
 		return true;
     }
@@ -187,7 +187,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
 	{
         if(photonView.isMine)
         {
-            isMoveAble = b;
+            isSkillAble = !b;
         }
 	}
     [PunRPC]
@@ -202,7 +202,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
     protected void GetFetter_RPC(bool b)
     {
         if (photonView.isMine)
-            isSkillAble = b;
+            isMoveAble = !b;
     }
     [PunRPC]
     protected void PlayVoice_RPC(int i)

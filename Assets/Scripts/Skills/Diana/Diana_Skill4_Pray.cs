@@ -38,10 +38,10 @@ public class Diana_Skill4_Pray : Skills {
         float x;
         float y;
 
-        
-        PlayerManager.instance.Local.GetSilence(false);
-        PlayerManager.instance.Local.GetFetter(false);
-        PlayerManager.instance.Opponent.GetSilence(false);
+        PlayerManager.instance.Opponent.GetSilence(true);
+        PlayerManager.instance.Local.GetSilence(true);
+        PlayerManager.instance.Local.GetFetter(true);
+
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
         while (true)
 		{
@@ -62,9 +62,9 @@ public class Diana_Skill4_Pray : Skills {
 			}
             yield return new WaitForSeconds(0.05f);
         }
-        PlayerManager.instance.Opponent.GetSilence(true);
-        PlayerManager.instance.Local.GetSilence(true);
-        PlayerManager.instance.Local.GetFetter(true);
+        PlayerManager.instance.Local.GetSilence(false);
+        PlayerManager.instance.Local.GetFetter(false);
+        PlayerManager.instance.Opponent.GetSilence(false);
     }
     void Warnning(int shooterNum, Vector3 position)
     {
