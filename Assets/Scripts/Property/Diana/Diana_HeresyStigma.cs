@@ -6,6 +6,7 @@ public class Diana_HeresyStigma : Photon.PunBehaviour
 {
     int oNum;
     int shooterNum;
+    GameObject impact;
     private bool isExist= true;
     GameObject parentObject;
     public void Init_HeresyStigma(int _shooterNum, int parent_domicilNum)
@@ -51,7 +52,8 @@ public class Diana_HeresyStigma : Photon.PunBehaviour
             else if(sequence ==2)
             {
                 ChangeColor(1f, 1f, 1f, 1f);
-                //Impact 출력
+                impact=PhotonNetwork.Instantiate("HeresyStigma_Explosion",transform.position,Quaternion.identity,0);
+                Destroy_Heresy();
                 yield return new WaitForSeconds(0.5f);
                 ChangeColor(180f/255f, 0f, 0f, 1f);
                 isExist = false;
@@ -61,5 +63,14 @@ public class Diana_HeresyStigma : Photon.PunBehaviour
     private void ChangeColor(float r, float g , float b, float a)
     {
         GetComponent<SpriteRenderer>().color= new Color(r,g,b,a);
+    }
+    public void Destroy_Heresy()
+    {
+        photonView.RPC("Destroy_Heresy_RPC", PhotonTargets.All);
+    }
+    [PunRPC]
+    private void Destroy_Heresy_RPC()
+    {
+        Destroy(impact);
     }
 }

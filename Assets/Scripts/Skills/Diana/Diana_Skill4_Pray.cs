@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +12,6 @@ public class Diana_Skill4_Pray : Skills {
 	Diana_pary_aura pary;
 	PhotonView view;
     PhotonView view_me;
-    int oNum;
     private void Awake()
     {
         warnning_pile=Resources.Load("WarningCircle") as GameObject;
@@ -26,7 +25,6 @@ public class Diana_Skill4_Pray : Skills {
 	public override void Excute ()
 	{
         AudioController.instance.PlayEffectSound(Character.DIANA, 7);
-        oNum = PlayerManager.instance.myPnum == 1 ? 2 : 1;
 	    StartCoroutine (Pray ());
 	}
 	IEnumerator Pray()
@@ -35,12 +33,16 @@ public class Diana_Skill4_Pray : Skills {
 		pary = impact.GetComponent<Diana_pary_aura> ();
 		pary.SetParent(view.viewID);
         PlayerManager.instance.Local.Defense = 1f;
-        PlayerManager.instance.GetPlayerByNum(oNum).GetSilence(true);
-        PlayerManager.instance.GetPlayerByNum(oNum).GetFetter(true);
         float praying_time_temp=0;
         Diana_Bullet1_Thunder thunder;
         float x;
         float y;
+
+        PlayerManager.instance.Opponent.GetSilence(true);
+        PlayerManager.instance.Local.GetSilence(true);
+        PlayerManager.instance.Local.GetFetter(true);
+        transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+        PlayerManager.instance.Opponent.transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
         while (true)
 		{
             x= Random.Range(-9f,9f);
@@ -48,20 +50,21 @@ public class Diana_Skill4_Pray : Skills {
             Warnning(PlayerManager.instance.myPnum, new Vector3(x, y, 0f));
             yield return new WaitForSeconds(0.2f);
             AudioController.instance.PlayEffectSound(Character.DIANA, 2);
-            thunder = PhotonNetwork.Instantiate("Diana_Thunder", new Vector3(x, y, 0f), Quaternion.identity, 0).GetComponent<Diana_Bullet1_Thunder>();
+
+            thunder = PhotonNetwork.Instantiate("Diana_Lighting", new Vector3(x, y, 0f), Quaternion.identity, 0).GetComponent<Diana_Bullet1_Thunder>();
             thunder.Diana_Thunder(PlayerManager.instance.myPnum,2);
             praying_time_temp += 0.25f;
-			if (praying_time_temp > 5f)
+            if (praying_time_temp > 5f)
 			{
 				impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
                 transform.parent.GetComponent<DianaControl>().Pray_Win(PlayerManager.instance.myPnum);
                 break;
 			}
             yield return new WaitForSeconds(0.05f);
-		}
-
-        PlayerManager.instance.GetPlayerByNum(oNum).GetSilence(false);
-        PlayerManager.instance.GetPlayerByNum(oNum).GetFetter(false);
+        }
+        PlayerManager.instance.Local.GetSilence(false);
+        PlayerManager.instance.Local.GetFetter(false);
+        PlayerManager.instance.Opponent.GetSilence(false);
     }
     void Warnning(int shooterNum, Vector3 position)
     {

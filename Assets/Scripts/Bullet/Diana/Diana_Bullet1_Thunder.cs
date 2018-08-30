@@ -17,16 +17,22 @@ public class Diana_Bullet1_Thunder : Bullet {
         if(type==2)
         {
             transform.localScale *= 1.5f;
+            damage = 150;
         }
-		StartCoroutine (Thunder ());
+		StartCoroutine (Thunder (type));
 	}
-	IEnumerator Thunder()
+	IEnumerator Thunder(int type)
 	{
 		float timer = 0;
 		while (timer < 5f/*몇 초 유지하는지*/) {
 			if (timer > 0.1f) {
-				damage = 15;
-			}
+                if (type == 2)
+                {
+                    damage = 20;
+                }
+                else
+                    damage = 15;
+            }
 			timer += Time.deltaTime;
 			yield return null;
 		}
