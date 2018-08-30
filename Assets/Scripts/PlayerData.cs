@@ -46,7 +46,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             {
                 if(currentHp>value)
                 {
-                    //PlayHitSound();//내가 맞는소리는 로컬에서만
+                    PlayHitSound();//내가 맞는소리는 로컬에서만
                 }
                 currentHp = value*(1+defense);
                 UpdateHpUI();
@@ -155,15 +155,14 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         .GetComponent<Aim>();
         }
     }
-    public int HitSoundRan = 20;
     private void PlayHitSound()
     {
-        int ran = Random.Range(0, 100);
-        if(ran<=HitSoundRan)
-        {
+        if (voice2.isPlaying)
+            return;
+
             voice2.clip = hitSource.RandomSound;
             voice2.Play();
-        }
+        
     }
     private void Update()
     {

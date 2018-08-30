@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour {
 
     Image p1Portrait, p2Portrait;
     Image p1CharacterEvent, p2CharacterEvent;
+    Text p1Text, p2Text;
     Text timeText;
 
     Image p1Skg, p2Skg;
@@ -40,6 +41,8 @@ public class UIManager : MonoBehaviour {
         vsImage = transform.Find("Event").Find("Vs").GetComponent<Image>();
         
         timeText = transform.Find("texts").Find("Time").GetComponent<Text>();
+        p1Text = transform.Find("Event").Find("p1Text").GetComponent<Text>();
+        p2Text = transform.Find("Event").Find("p2Text").GetComponent<Text>();
 
         GameStartImage = transform.Find("Event").Find("Timer").GetComponent<Image>();
         timeRed = timeText.transform.Find("ClockBG").GetComponent<Image>();
@@ -75,7 +78,6 @@ public class UIManager : MonoBehaviour {
     #region GameEvent
     public void SetPortrait(Character player1,Character player2)
     {
-        Debug.Log("Player1 is " +player1.ToString() + "  Player2 is"+player2.ToString());
         switch(player1)
         {
             case Character.DIANA:
@@ -183,17 +185,7 @@ public class UIManager : MonoBehaviour {
     {
         animator.Play("Black");
     }
-    public void SkillIconMove(bool b)
-    {
-        if(b)
-        {
-            SkillIcons.position = new Vector3(0, 2000, 0);
-        }
-        else
-        {
-            SkillIcons.position = new Vector3(960, 540, 0);
-        }
-    }
+
     public void VsImage(bool b)
     {
         vsImage.enabled = b;
@@ -207,6 +199,43 @@ public class UIManager : MonoBehaviour {
         {
             you2.enabled = true;
         }
+    }
+    public void PlayerTextOn()
+    {
+
+            p1Text.enabled = true;
+            switch(PlayerManager.instance.GetPlayerByNum(1).character)
+            {
+                case Character.DIANA:
+                    p1Text.text = "다이애나";
+                    break;
+                case Character.IRIS:
+                    p1Text.text = "아이리스";
+                    break;
+                default:
+                p1Text.text = "Missing";
+                break;
+            }
+
+            p2Text.enabled = true;
+            switch (PlayerManager.instance.GetPlayerByNum(2).character)
+            {
+                case Character.DIANA:
+                    p2Text.text = "다이애나";
+                    break;
+                case Character.IRIS:
+                    p2Text.text = "아이리스";
+                    break;
+            default:
+                p2Text.text = "Missing";
+                break;
+        }
+        
+    }
+    public void PlayerTextOff()
+    {
+        p1Text.enabled = false;
+        p2Text.enabled = false;
     }
 
     #endregion
