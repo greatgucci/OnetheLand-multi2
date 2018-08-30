@@ -64,7 +64,7 @@ public class photonScript : Photon.PunBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            debug.text = "Debug : Joined Room";
+            debug.text = "경기장에 입장중이에요..";
             SceneManager.LoadScene("WaitingScene");
         }
     }
@@ -107,7 +107,7 @@ public class photonScript : Photon.PunBehaviour
             PhotonNetwork.PhotonServerSettings.AppID = AppID;
 
             PhotonNetwork.ConnectUsingSettings(versionName); //클라우드 접속
-            debug.text = "Connecting To Photon Cloud";
+            debug.text = "서버에 접속중..";
 
         }
         else if (netWorkMode == NetWorkMode.LAN)
@@ -120,13 +120,13 @@ public class photonScript : Photon.PunBehaviour
 
 
             PhotonNetwork.ConnectUsingSettings(versionName); // 랜접속
-            debug.text = "Connetting To Lan";
+            debug.text = "서버에 접속중..";
         }
     }
     #endregion
     IEnumerator TimeCount()
     {
         yield return new WaitForSeconds(8f);
-        debug.text = "Server not connected Try Another NetworkMode";
+        debug.text = "서버 접속이 안되요!!?";
     }
 }
