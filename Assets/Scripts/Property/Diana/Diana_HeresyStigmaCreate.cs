@@ -26,7 +26,6 @@ public class Diana_HeresyStigmaCreate : Photon.PunBehaviour
         oNum = shooterNum == 1 ? 2 : 1;
         parentObject = PhotonView.Find(parent_domicilNum).gameObject;
         transform.SetParent(parentObject.transform);
-        GetComponent<BoxCollider2D>().size = parentObject.transform.parent.GetComponent<BoxCollider2D>().size;
         if(PlayerManager.instance.myPnum==shooterNum)
         {
             StartCoroutine(Create_HeresyStigma());
