@@ -108,7 +108,7 @@ public class UIManager : MonoBehaviour {
         switch (player1)
         {
             case Character.DIANA:
-                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana_NEW");
+                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana");
                 break;
             case Character.IRIS:
                 p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Iris");
@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviour {
         switch (player2)
         {
             case Character.DIANA:
-                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana_NEW");
+                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana");
                 break;
 
             case Character.IRIS:
