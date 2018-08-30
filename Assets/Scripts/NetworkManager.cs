@@ -183,10 +183,10 @@ public class NetworkManager : Photon.PunBehaviour {
         UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
         UIManager.instance.CharacterStartOn(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
         UIManager.instance.VsImage(true);
-        UIManager.instance.SkillIconMove(true);
         UIManager.instance.YouImageOn(PlayerManager.instance.myPnum);
         UIManager.instance.SetCharacterStart(1, true);
         UIManager.instance.SetCharacterStart(2, false);
+        UIManager.instance.PlayerTextOn();
         PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(1).character);
         yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
         UIManager.instance.SetCharacterStart(1, false);
@@ -195,7 +195,7 @@ public class NetworkManager : Photon.PunBehaviour {
         yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
         UIManager.instance.CharacterStartOff();
         UIManager.instance.VsImage(false);
-        UIManager.instance.SkillIconMove(false);
+        UIManager.instance.PlayerTextOff();
         yield return new WaitForSeconds(0.5f);
 
         PlayStartSound();
@@ -214,7 +214,6 @@ public class NetworkManager : Photon.PunBehaviour {
         {
             winner = 1;
         }
-        UIManager.instance.SkillIconMove(true);
 
         PlayerManager.instance.GetPlayerByNum(loser).PlayLoseAnime();
         PlayerManager.instance.GetPlayerByNum(winner).PlayWinAnime();

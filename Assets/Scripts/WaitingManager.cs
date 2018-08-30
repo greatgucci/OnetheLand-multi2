@@ -72,10 +72,7 @@ public class WaitingManager : Photon.PunBehaviour
     }
     #endregion
 
-    private void Update()
-    {
-        ping.text = "Ping : " + PhotonNetwork.GetPing();
-    }
+
     private void MakePuppet()
     {
         PlayerManager.instance.Opponent = Instantiate(Resources.Load("Puppet") as GameObject).GetComponentInChildren<PlayerData>();
