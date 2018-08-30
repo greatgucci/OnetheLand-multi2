@@ -124,4 +124,7 @@ MonoBehaviour:
   - Destroy_HeresyStigma_RPC
   - Init_InHeresyStigma_RPC
   - SkillUse_RPC
+  - DamageCalculating_RPC
+  - Destroy_Heresy_RPC
+  - Init_Diana_Shootgun_RPC
   DisableAutoOpenWizard: 1

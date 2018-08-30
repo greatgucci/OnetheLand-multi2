@@ -58,7 +58,7 @@ public class DianaControl : PlayerControl {
         {
             if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
             {
-            PlayerManager.instance.Local.SetCooltime(2, 2f);
+            PlayerManager.instance.Local.SetCooltime(2, 3f);
 	            DoSkill(2);//E skill1
 	            playerAnimation.AddAnimationLayer(5, false);
 	            SetAnimationLayerEmpty(0.633f);
@@ -66,14 +66,14 @@ public class DianaControl : PlayerControl {
         }
         if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
-            PlayerManager.instance.Local.SetCooltime(3, 3f);
+            PlayerManager.instance.Local.SetCooltime(3, 5f);
             Debug.Log("a");
             DoSkill(3);//R skill2
 
         }
         else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && Creating_HeresyStigma.isExist)
         {
-            PlayerManager.instance.Local.SetCooltime(4, 4f);
+            PlayerManager.instance.Local.SetCooltime(4, 3f);
             Debug.Log(Creating_HeresyStigma.isExist);
             Creating_HeresyStigma.isExist = false;
             Debug.Log(Creating_HeresyStigma.isExist);

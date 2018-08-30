@@ -13,7 +13,7 @@ public class Diana_SpecialBullet : Bullet{
 		shooterNum = _shooterNum;
 		oNum=shooterNum==1? 2 : 1;
 		speed = 10f;
-		damage = 50;
+		damage = 60;
 		float angle = dVector.y>0 ? Vector3.Angle (Vector3.right, dVector)*Mathf.Deg2Rad : -Vector3.Angle (Vector3.right, dVector)*Mathf.Deg2Rad;
 		angle += type * 8*Mathf.Deg2Rad;
 		DVector = new Vector3(Mathf.Cos(angle),Mathf.Sin(angle),0f);

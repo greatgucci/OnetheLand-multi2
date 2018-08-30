@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4007430050346440}
   - component: {fileID: 212050971133879534}
   m_Layer: 0
-  m_Name: shootgun
+  m_Name: Diana_shootgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
