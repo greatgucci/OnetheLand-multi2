@@ -38,11 +38,11 @@ public class Diana_Skill4_Pray : Skills {
         float x;
         float y;
 
-        PlayerManager.instance.Opponent.GetSilence(true);
-        PlayerManager.instance.Local.GetSilence(true);
-        PlayerManager.instance.Local.GetFetter(true);
+        
+        PlayerManager.instance.Local.GetSilence(false);
+        PlayerManager.instance.Local.GetFetter(false);
+        PlayerManager.instance.Opponent.GetSilence(false);
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-        PlayerManager.instance.Opponent.transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
         while (true)
 		{
             x= Random.Range(-9f,9f);
@@ -54,7 +54,7 @@ public class Diana_Skill4_Pray : Skills {
             thunder = PhotonNetwork.Instantiate("Diana_Lighting", new Vector3(x, y, 0f), Quaternion.identity, 0).GetComponent<Diana_Bullet1_Thunder>();
             thunder.Diana_Thunder(PlayerManager.instance.myPnum,2);
             praying_time_temp += 0.25f;
-            if (praying_time_temp > 5f)
+            if (praying_time_temp > 6f)
 			{
 				impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
                 transform.parent.GetComponent<DianaControl>().Pray_Win(PlayerManager.instance.myPnum);
@@ -62,9 +62,9 @@ public class Diana_Skill4_Pray : Skills {
 			}
             yield return new WaitForSeconds(0.05f);
         }
-        PlayerManager.instance.Local.GetSilence(false);
-        PlayerManager.instance.Local.GetFetter(false);
-        PlayerManager.instance.Opponent.GetSilence(false);
+        PlayerManager.instance.Opponent.GetSilence(true);
+        PlayerManager.instance.Local.GetSilence(true);
+        PlayerManager.instance.Local.GetFetter(true);
     }
     void Warnning(int shooterNum, Vector3 position)
     {
@@ -75,7 +75,6 @@ public class Diana_Skill4_Pray : Skills {
     {
         if (!(PlayerManager.instance.myPnum == shooterNum))
         {
-            Debug.Log("a");
             warnning = Instantiate(warnning_pile, position, Quaternion.identity);
             warnning.transform.localScale = transform.localScale;
         }

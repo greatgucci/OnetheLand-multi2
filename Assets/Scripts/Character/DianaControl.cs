@@ -79,7 +79,7 @@ public class DianaControl : PlayerControl {
             Debug.Log(Creating_HeresyStigma.isExist);
             DoSkill(4);//LeftShift skill3
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f/* && PlayerManager.instance.Local.CurrentSkillGage >= 100f*/)
+        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && PlayerManager.instance.Local.CurrentSkillGage >= 100f)
         {
             PlayerManager.instance.Local.SetCooltime(9, 10f);
             DoSkill(5);//Q 궁
