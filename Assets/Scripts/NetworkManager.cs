@@ -29,6 +29,7 @@ public class NetworkManager : Photon.PunBehaviour {
         {
             StartCoroutine(GameStartRoutine());
         }
+        UIManager.instance.PlayStartAnimation();
     }
 
     #region Photon Messages
@@ -181,6 +182,9 @@ public class NetworkManager : Photon.PunBehaviour {
         yield return null;
         UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
         UIManager.instance.CharacterStartOn(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
+        UIManager.instance.VsImage(true);
+        UIManager.instance.SkillIconMove(true);
+        UIManager.instance.YouImageOn(PlayerManager.instance.myPnum);
         UIManager.instance.SetCharacterStart(1, true);
         UIManager.instance.SetCharacterStart(2, false);
         PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(1).character);
@@ -190,6 +194,8 @@ public class NetworkManager : Photon.PunBehaviour {
         PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(2).character);
         yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
         UIManager.instance.CharacterStartOff();
+        UIManager.instance.VsImage(false);
+        UIManager.instance.SkillIconMove(false);
         yield return new WaitForSeconds(0.5f);
 
         PlayStartSound();
@@ -208,6 +214,8 @@ public class NetworkManager : Photon.PunBehaviour {
         {
             winner = 1;
         }
+        UIManager.instance.SkillIconMove(true);
+
         PlayerManager.instance.GetPlayerByNum(loser).PlayLoseAnime();
         PlayerManager.instance.GetPlayerByNum(winner).PlayWinAnime();
         yield return new WaitForSeconds(1f);
