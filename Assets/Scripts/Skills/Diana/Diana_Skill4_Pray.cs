@@ -12,6 +12,7 @@ public class Diana_Skill4_Pray : Skills {
 	Diana_pary_aura pary;
 	PhotonView view;
     PhotonView view_me;
+    int oNum;
     private void Awake()
     {
         warnning_pile=Resources.Load("WarningCircle") as GameObject;
@@ -25,6 +26,7 @@ public class Diana_Skill4_Pray : Skills {
 	public override void Excute ()
 	{
         AudioController.instance.PlayEffectSound(Character.DIANA, 7);
+        oNum = PlayerManager.instance.myPnum == 1 ? 2 : 1;
 	    StartCoroutine (Pray ());
 	}
 	IEnumerator Pray()
@@ -33,8 +35,8 @@ public class Diana_Skill4_Pray : Skills {
 		pary = impact.GetComponent<Diana_pary_aura> ();
 		pary.SetParent(view.viewID);
         PlayerManager.instance.Local.Defense = 1f;
-        PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum == 1 ? 2 : 1).GetSilence(5f);
-        PlayerManager.instance.GetPlayerByNum(PlayerManager.instance.myPnum).GetFetter(5f);
+        PlayerManager.instance.GetPlayerByNum(oNum).GetSilence(true);
+        PlayerManager.instance.GetPlayerByNum(oNum).GetFetter(true);
         float praying_time_temp=0;
         Diana_Bullet1_Thunder thunder;
         float x;
@@ -57,7 +59,10 @@ public class Diana_Skill4_Pray : Skills {
 			}
             yield return new WaitForSeconds(0.05f);
 		}
-	}
+
+        PlayerManager.instance.GetPlayerByNum(oNum).GetSilence(false);
+        PlayerManager.instance.GetPlayerByNum(oNum).GetFetter(false);
+    }
     void Warnning(int shooterNum, Vector3 position)
     {
         view_me.RPC("Warnning_RPC",PhotonTargets.All,shooterNum, position);
