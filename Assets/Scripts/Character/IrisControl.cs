@@ -68,7 +68,6 @@ public class IrisControl : PlayerControl
         {
             Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             AudioController.instance.PlayEffectSound(Character.IRIS, 7);
-            //?
         }
         
         else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && PlayerManager.instance.Local.CurrentSkillGage >= 100f)
@@ -76,7 +75,7 @@ public class IrisControl : PlayerControl
             DoSkill(5);
             SetAnimationLayerEmpty(0.667f);
             playerAnimation.AddAnimationLayer(5, false);
-            PlayerManager.instance.Local.CurrentSkillGage -= 100f;
+            PlayerManager.instance.Local.CurrentSkillGage -= 100;
         }
     }
     protected override void MoveAnimationChange(MoveState move)

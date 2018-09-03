@@ -14,13 +14,13 @@ public abstract class PlayerAnimation : Photon.PunBehaviour
     }
     
     [PunRPC]
-    protected void ChangeAnim_RPC(int aniName, bool _isloop)
+    protected void ChangeAnim_RPC(byte aniName, bool _isloop)
     {
         myAnim.loop = _isloop;
         myAnim.AnimationName = IntToAnimationName(aniName);
     }
     [PunRPC]
-    protected void AddAnimationLayer_RPC(int anime,bool b)
+    protected void AddAnimationLayer_RPC(byte anime,bool b)
     {
         myAnim.state.SetAnimation(1, IntToAnimationName(anime), b);
     }
@@ -33,7 +33,7 @@ public abstract class PlayerAnimation : Photon.PunBehaviour
     /// <summary>
     /// 로컬에서만 호출할것!
     /// </summary>
-    public void ChangeAnim(int Name, bool isloop)
+    public void ChangeAnim(byte Name, bool isloop)
     {
         if(photonView.isMine)
         {
@@ -43,7 +43,7 @@ public abstract class PlayerAnimation : Photon.PunBehaviour
     /// <summary>
     /// 로컬에서만 호출할것!
     /// </summary>
-    public void AddAnimationLayer(int Name, bool b)
+    public void AddAnimationLayer(byte Name, bool b)
     {
         if (photonView.isMine)
             photonView.RPC("AddAnimationLayer_RPC", PhotonTargets.All, Name, b);
@@ -55,5 +55,5 @@ public abstract class PlayerAnimation : Photon.PunBehaviour
             photonView.RPC("SetAnimationLayerEmpty_RPC", PhotonTargets.All);
         }
     }
-    protected abstract string IntToAnimationName(int name);
+    protected abstract string IntToAnimationName(byte name);
 }

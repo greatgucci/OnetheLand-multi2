@@ -26,6 +26,8 @@ public class photonScript : Photon.PunBehaviour
 
     private void Awake()
     {
+        PhotonNetwork.Disconnect();
+
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
 
@@ -97,7 +99,6 @@ public class photonScript : Photon.PunBehaviour
     IEnumerator connectToPhoton()
     {
         isConnecting = true;
-        PhotonNetwork.Disconnect();
         yield return new WaitForSeconds(0.1f);
         if (netWorkMode == NetWorkMode.CLOUD)
         {

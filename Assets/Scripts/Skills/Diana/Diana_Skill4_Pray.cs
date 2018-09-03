@@ -32,7 +32,6 @@ public class Diana_Skill4_Pray : Skills {
 		impact=PhotonNetwork.Instantiate("Diana_Pray",transform.position,Quaternion.identity,0);
 		pary = impact.GetComponent<Diana_pary_aura> ();
 		pary.SetParent(view.viewID);
-        PlayerManager.instance.Local.Defense = 1f;
         float praying_time_temp=0;
         Diana_Bullet1_Thunder thunder;
         float x;

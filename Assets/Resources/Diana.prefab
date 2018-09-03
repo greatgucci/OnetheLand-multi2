@@ -443,7 +443,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &61107188461592648
 BoxCollider2D:
@@ -713,7 +713,6 @@ MonoBehaviour:
   aimVector: {x: 0, y: 0, z: 0}
   aimPosition: {x: 0, y: 0, z: 0}
   character: 0
-  HitSoundRan: 100
 --- !u!114 &114112322192915258
 MonoBehaviour:
   m_ObjectHideFlags: 1

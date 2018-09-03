@@ -55,11 +55,11 @@ public class Iris_Bullet2R : Bullet
 
             if (collision.tag == "Player" + oNum)
             {
-                PlayerManager.instance.Local.CurrentHp -= damage;
+                PlayerManager.instance.Local.CurrentHp -= (short)damage;
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
             {
-                PlayerManager.instance.Local.CurrentSkillGage += 1f;
+                PlayerManager.instance.Local.CurrentSkillGage += 1;
             }
         }
     }

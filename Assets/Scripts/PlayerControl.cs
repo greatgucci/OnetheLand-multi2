@@ -60,7 +60,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
     /// 로컬 캐릭터만 보이스 가능
     /// </summary>
     /// <param name="i"></param>
-    public virtual void PlayVoice(int i)
+    public virtual void PlayVoice(byte i)
     {
         if(photonView.isMine && !voiceAudio.isPlaying)
         photonView.RPC("PlayVoice_RPC",PhotonTargets.All,i);
@@ -205,7 +205,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isMoveAble = !b;
     }
     [PunRPC]
-    protected void PlayVoice_RPC(int i)
+    protected void PlayVoice_RPC(byte i)
     {
         voiceAudio.clip = VoiceClip[i].RandomSound;
         voiceAudio.Play();

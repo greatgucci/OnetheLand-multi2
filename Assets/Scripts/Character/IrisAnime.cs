@@ -5,7 +5,7 @@ using UnityEngine;
 public class IrisAnime : PlayerAnimation
 {
 
-    protected override string IntToAnimationName(int name)
+    protected override string IntToAnimationName(byte name)
     {
         switch (name)
         {

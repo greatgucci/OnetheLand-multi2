@@ -2058,6 +2058,7 @@ GameObject:
   - component: {fileID: 798850323}
   - component: {fileID: 798850324}
   - component: {fileID: 798850325}
+  - component: {fileID: 798850326}
   m_Layer: 5
   m_Name: Master
   m_TagString: Untagged
@@ -2213,6 +2214,29 @@ MonoBehaviour:
   - {fileID: 1291149457741758, guid: 226585e473a5a3145b13db6994f88d34, type: 2}
   - {fileID: 1434270172537734, guid: 539f3c1d003e9e54c9ea7e06ed69b577, type: 2}
   - {fileID: 1703751429058288, guid: e46e6ccb2ef0a5f4691482896f6f905f, type: 2}
+--- !u!114 &798850326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 798850318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06466c03d263624786afa88b52928b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsWindowOn: 1
+  statsOn: 1
+  healthStatsVisible: 0
+  trafficStatsOn: 0
+  buttonsOn: 0
+  statsRect:
+    serializedVersion: 2
+    x: 0
+    y: 100
+    width: 200
+    height: 50
+  WindowId: 100
 --- !u!1 &851268443
 GameObject:
   m_ObjectHideFlags: 0

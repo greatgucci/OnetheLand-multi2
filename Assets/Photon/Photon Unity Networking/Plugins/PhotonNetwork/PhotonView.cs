@@ -594,7 +594,10 @@ public class PhotonView : Photon.MonoBehaviour
     /// <param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
     public void RPC(string methodName, PhotonTargets target, params object[] parameters)
     {
-        PhotonNetwork.RPC(this, methodName, target, false, parameters);
+        if(PlayerManager.instance.playMode == PlayMode.ONLINE)
+        {
+            PhotonNetwork.RPC(this, methodName, target, false, parameters);
+        }
     }
 
     /// <summary>

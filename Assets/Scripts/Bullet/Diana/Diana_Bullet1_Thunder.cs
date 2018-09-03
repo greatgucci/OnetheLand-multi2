@@ -52,11 +52,11 @@ public class Diana_Bullet1_Thunder : Bullet {
 			if (collision.tag == "Player" + oNum)
 				//데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
 			{
-				PlayerManager.instance.Local.CurrentHp -= damage;
+				PlayerManager.instance.Local.CurrentHp -= (short)damage;
 			}
 			if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
 			{
-				PlayerManager.instance.Local.CurrentSkillGage += 1f;
+				PlayerManager.instance.Local.CurrentSkillGage += 1;
 			}
 		}
 	}

@@ -11,11 +11,10 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
 {
     #region Variables
     public int playerNum;
-    private float currentHp;
-    private float fullHp;
-    private float currentSkillGage;
-    private float fullSkillGage;
-    private float isFlip; // 1일 경우 오른쪽, -1일 경우 왼쪽을 보고 있는 거임
+    private short currentHp;
+    private short fullHp;
+    private short currentSkillGage;
+    private short fullSkillGage;
     private float globalCool = 0.25f;
     private float defense;
     private PlayerControl playerControl;
@@ -29,12 +28,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     public Vector3 aimVector = new Vector3(0f,0f,0f);
     public Vector3 aimPosition = new Vector3(0f, 0f, 0f);
     public Character character;
-    public float Defense
-    {
-        get { return defense; }
-        set { defense = value; }
-    }
-    public float CurrentHp
+    public short CurrentHp
     { get { return currentHp; }
         set
         {
@@ -48,7 +42,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 {
                     PlayHitSound();//내가 맞는소리는 로컬에서만
                 }
-                currentHp = value*(1+defense);
+                currentHp = value;
                 UpdateHpUI();
                 if (currentHp <= 0)
                 {
@@ -58,7 +52,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             else { Debug.Log("주인이 아닌 캐릭터에서 수정에 접근했습니다."); }      
         }
     }
-    public float FullHp
+    public short FullHp
     { get { return fullHp; }
       set
         {
@@ -66,7 +60,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             fullHp = value;
         }
     }
-    public float CurrentSkillGage
+    public short CurrentSkillGage
     { get { return currentSkillGage; }
         set
         {
@@ -84,7 +78,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             else { Debug.Log("주인이 아닌 캐릭터에서 수정에 접근했습니다."); }
         }
     }
-    public float FullSkillGage
+    public short FullSkillGage
     { get { return fullSkillGage; }
         set
         {
@@ -94,7 +88,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     }
 	
 
-    public void SetStatus(float _fullHp,float _fullSkg,float _hp,float _skg)
+    public void SetStatus(short _fullHp, short _fullSkg, short _hp, short _skg)
     {
         if(photonView.isMine)
         {
@@ -164,12 +158,11 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             voice2.Play();
         
     }
+    float counter = 0f;
     private void Update()
     {
         if(photonView.isMine)
-        {
-            CurrentSkillGage += Time.deltaTime * 1f;
-
+        {           
             for (int i = 0; i < cooltime.Length; i++)
             {
                 if (cooltime[i] > 0f)
@@ -178,19 +171,8 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 }
             }
 
-            if ((transform.position.x - Aim_Object.aimVector_Temp.x) * (transform.position.x - aimVector.x) < 0)
-            {
-                Debug.Log(transform.position.x - Aim_Object.aimVector_Temp.x);
-                Debug.Log("Flip");
-            }
-
             aimVector = Aim_Object.aimVector_Temp;
             aimPosition = Aim_Object.aimPosition_Temp;
-
-            if (CurrentHp <= 1000f)
-            {
-                //CurrentHp += Time.deltaTime * 10f;
-            }
         }
     }
 
@@ -200,14 +182,14 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private void UpdateHpUI()
     {
      if(PlayerManager.instance.playMode == PlayMode.ONLINE)
-        UIManager.instance.SetHp(playerNum, currentHp/fullHp);
+        UIManager.instance.SetHp(playerNum, (float)currentHp/fullHp);
     }
     private void UpdateSkgUI()
     {
         if (PlayerManager.instance.playMode == PlayMode.ONLINE)
         {
 
-			UIManager.instance.SetSkg(playerNum, currentSkillGage/fullSkillGage);
+			UIManager.instance.SetSkg(playerNum, (float)currentSkillGage/fullSkillGage);
 			
         }
     }
@@ -221,8 +203,8 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
         }
         else//주인이 아니면 받고 UI에 적용
         {
-            currentHp = (float)stream.ReceiveNext();
-            currentSkillGage = (float)stream.ReceiveNext();
+            currentHp = (short)stream.ReceiveNext();
+            currentSkillGage = (short)stream.ReceiveNext();
 
             UpdateHpUI();
 			UpdateSkgUI ();

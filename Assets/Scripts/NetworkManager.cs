@@ -35,8 +35,7 @@ public class NetworkManager : Photon.PunBehaviour {
     #region Photon Messages
     public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
     {
-        PhotonNetwork.SetMasterClient(PhotonNetwork.player);
-        PhotonNetwork.LoadLevel(1);
+        SceneManager.LoadScene(0);
     }
     /// <summary>
     /// Called when the local player left the room. We need to load the launcher scene.

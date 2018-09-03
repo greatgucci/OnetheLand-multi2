@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DianaAnime : PlayerAnimation
 {
-    protected override string IntToAnimationName(int name)
+    protected override string IntToAnimationName(byte name)
     {
         switch(name)
         {

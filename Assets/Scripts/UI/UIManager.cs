@@ -216,7 +216,7 @@ public class UIManager : MonoBehaviour {
                 p1Text.text = "Missing";
                 break;
             }
-
+        
             p2Text.enabled = true;
             switch (PlayerManager.instance.GetPlayerByNum(2).character)
             {

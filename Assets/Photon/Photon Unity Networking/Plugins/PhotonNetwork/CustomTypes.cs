@@ -16,7 +16,7 @@
 
 using ExitGames.Client.Photon;
 using UnityEngine;
-
+using SystemHalf;
 
 /// <summary>
 /// Internally used class, containing de/serialization methods for various Unity-specific classes.
@@ -35,6 +35,7 @@ internal static class CustomTypes
 
 
     #region Custom De/Serializer Methods
+
 
 
     public static readonly byte[] memVector3 = new byte[3 * 4];
@@ -138,6 +139,7 @@ internal static class CustomTypes
         return o;
     }
 
+ 
     public static readonly byte[] memPlayer = new byte[4];
     private static short SerializePhotonPlayer(StreamBuffer outStream, object customobject)
     {
@@ -172,6 +174,9 @@ internal static class CustomTypes
             return null;
         }
     }
+
+
+
 
     #endregion
 }
