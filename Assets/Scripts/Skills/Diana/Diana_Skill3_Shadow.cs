@@ -11,7 +11,7 @@ public class Diana_Skill3_Shadow : Skills{
 		view = GetComponent<PhotonView> ();
         AudioController.instance.PlayEffectSound(Character.DIANA, 4);
         impact = PhotonNetwork.Instantiate ("Diana_shadow",transform.position,Quaternion.identity,0).GetComponent<Diana_Skill3_Impact>();
-		impact.shadow (PlayerManager.instance.myPnum, view.viewID);
+		impact.shadow (GameManager.instance.myPnum, view.viewID);
 	}
 
 }

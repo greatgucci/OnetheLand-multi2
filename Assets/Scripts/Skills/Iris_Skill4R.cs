@@ -31,7 +31,7 @@ public class Iris_Skill4R : Skills{
 
             iris_Bullet4R = PhotonNetwork.Instantiate("Iris_Bullet4R", createPosition, Quaternion.identity, 0)
                 .GetComponent<Iris_Bullet4R>();
-            iris_Bullet4R.Init_Iris_Bullet4R(PlayerManager.instance.myPnum, i);
+            iris_Bullet4R.Init_Iris_Bullet4R(GameManager.instance.myPnum, i);
         }
 
         StartCoroutine(Waiting());

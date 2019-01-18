@@ -90,7 +90,7 @@ public class Iris_Skill4Circle : Bullet {
         TargetStatic targetStatic;
         Iris_Bullet4 irisBullet4;
 
-        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        if (GameManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
         {
             warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 1f);
             warningSquare.transform.localScale = new Vector3(30f, 0.25f, 1f);
@@ -102,17 +102,17 @@ public class Iris_Skill4Circle : Bullet {
             warningSquare.transform.Rotate(Vector3.forward, rotatingAngle);
         }
 
-        targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<TargetStatic>();
+        targetStatic = PhotonNetwork.Instantiate("TargetStatic", GameManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<TargetStatic>();
         targetStatic.Init_TargetStatic(shooterNum);
 
         PhotonView view = targetStatic.gameObject.GetComponent<PhotonView>();
 
         yield return new WaitForSeconds(0.5f + (bulNum * 0.1f));
 
-        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        if (GameManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
             Destroy(warningSquare);
 
-        if (PlayerManager.instance.GetPlayerByNum(shooterNum) == PlayerManager.instance.Local)
+        if (GameManager.instance.GetPlayerByNum(shooterNum) == GameManager.instance.Local)
         {
             irisBullet4 = PhotonNetwork.Instantiate
             ("Iris_Skill4Line", transform.position, Quaternion.identity, 0).GetComponent<Iris_Bullet4>();

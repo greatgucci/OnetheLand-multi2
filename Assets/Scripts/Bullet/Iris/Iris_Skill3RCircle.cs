@@ -46,7 +46,7 @@ public class Iris_Skill3RCircle : Bullet {
 
         iris_Skill3REffect2.SetActive(false);
 
-        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        if (GameManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
         {
             StartCoroutine(MoveWarning());
         }
@@ -135,7 +135,7 @@ public class Iris_Skill3RCircle : Bullet {
         Iris_Bullet3R bul;
 
         bul = PhotonNetwork.Instantiate("Iris_Skill3RLine", transform.position + new Vector3(0f, -0.3f, 0f), Quaternion.identity, 0).GetComponent<Iris_Bullet3R>();
-        bul.Init_Iris_Bullet3R(PlayerManager.instance.myPnum, tempViewID);
+        bul.Init_Iris_Bullet3R(GameManager.instance.myPnum, tempViewID);
         yield return new WaitForSeconds(1.4f);
 
         //iris_Skill3REffect2.SetActive(false);

@@ -11,55 +11,44 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
 {
     #region Variables
     public int playerNum;
-    private short currentHp;
-    private short fullHp;
+    private short currentDamage;
     private short currentSkillGage;
     private short fullSkillGage;
+
     private float globalCool = 0.25f;
     private float defense;
+
     private PlayerControl playerControl;
     public float[] cooltime = new float[10];
     public float cooltimeSpd = 1f;
-    Aim Aim_Object;
     PlayerData opponent;
     protected AudioSource voice2;
     public MultiSound hitSource;
 
-    public Vector3 aimVector = new Vector3(0f,0f,0f);
-    public Vector3 aimPosition = new Vector3(0f, 0f, 0f);
+    public Vector3 aimVector = new Vector3(0f,0f,0f);//TODO : 제거
+    public Vector3 aimPosition = new Vector3(0f, 0f, 0f);//TODO : 제거
     public Character character;
-    public short CurrentHp
-    { get { return currentHp; }
+    public short CurrentDamage
+    { get { return currentDamage; }
         set
         {
-            if(PlayerManager.instance.gameUpdate == GameUpdate.END) //게임 종료시에는 체력 변화 없음
+            if(GameManager.instance.gameUpdate == GameUpdate.END) //게임 종료시에는 체력 변화 없음
             {
                 return;
             }
             if(photonView.isMine)
             {
-                if(currentHp>value)
+                if(currentDamage>value)
                 {
                     PlayHitSound();//내가 맞는소리는 로컬에서만
                 }
-                currentHp = value;
+                currentDamage = value;
                 UpdateHpUI();
-                if (currentHp <= 0)
-                {
-                    NetworkManager.instance.GameOver(playerNum);
-                }
             }
             else { Debug.Log("주인이 아닌 캐릭터에서 수정에 접근했습니다."); }      
         }
     }
-    public short FullHp
-    { get { return fullHp; }
-      set
-        {
-            if(photonView.isMine)
-            fullHp = value;
-        }
-    }
+
     public short CurrentSkillGage
     { get { return currentSkillGage; }
         set
@@ -88,13 +77,12 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     }
 	
 
-    public void SetStatus(short _fullHp, short _fullSkg, short _hp, short _skg)
+    public void SetStatus(short damage,short _fullSkg, short _skg)
     {
         if(photonView.isMine)
         {
-            FullHp = _fullHp;
+            CurrentDamage = damage;
             FullSkillGage = _fullSkg;
-            CurrentHp = _hp;
             CurrentSkillGage = _skg;
 
             for(int i = 0; i < cooltime.Length; i++)
@@ -102,13 +90,12 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 cooltime[i] = 0f;
             }
 
-            opponent = PlayerManager.instance.Opponent;
+            opponent = GameManager.instance.Opponent;
         }
         else
         {
-            fullHp = _fullHp;
             fullSkillGage = _fullSkg;
-            currentHp = _hp;
+            currentDamage = damage;
             currentSkillGage = _skg;
             UpdateHpUI();
             UpdateSkgUI();
@@ -141,14 +128,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         voice2 = GetComponent<AudioSource>();
     }
-    private void Start()
-    {
-        if (photonView.isMine)
-        {
-            Aim_Object = Instantiate(Resources.Load("Aim") as GameObject, Input.mousePosition, Quaternion.identity)
-        .GetComponent<Aim>();
-        }
-    }
+
     private void PlayHitSound()
     {
         if (voice2.isPlaying)
@@ -170,9 +150,6 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                     cooltime[i] -= Time.deltaTime * cooltimeSpd;
                 }
             }
-
-            aimVector = Aim_Object.aimVector_Temp;
-            aimPosition = Aim_Object.aimPosition_Temp;
         }
     }
 
@@ -181,29 +158,23 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     /// </summary>
     private void UpdateHpUI()
     {
-     if(PlayerManager.instance.playMode == PlayMode.ONLINE)
-        UIManager.instance.SetHp(playerNum, (float)currentHp/fullHp);
+        UIManager.instance.SetHp(playerNum, currentDamage);
     }
     private void UpdateSkgUI()
     {
-        if (PlayerManager.instance.playMode == PlayMode.ONLINE)
-        {
-
 			UIManager.instance.SetSkg(playerNum, (float)currentSkillGage/fullSkillGage);
-			
-        }
     }
     #region Public
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)//내가 이 캐릭터의 주인일때 stream에 write
         {
-            stream.SendNext(currentHp);
+            stream.SendNext(currentDamage);
             stream.SendNext(currentSkillGage);
         }
         else//주인이 아니면 받고 UI에 적용
         {
-            currentHp = (short)stream.ReceiveNext();
+            currentDamage = (short)stream.ReceiveNext();
             currentSkillGage = (short)stream.ReceiveNext();
 
             UpdateHpUI();
@@ -242,7 +213,10 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         playerControl.photonView.RPC("GetFetter_RPC", PhotonTargets.All, b);
     }
-
+    public void GetKnockBack(float x , float y)
+    {
+        playerControl.photonView.RPC("KnockBack_RPC", PhotonTargets.All, x, y);
+    }
     /// <summary>
     /// 한클라에서만 호출하면 자동으로 연동함 , 수동으로 조절
     /// </summary>

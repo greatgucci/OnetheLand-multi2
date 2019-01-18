@@ -19,7 +19,7 @@ public class FavoriteFunction : MonoBehaviour {
         Vector3 dVector_ReturnValue;
         Transform oTransform;
 
-        oTransform = PlayerManager.instance.GetPlayerByNum(oNum).transform;
+        oTransform = GameManager.instance.GetPlayerByNum(oNum).transform;
         dVector_ReturnValue = oTransform.position - thisObject.transform.position;
         dVector_ReturnValue.Normalize();
 

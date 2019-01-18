@@ -36,7 +36,7 @@ public class Bullet : Photon.PunBehaviour
     {
         if (isTirggerTime == true)
         {
-            if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+            if (GameManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
             {
                 return; 
             }
@@ -44,12 +44,12 @@ public class Bullet : Photon.PunBehaviour
             if (collision.tag == "Player" + oNum)
                 //데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
             {
-                PlayerManager.instance.Local.CurrentHp -= (short)damage;
+                GameManager.instance.Local.CurrentDamage -= (short)damage;
                 DestroyToServer();
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
             {
-                PlayerManager.instance.Local.CurrentSkillGage += 1;
+                GameManager.instance.Local.CurrentSkillGage += 1;
             }
         }
     }

@@ -10,12 +10,12 @@ public class Diana_SpecialAttack : Skills
     {
         if (isRunning)
             return;
-		dVector = PlayerManager.instance.Local.aimVector.normalized;
+		dVector = GameManager.instance.Local.aimVector.normalized;
         AudioController.instance.PlayEffectSound(Character.DIANA, 1);
         for (int type = 0; type < 5; type++)
         {
             dan_at = PhotonNetwork.Instantiate("Diana_SpecialBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_SpecialBullet>();
-            dan_at.Init_Diana_SpecialBullet(PlayerManager.instance.myPnum, type - 2, dVector);
+            dan_at.Init_Diana_SpecialBullet(GameManager.instance.myPnum, type - 2, dVector);
         }
         StartCoroutine(Waiting());
     }

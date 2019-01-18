@@ -15,7 +15,7 @@ public class Diana_Bullet_HolyLand :Bullet
 		shooterNum = _shooterNum;
 		oNum=shooterNum==1? 2 : 1;
         tag = "HolyLand" + shooterNum;
-        if(PlayerManager.instance.myPnum==shooterNum)
+        if(GameManager.instance.myPnum==shooterNum)
         {
             StartCoroutine(GetSilencing());
         }
@@ -24,7 +24,7 @@ public class Diana_Bullet_HolyLand :Bullet
 	{
 		if (isTirggerTime == true)
 		{
-			if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+			if (GameManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
 			{
 				return;
 			}
@@ -32,7 +32,7 @@ public class Diana_Bullet_HolyLand :Bullet
 			if (collision.tag == "Player" + oNum)
             //데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
             {
-                PlayerManager.instance.GetPlayerByNum(oNum).GetSilence(true);
+                GameManager.instance.GetPlayerByNum(oNum).GetSilence(true);
             }
 		}
 	}
@@ -40,7 +40,7 @@ public class Diana_Bullet_HolyLand :Bullet
     {
         if (isTirggerTime == true)
         {
-            if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+            if (GameManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
             {
                 return;
             }
@@ -48,7 +48,7 @@ public class Diana_Bullet_HolyLand :Bullet
             if (collision.tag == "Player" + oNum)
             //데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
             {
-                PlayerManager.instance.GetPlayerByNum(oNum).GetSilence(false);
+                GameManager.instance.GetPlayerByNum(oNum).GetSilence(false);
             }
         }
     }

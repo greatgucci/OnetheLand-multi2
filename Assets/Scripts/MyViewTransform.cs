@@ -10,7 +10,6 @@ public class MyViewTransform : Photon.MonoBehaviour, IPunObservable
     
     private void Awake()
     {
-        //PhotonPeer.RegisterType(SystemHalf.Half_Float.)
     }
     public float lastUpdateTime = 0.1f;
     Vector3 realPosition = Vector3.zero;

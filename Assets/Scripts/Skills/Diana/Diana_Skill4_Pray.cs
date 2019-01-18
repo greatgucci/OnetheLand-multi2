@@ -37,33 +37,33 @@ public class Diana_Skill4_Pray : Skills {
         float x;
         float y;
 
-        PlayerManager.instance.Opponent.GetSilence(true);
-        PlayerManager.instance.Local.GetSilence(true);
-        PlayerManager.instance.Local.GetFetter(true);
+        GameManager.instance.Opponent.GetSilence(true);
+        GameManager.instance.Local.GetSilence(true);
+        GameManager.instance.Local.GetFetter(true);
 
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
         while (true)
 		{
             x= Random.Range(-9f,9f);
             y = Random.Range(-5f, 5f);
-            Warnning(PlayerManager.instance.myPnum, new Vector3(x, y, 0f));
+            Warnning(GameManager.instance.myPnum, new Vector3(x, y, 0f));
             yield return new WaitForSeconds(0.2f);
             AudioController.instance.PlayEffectSound(Character.DIANA, 2);
 
             thunder = PhotonNetwork.Instantiate("Diana_Lighting", new Vector3(x, y, 0f), Quaternion.identity, 0).GetComponent<Diana_Bullet1_Thunder>();
-            thunder.Diana_Thunder(PlayerManager.instance.myPnum,2);
+            thunder.Diana_Thunder(GameManager.instance.myPnum,2);
             praying_time_temp += 0.25f;
             if (praying_time_temp > 6f)
 			{
 				impact.GetComponent<Diana_pary_aura> ().DestroyToServer ();
-                transform.parent.GetComponent<DianaControl>().Pray_Win(PlayerManager.instance.myPnum);
+                transform.parent.GetComponent<DianaControl>().Pray_Win(GameManager.instance.myPnum);
                 break;
 			}
             yield return new WaitForSeconds(0.05f);
         }
-        PlayerManager.instance.Local.GetSilence(false);
-        PlayerManager.instance.Local.GetFetter(false);
-        PlayerManager.instance.Opponent.GetSilence(false);
+        GameManager.instance.Local.GetSilence(false);
+        GameManager.instance.Local.GetFetter(false);
+        GameManager.instance.Opponent.GetSilence(false);
     }
     void Warnning(int shooterNum, Vector3 position)
     {
@@ -72,7 +72,7 @@ public class Diana_Skill4_Pray : Skills {
     [PunRPC]
     void Warnning_RPC(int shooterNum, Vector3 position)
     {
-        if (!(PlayerManager.instance.myPnum == shooterNum))
+        if (!(GameManager.instance.myPnum == shooterNum))
         {
             warnning = Instantiate(warnning_pile, position, Quaternion.identity);
             warnning.transform.localScale = transform.localScale;

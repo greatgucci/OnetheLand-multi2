@@ -38,11 +38,11 @@ public class Iris_Skill3 : Skills {
 
         Vector3 tempPosition;
         tempPosition = transform.position;
-        oPostion = PlayerManager.instance.Opponent.transform.position;
+        oPostion = GameManager.instance.Opponent.transform.position;
 
         irisSkill3Target = PhotonNetwork.Instantiate("TargetMoving", oPostion, Quaternion.identity, 0);
         iris_Skill3Targeting = irisSkill3Target.GetComponent<Iris_Skill3Targeting>();
-        iris_Skill3Targeting.Init_Iris_Skill3Targeting(PlayerManager.instance.myPnum);
+        iris_Skill3Targeting.Init_Iris_Skill3Targeting(GameManager.instance.myPnum);
 
         irisSkill3Circle = PhotonNetwork.Instantiate("Iris_Skill3Circle", transform.position, Quaternion.identity, 0);
         iris_Skill3Circle = irisSkill3Circle.GetComponent<Iris_Skill3Circle>();
@@ -50,11 +50,11 @@ public class Iris_Skill3 : Skills {
         PhotonView view;
         view = irisSkill3Target.GetComponent<PhotonView>();
 
-        iris_Skill3Circle.Init_Iris_Skill3Circle(PlayerManager.instance.myPnum, view.viewID);
+        iris_Skill3Circle.Init_Iris_Skill3Circle(GameManager.instance.myPnum, view.viewID);
 
         yield return new WaitForSeconds(0.8f);
 
         bul = PhotonNetwork.Instantiate("Iris_Skill3Line", tempPosition, Quaternion.identity, 0).GetComponent<Iris_Bullet3>();
-        bul.Init_Iris_Bullet3(PlayerManager.instance.myPnum, view.viewID);
+        bul.Init_Iris_Bullet3(GameManager.instance.myPnum, view.viewID);
     }
 }

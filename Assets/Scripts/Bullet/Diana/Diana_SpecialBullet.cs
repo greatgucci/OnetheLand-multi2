@@ -34,7 +34,7 @@ public class Diana_SpecialBullet : Bullet{
 			}
 			yield return new WaitForSeconds(0.07f);
 		}
-		if (PlayerManager.instance.myPnum == shooterNum) {
+		if (GameManager.instance.myPnum == shooterNum) {
 			DestroyToServer();
 		}
     }

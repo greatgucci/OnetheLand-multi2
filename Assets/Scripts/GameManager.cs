@@ -2,25 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayMode
+public enum NetworkMode
 {
-    WAITING,
+    OFFLINE,
     ONLINE
 }
 public enum GameUpdate
 {
     START,
-    GAMING,
+    INGAME,
     END,
+}
+public enum GameMode
+{
+    HP,
+    DAMAGE
 }
 /// <summary>
 /// No Syncronized Class
 /// </summary>
-public class PlayerManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public GameUpdate gameUpdate = GameUpdate.START;
-    public PlayMode playMode = PlayMode.WAITING;
-    public static PlayerManager instance;
+    public NetworkMode networkMode = NetworkMode.OFFLINE;
+    public GameMode gameMode = GameMode.DAMAGE;
+
+    public static GameManager instance;
     private void Awake()
     {
         instance = this;
@@ -42,10 +49,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+
     int count;
-    public void Updated()
+    public void PlayerUpdated()
     {
-        if (playMode == PlayMode.WAITING)
+        if (networkMode == NetworkMode.OFFLINE)
             return;
 
         count++;

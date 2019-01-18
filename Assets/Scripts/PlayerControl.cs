@@ -22,19 +22,19 @@ public abstract class PlayerControl : Photon.PunBehaviour
     public MultiSound[] VoiceClip;
 
     protected GameObject StunEffect;
+    public float weight = 0f;
     public float speed = 6f;
-    protected float distance = 0.8f;
-    int pNum;
-    protected bool isInputAble = true;
+    protected int pNum;
     protected bool isMoveAble = true;
     protected bool isSkillAble = true;
-    protected bool isDash = false;
+    protected bool isPushed = false;
     protected bool isFaceRight = true;
 
     protected PlayerAnimation playerAnimation;
     protected PlayerData playerData;
     protected AudioSource voiceAudio;
 
+    
     protected bool IsFaceRight
     {
         get { return isFaceRight; }
@@ -78,89 +78,112 @@ public abstract class PlayerControl : Photon.PunBehaviour
     }
 
     // Use this for initialization
-    protected virtual void Start ()
+     void Start ()
     {
-        pNum = PlayerManager.instance.myPnum;
+        StartCall();
+    }
+
+    protected virtual void StartCall()
+    {
+        pNum = GameManager.instance.myPnum;
         if (photonView.isMine)
         {
-            PlayerManager.instance.Local = playerData;
-            playerData.SetPlayerNum(PlayerManager.instance.myPnum,this);
+            GameManager.instance.Local = playerData;
+            playerData.SetPlayerNum(GameManager.instance.myPnum, this);
             transform.Find("LocalPoint").gameObject.SetActive(true);
         }
         else
         {
-            PlayerManager.instance.Opponent = playerData;
-            if(pNum == 1)
+            GameManager.instance.Opponent = playerData;
+            if (pNum == 1)
             {
                 playerData.SetPlayerNum(2, this);
-            }else
+            }
+            else
             {
                 playerData.SetPlayerNum(1, this);
             }
         }
-        playerData.SetStatus(1000,100,1000,0);
-        SetPlayerPos(playerData.playerNum);
+        playerData.SetStatus(0, 100, 0);
+        SetStartPosition(playerData.playerNum);
 
-        PlayerManager.instance.Updated();
+        GameManager.instance.PlayerUpdated();
     }
 
-    /// <summary>
-    /// 입력 여기서 처리
-    /// </summary>
-	protected virtual bool LateUpdate ()
+    public void Stop()
     {
-        if (!photonView.isMine || !isInputAble || PlayerManager.instance.gameUpdate != GameUpdate.GAMING)
+        rgbd.velocity = new Vector2(0, 0);
+    }
+
+
+    public virtual void SkillControl(int i)
+    {
+        if (!isSkillAble)
+            return;
+    }
+
+    public virtual void Move(float x, float y)
+    {
+        if (isPushed == true || !isMoveAble)
         {
-            rgbd.velocity = Vector2.zero;
-			return false;
+            return;
+        }
+        rgbd.velocity = new Vector2(0f, 0f);
+
+        Vector2 moveVector;
+        moveVector = new Vector2(x, y);
+        moveVector.Normalize();
+
+        if (pNum == 1)
+        {
+            if (x > 0 && transform.position.x > -0.5f)
+            {
+                moveVector = new Vector2(0, moveVector.y);
+            }
+        }
+        else if (pNum == 2)
+        {
+            if (x < 0 && transform.position.x < 0.5f)
+            {
+                moveVector = new Vector2(0, moveVector.y);
+            }
         }
 
-
-        if (IsFaceRight && playerData.aimVector.x < 0)
+        if (y > 0 && transform.position.y > 2.5)
         {
-            photonView.RPC("SetIsFaceRight", PhotonTargets.All, false);
+            moveVector = new Vector2(moveVector.x, 0);
         }
-        else if (!IsFaceRight && playerData.aimVector.x > 0)
+        if (y < 0 && transform.position.y < -2.5)
         {
-            photonView.RPC("SetIsFaceRight", PhotonTargets.All, true);
+            moveVector = new Vector2(moveVector.x, 0);
         }
 
-        if (isMoveAble)      
-            MoveControl();       
+        if (x > 0 && isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveFront);
+        }
+        else if (x > 0 && !isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveBack);
+        }
+        else if (x < 0 && isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveBack);
+        }
+        else if (x < 0 && !isFaceRight)
+        {
+            MoveAnimationChange(MoveState.MoveFront);
+        }
+        else
+        {
+            MoveAnimationChange(MoveState.Idle);
+        }
 
-        if (isSkillAble)
-            SkillControl();
-		
-		return true;
+        rgbd.velocity += moveVector * speed;
     }
-    protected virtual void MoveControl()
-    {
-    }
-    protected virtual void SkillControl()
-    {
-    }
-    /*
-* 0 : 마우스 우클릭
-* 1 : E
-* 2 : R
-* 3 : 좌 Shift
-* 4 : 일반 공격 1
-* 5 : 일반 공격 2
-* 6 : 일반 공격 3
-* 7 : 일반 공격 4
-* 8 : 대시
-* 9 : 궁극기
-*         PlayerManager.instance.Local.SetCooltime(스킬 숫자, 클타임);
-* ...으로 각 스킬 스크립트에서 쿨타임 넣음
-*/
+
 
     #region privates
-    [PunRPC]
-    protected void SetIsFaceRight(bool b)
-    {
-        IsFaceRight = b;
-    }
-
     [PunRPC]
     protected void SetColliderEnable_RPC(bool b)
     {
@@ -190,14 +213,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
             isSkillAble = !b;
         }
 	}
-    [PunRPC]
-    protected void SetInputEnable_RPC(bool b)
-    {
-        if(photonView.isMine)
-        {
-            isInputAble = b;
-        }
-    }
+
     [PunRPC]
     protected void GetFetter_RPC(bool b)
     {
@@ -210,117 +226,126 @@ public abstract class PlayerControl : Photon.PunBehaviour
         voiceAudio.clip = VoiceClip[i].RandomSound;
         voiceAudio.Play();
     }
+    [PunRPC]
+    protected void GetKnockBack(float x, float y)
+    {
+        StartCoroutine(KnockBackPlay(x, y));
+    }
+
     protected void DoSkill(int skillNum)
     {
         Skills[skillNum].Excute();
     }
 
 
-    protected virtual void Move(float x, float y)
-    {
-        if (isDash == true)
-        {
-            return;
-        }
-        rgbd.velocity = new Vector2(0f, 0f);
 
-        Vector2 moveVector;
-        moveVector = new Vector2(x, y);
-        moveVector.Normalize();
-        speed = 6f;
-        
-            if (x > 0 && transform.position.x > 9)
-            {   
-                moveVector = new Vector2(0,moveVector.y);
-            }
-            if (x < 0 && transform.position.x < -9)
-            {
-                moveVector = new Vector2(0, moveVector.y);
-            }
-            if (y > 0 && transform.position.y > 5)
-            {
-                moveVector = new Vector2(moveVector.x, 0);
-            }
-            if (y < 0 && transform.position.y < -5)
-            {
-             moveVector = new Vector2(moveVector.x, 0);
-            }
-
-        if (x > 0 && isFaceRight)
-        {
-            MoveAnimationChange(MoveState.MoveFront);
-        }
-        else if (x > 0 && !isFaceRight)
-        {
-            MoveAnimationChange(MoveState.MoveBack);
-        }
-        else if (x < 0 && isFaceRight)
-        {
-            MoveAnimationChange(MoveState.MoveBack);
-        }
-        else if (x < 0 && !isFaceRight)
-        {
-            MoveAnimationChange(MoveState.MoveFront);
-        }
-        else
-        {
-            MoveAnimationChange(MoveState.Idle);
-        }
-
-        rgbd.velocity += moveVector*speed;
-    }
-
+    
     protected void Dash(float x, float y)
     {
         StartCoroutine(DashPlay(x, y));
     }
-
-    protected IEnumerator DashPlay(float x, float y)
+    protected IEnumerator KnockBackPlay(float x, float y)
     {
-        isDash = true;
 
-        float timer = 0f;
-        speed = 18f;
+        isPushed = true;
+        float knockBackTime = 0f;
 
-        Vector2 moveVector;
-        moveVector = new Vector2(x, y);
-        moveVector.Normalize();
+        Vector3 targetPos = transform.position + new Vector3(x, y)*(1-weight/100);
 
-        while (true)
+        while(true)
         {
-            if (timer >= 0.25f)
+            if(knockBackTime>1)
             {
                 break;
             }
+            rgbd.velocity = new Vector2(0, 0);
+            knockBackTime += Time.deltaTime;
 
-            rgbd.velocity = new Vector2(0f, 0f);
+            transform.position = Vector3.Lerp(transform.position, targetPos, knockBackTime);
 
-            speed -= Time.deltaTime * 48f;
-            rgbd.velocity += moveVector * speed;
+            if (transform.position.y > 2.5 )
+            {
+               transform.position = new Vector2(transform.position.x, 2.5f);
+            }
+            if(transform.position.y < -2.5)
+            {
+                transform.position = new Vector2(transform.position.x, -2.5f);
+            }
 
-            if (transform.position.x > 9 || transform.position.x < -9 || transform.position.y > 5 || transform.position.y < -5)
-                rgbd.velocity = new Vector2(0f, 0f);
 
-            timer += Time.deltaTime;
+            if (pNum == 1 && transform.position.x > -0.5f)
+            {
+                transform.position = new Vector2(0, transform.position.y);
+            }
+
+            else if (pNum == 2 && transform.position.x < 0.5f)
+            {
+                transform.position = new Vector2(0, transform.position.y);
+            }
+
+            yield return null;
+        }
+        isPushed = false;
+
+    }
+    protected IEnumerator DashPlay(float x, float y)
+    {
+        isPushed = true;
+
+        float knockBackTime = 0f;
+        float distance = 3.5f;
+
+
+       Vector3 moveVector = new Vector3(x, y);
+       Vector3 targetPos = transform.position + moveVector.normalized*distance;
+        while (true)
+        {
+            if (knockBackTime > 0.3f)
+            {
+                break;
+            }
+            rgbd.velocity = new Vector2(0, 0);
+            knockBackTime += Time.deltaTime;
+
+            transform.position = Vector3.Lerp(transform.position, targetPos, knockBackTime * 4);
+
+            if (transform.position.y > 2.5)
+            {
+                transform.position = new Vector2(transform.position.x, 2.5f);
+            }
+            if (transform.position.y < -2.5)
+            {
+                transform.position = new Vector2(transform.position.x, -2.5f);
+            }
+
+
+            if (pNum == 1 && transform.position.x > -0.5f)
+            {
+                transform.position = new Vector2(0, transform.position.y);
+            }
+
+            else if (pNum == 2 && transform.position.x < 0.5f)
+            {
+                transform.position = new Vector2(0, transform.position.y);
+            }
+
             yield return null;
         }
 
-        speed = 6f;
-        isDash = false;
+        isPushed = false;
     }
 
-    protected virtual void SetPlayerPos(int pnum)
+    protected virtual void SetStartPosition(int pnum)
     {
         if (pnum == 1)
         {
-            Debug.Log("FaceRight");
-            transform.position = new Vector3(-4, 0, 0);
+            transform.position = new Vector3(-10, 0, 0);
             IsFaceRight = true;
         }
         else if (pnum == 2)
         {
             IsFaceRight = false;
-            transform.position = new Vector3(4, 0, 0);
+            transform.position = new Vector3(10, 0, 0);
         }
     }
     /// <summary>
@@ -362,14 +387,14 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
         if (photonView.isMine)
         {
-            isInputAble = false;
+            InputSystem.instance.IsInputAble = false;
         }
         yield return new WaitForSeconds(t);
         DestroyImmediate(stun);
         yield return new WaitForEndOfFrame();
         if (photonView.isMine)
         {
-            isInputAble = true;
+            InputSystem.instance.IsInputAble = true;
         }
     }
 

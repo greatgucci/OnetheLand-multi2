@@ -10,9 +10,8 @@ public class NetworkManager : Photon.PunBehaviour {
     {
         instance = this;
         characterVoice = GetComponent<AudioSource>();
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
     }
+
     public GameObject[] playerPrefabs;
     public Text ping;
     private bool isP1Ready;
@@ -20,29 +19,46 @@ public class NetworkManager : Photon.PunBehaviour {
 
     private void Start()
     {
-
-        PlayerManager.instance.playMode = PlayMode.ONLINE;
-
-        PlayerInsantiate(PlayerPrefs.GetInt("Character"));
+        if(PhotonNetwork.offlineMode)
+        {
+            GameManager.instance.networkMode = NetworkMode.OFFLINE;
+        }else
+        {
+            GameManager.instance.networkMode = NetworkMode.ONLINE;
+        }
 
         if (PhotonNetwork.isMasterClient)
         {
-            StartCoroutine(GameStartRoutine());
+            GameManager.instance.myPnum = 1;
         }
-        UIManager.instance.PlayStartAnimation();
+        else
+        {
+            GameManager.instance.myPnum = 2;
+        }
+        CamManager.instance.SetCam(GameManager.instance.myPnum);
+
+        PlayerInsantiate(PlayerPrefs.GetInt("Character"));
+
+        StartCoroutine(PingUpdate());
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            StartCoroutine(StartStage());
+        }
+
     }
 
     #region Photon Messages
     public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Title");
     }
     /// <summary>
     /// Called when the local player left the room. We need to load the launcher scene.
     /// </summary>
     public override void OnLeftRoom()
     {      
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Title");
     }
     #endregion
 
@@ -52,16 +68,17 @@ public class NetworkManager : Photon.PunBehaviour {
     {
         PhotonNetwork.LeaveRoom();
     }
+
+    /// <summary>
+    /// 자신의 캐릭터를 생성
+    /// </summary>
     public void PlayerInsantiate(int i)
     {
-        PhotonNetwork.Instantiate(this.playerPrefabs[i].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0).GetComponent<PlayerControl>();
-        if (PhotonNetwork.isMasterClient)
+        PhotonNetwork.Instantiate(this.playerPrefabs[i].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+
+        if(PhotonNetwork.offlineMode)
         {
-            PlayerManager.instance.myPnum = 1;
-        }
-        else
-        {
-            PlayerManager.instance.myPnum = 2;
+            PhotonNetwork.Instantiate("Puppet", new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
         }
     }
     public void GameOver(int loser)
@@ -74,13 +91,20 @@ public class NetworkManager : Photon.PunBehaviour {
     }
     #endregion
 
-    private void Update()
+    IEnumerator PingUpdate()
     {
-        ping.text = "Ping : " + PhotonNetwork.GetPing();
+        while(true)
+        {
+            ping.text = "Ping : " + PhotonNetwork.GetPing();
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 
 
     #region PUNRPC
+    /// <summary>
+    /// 각 플레이어의 Player Object들이 생성되고 GameManager에 등록이 끝남
+    /// </summary>
     [PunRPC]
     private void PlayerReady_RPC(int pNum)
     {
@@ -93,13 +117,10 @@ public class NetworkManager : Photon.PunBehaviour {
         }
     }
     [PunRPC]
-    private void GameOver_RPC(int loser)
+    private void GameOver_RPC(int winner)
     {
-        UIManager.instance.StopTime();
-        if(PhotonNetwork.isMasterClient)
-        {
-            StartCoroutine(GameOverRoutine(loser));
-        }
+        Debug.Log("Player" + GameManager.instance.GetPlayerByNum(winner) +"has Win");
+        StartCoroutine(GameOverStage(winner));
     }
     [PunRPC]
     private void StartTimeCount()
@@ -108,16 +129,6 @@ public class NetworkManager : Photon.PunBehaviour {
     }
 
     [PunRPC]
-    private void GameStartEffect()
-    {
-        StartEffectRoutine = StartCoroutine(StartEffect());
-    }
-    [PunRPC]    
-    private void GameOverEffect(int loser)
-    {
-        EndEffectRoutine = StartCoroutine(EndEffect(loser));
-    }
-    [PunRPC]
     private void GoToWaiting()
     {
         PhotonNetwork.LoadLevel(1);
@@ -125,7 +136,7 @@ public class NetworkManager : Photon.PunBehaviour {
     [PunRPC]
     private void GameUpdate_RPC(GameUpdate update)
     {
-        PlayerManager.instance.gameUpdate = update;
+        GameManager.instance.gameUpdate = update;
     }
     [PunRPC]
     private void SetRandomSeed(int ran)
@@ -134,95 +145,36 @@ public class NetworkManager : Photon.PunBehaviour {
     }
     #endregion
     /// <summary>
-    /// 방장 쪽에서 루틴돌림
+    /// 게임 시작 연출 방장 쪽에서 루틴돌림
     /// </summary>
     /// <returns></returns>
-    IEnumerator GameStartRoutine()
+    IEnumerator StartStage()
     {
-        while(true)
+        if (GameManager.instance.networkMode == NetworkMode.ONLINE)
         {
-            if(isP1Ready&&isP2Ready)
+            while (true)
             {
-                break;
+                if (isP1Ready && isP2Ready)
+                {
+                    break;
+                }
+                yield return null;
             }
-            yield return null;
-        }
+        }//플레이어 기다리기
         yield return null;
         photonView.RPC("SetRandomSeed", PhotonTargets.All, Random.Range(0, int.MaxValue));
-        photonView.RPC("GameStartEffect", PhotonTargets.AllViaServer);
-        while(StartEffectRoutine ==null)
-        {
-            yield return null;
-        }
-        yield return StartEffectRoutine;
         yield return new WaitForSeconds(0.1f);//wait
         photonView.RPC("StartTimeCount", PhotonTargets.AllViaServer);
-        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.GAMING);
-    }
-
-    /// <summary>
-    /// 방장 쪽에서 루틴 돌림 인풋,연출 동기화
-    /// </summary>
-    IEnumerator GameOverRoutine(int loser)
-    {
-        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.END);
-        photonView.RPC("GameOverEffect", PhotonTargets.AllViaServer, loser);
-        while (EndEffectRoutine == null)
-        {
-            yield return null;
-        }
-        yield return EndEffectRoutine;
-        yield return new WaitForSeconds(0.1f);
-        LeaveRoom();
-    }
-    Coroutine StartEffectRoutine;
-    IEnumerator StartEffect()
-    {
-        yield return null;
-        UIManager.instance.SetPortrait(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
-        UIManager.instance.CharacterStartOn(PlayerManager.instance.GetPlayerByNum(1).character, PlayerManager.instance.GetPlayerByNum(2).character);
-        UIManager.instance.VsImage(true);
-        UIManager.instance.YouImageOn(PlayerManager.instance.myPnum);
-        UIManager.instance.SetCharacterStart(1, true);
-        UIManager.instance.SetCharacterStart(2, false);
-        UIManager.instance.PlayerTextOn();
-        PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(1).character);
-        yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
-        UIManager.instance.SetCharacterStart(1, false);
-        UIManager.instance.SetCharacterStart(2, true);
-        PlayCharacterStartSound(PlayerManager.instance.GetPlayerByNum(2).character);
-        yield return new WaitForSeconds(characterVoice.clip.length + 0.5f);
-        UIManager.instance.CharacterStartOff();
-        UIManager.instance.VsImage(false);
-        UIManager.instance.PlayerTextOff();
-        yield return new WaitForSeconds(0.5f);
-
+        photonView.RPC("GameUpdate_RPC", PhotonTargets.AllViaServer, GameUpdate.INGAME);
         PlayStartSound();
-        UIManager.instance.StartEventTimerOn();//START!
-        yield return new WaitForSeconds(1f);
-        UIManager.instance.StartEventTimerOff();
     }
-    Coroutine EndEffectRoutine;
-    IEnumerator EndEffect(int loser)
-    {
-        int winner = 0;
-        if(loser ==1)
-        {
-            winner = 2;
-        }else
-        {
-            winner = 1;
-        }
 
-        PlayerManager.instance.GetPlayerByNum(loser).PlayLoseAnime();
-        PlayerManager.instance.GetPlayerByNum(winner).PlayWinAnime();
-        yield return new WaitForSeconds(1f);
-        UIManager.instance.WinnerCharacterOn(winner);
-        UIManager.instance.SetCharacterStart(winner, true);
-        PlayCharacterWinSound(PlayerManager.instance.GetPlayerByNum(winner).character);
-        yield return new WaitForSeconds(3.5f);
+    IEnumerator GameOverStage(int winner)
+    {
+        PlayCharacterWinSound(GameManager.instance.GetPlayerByNum(winner).character);
         UIManager.instance.PlayEndBlackAnimation();
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
+        PhotonNetwork.Disconnect();
     }
 
     private AudioSource characterVoice;
@@ -261,7 +213,6 @@ public class NetworkManager : Photon.PunBehaviour {
         }
         characterVoice.Play();
     }
-
     private void PlayStartSound()
     {
         characterVoice.Stop();

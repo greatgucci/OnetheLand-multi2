@@ -12,23 +12,23 @@ public class Iris_SkillShift : Skills {
         if (isRunning)
             return;
 
-        iris_BulletShift = GameObject.Find("iris_BulletShift_" + PlayerManager.instance.myPnum);
+        iris_BulletShift = GameObject.Find("iris_BulletShift_" + GameManager.instance.myPnum);
         if (iris_BulletShift != null)
         {
             StartCoroutine(ShiftEffect1());
             teleportPosition = iris_BulletShift.transform.position;
-            iris_BulletShift.GetComponent<Iris_BulletShift>().Init_Iris_BulletShift(PlayerManager.instance.myPnum);
+            iris_BulletShift.GetComponent<Iris_BulletShift>().Init_Iris_BulletShift(GameManager.instance.myPnum);
 
             Debug.Log(teleportPosition);
             iris_BulletShift = PhotonNetwork.Instantiate("Iris_BulletShift", transform.position, Quaternion.identity, 0);
-            iris_BulletShift.name = "iris_BulletShift_" + PlayerManager.instance.myPnum;
+            iris_BulletShift.name = "iris_BulletShift_" + GameManager.instance.myPnum;
 
             transform.parent.position = teleportPosition;
         }
         else
         {
             iris_BulletShift = PhotonNetwork.Instantiate("Iris_BulletShift", transform.position, Quaternion.identity, 0);
-            iris_BulletShift.name = "iris_BulletShift_" + PlayerManager.instance.myPnum;
+            iris_BulletShift.name = "iris_BulletShift_" + GameManager.instance.myPnum;
         }
 
         AudioController.instance.PlayEffectSound(Character.IRIS, 4);

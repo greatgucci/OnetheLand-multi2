@@ -7,19 +7,13 @@ public class UIManager : MonoBehaviour {
 
     public static UIManager instance;
 
-    Image p1Portrait, p2Portrait;
-    Image p1CharacterEvent, p2CharacterEvent;
+
     Text p1Text, p2Text;
     Text timeText;
 
     Image p1Skg, p2Skg;
     Image p1Hp, p2Hp;
-    Image GameStartImage;
     Animator animator;
-    Image timeRed;
-    Image vsImage;
-    Image you1,you2;
-    Transform SkillIcons;
     public Sprite Iris, Diana;
     //public Sprite[] StartEventTimerSprites;
 
@@ -32,35 +26,40 @@ public class UIManager : MonoBehaviour {
 
         p1Skg = transform.Find("HpUI").Find("P1Status").Find("SkillGuage1").GetComponent<Image>();
         p2Skg = transform.Find("HpUI").Find("P2Status").Find("SkillGuage2").GetComponent<Image>();
+        p1Text = transform.Find("HpUI").Find("P1Status").Find("p1Text").GetComponent<Text>();
+        p2Text = transform.Find("HpUI").Find("P2Status").Find("p2Text").GetComponent<Text>();
 
-        p1Portrait = transform.Find("HpUI").Find("P1Status").Find("CharacterFrame1").Find("CharacterImage").GetComponent<Image>();
-        p2Portrait = transform.Find("HpUI").Find("P2Status").Find("CharacterFrame2").Find("CharacterImage").GetComponent<Image>();
-
-        p1CharacterEvent = transform.Find("Event").Find("P1Event").GetComponent<Image>();
-        p2CharacterEvent = transform.Find("Event").Find("P2Event").GetComponent<Image>();
-        vsImage = transform.Find("Event").Find("Vs").GetComponent<Image>();
-        
-        timeText = transform.Find("texts").Find("Time").GetComponent<Text>();
-        p1Text = transform.Find("Event").Find("p1Text").GetComponent<Text>();
-        p2Text = transform.Find("Event").Find("p2Text").GetComponent<Text>();
-
-        GameStartImage = transform.Find("Event").Find("Timer").GetComponent<Image>();
-        timeRed = timeText.transform.Find("ClockBG").GetComponent<Image>();
-        SkillIcons = transform.Find("SkillIcon");
-        you1 = transform.Find("HpUI").Find("P1Status").Find("You").GetComponent<Image>();
-        you2 = transform.Find("HpUI").Find("P2Status").Find("You").GetComponent<Image>();
+        timeText = transform.Find("texts").Find("Time").GetComponent<Text>();    
         animator = GetComponent<Animator>();
     }
 
-    public void SetHp(int pNum, float hp)
+    public void SetHp(int pNum, float damage)
     {
         if(pNum == 1)
         {
-            p1Hp.fillAmount = hp;
+            if(damage<100)
+            {
+                p1Hp.color = Color.white;
+                p1Hp.fillAmount = damage / 100;
+            }
+            else
+            {
+                p1Hp.color = Color.gray;
+                p1Hp.fillAmount = (damage - 100) / 100;
+            }
         }
         else if (pNum == 2)
         {
-            p2Hp.fillAmount = hp;
+            if(damage<100)
+            {
+                p2Hp.color = Color.white;
+                p2Hp.fillAmount = damage / 100;
+            }
+            else
+            {
+                p2Hp.color = Color.gray;
+                p2Hp.fillAmount = (damage - 100) / 100;
+            }
         }
     }
 
@@ -76,135 +75,15 @@ public class UIManager : MonoBehaviour {
         }
     }
     #region GameEvent
-    public void SetPortrait(Character player1,Character player2)
-    {
-        switch(player1)
-        {
-            case Character.DIANA:
-                p1Portrait.sprite = Diana;
-                break;
-
-            case Character.IRIS:
-                p1Portrait.sprite = Iris;
-                break;
-        }
-        switch(player2)
-        {
-            case Character.DIANA:
-                p2Portrait.sprite = Diana;
-                break;
-
-            case Character.IRIS:
-                p2Portrait.sprite = Iris;
-                break;
-        }
-    }
-
-    /// <summary>
-    ///  시작할때 캐릭터 이미지 옆에 뜨는거
-    /// </summary>
-    public void CharacterStartOn(Character player1,Character player2)
-    {
-        p1CharacterEvent.enabled = true;
-        p2CharacterEvent.enabled = true;
-        switch (player1)
-        {
-            case Character.DIANA:
-                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana");
-                break;
-            case Character.IRIS:
-                p1CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Iris");
-                break;
-        }
-        switch (player2)
-        {
-            case Character.DIANA:
-                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Diana");
-                break;
-
-            case Character.IRIS:
-                p2CharacterEvent.sprite = Resources.Load<Sprite>("UI/Assets/StandingCharacter_Iris");
-                break;
-        }
-    }
-    public void CharacterStartOff()
-    {
-        p1CharacterEvent.enabled = false;
-        p2CharacterEvent.enabled = false;
-    }
-    public void SetCharacterStart(int player,bool b)
-    {
-        if(b)
-        {
-            switch(player)
-            {
-                case 1:
-                    p1CharacterEvent.color = Color.white;
-                    break;
-                case 2:
-                    p2CharacterEvent.color = Color.white;
-                    break;
-            }
-        }else
-        {
-            switch (player)
-            {
-                case 1:
-                    p1CharacterEvent.color = Color.grey;
-                    break;
-                case 2:
-                    p2CharacterEvent.color = Color.grey;
-                    break;
-            }
-        }
-    }
-
-    public void StartEventTimerOn()
-    {
-        GameStartImage.enabled = true;
-    }
-    public void StartEventTimerOff()
-    {
-        GameStartImage.enabled = false;
-    }
-    public void WinnerCharacterOn(int winner)
-    {
-        if(winner==1)
-        {
-            p1CharacterEvent.enabled = true;
-        }else
-        {
-            p2CharacterEvent.enabled = true;
-        }
-    }
-    public void PlayStartAnimation()
-    {
-        animator.Play("Start");
-    }
     public void PlayEndBlackAnimation()
     {
         animator.Play("Black");
     }
-
-    public void VsImage(bool b)
+    
+    public void SetPlayerText()
     {
-        vsImage.enabled = b;
-    }
-    public void YouImageOn(int i)
-    {
-        if(i ==1)
-        {
-            you1.enabled = true;
-        }else if(i==2)
-        {
-            you2.enabled = true;
-        }
-    }
-    public void PlayerTextOn()
-    {
-
             p1Text.enabled = true;
-            switch(PlayerManager.instance.GetPlayerByNum(1).character)
+            switch(GameManager.instance.GetPlayerByNum(1).character)
             {
                 case Character.DIANA:
                     p1Text.text = "다이애나";
@@ -212,13 +91,16 @@ public class UIManager : MonoBehaviour {
                 case Character.IRIS:
                     p1Text.text = "아이리스";
                     break;
+                case Character.PUPPET:
+                 p1Text.text = "연습용 인형";
+                break;
                 default:
                 p1Text.text = "Missing";
                 break;
             }
         
             p2Text.enabled = true;
-            switch (PlayerManager.instance.GetPlayerByNum(2).character)
+            switch (GameManager.instance.GetPlayerByNum(2).character)
             {
                 case Character.DIANA:
                     p2Text.text = "다이애나";
@@ -226,17 +108,16 @@ public class UIManager : MonoBehaviour {
                 case Character.IRIS:
                     p2Text.text = "아이리스";
                     break;
+            case Character.PUPPET:
+                p2Text.text = "연습용 인형";
+                break;
             default:
                 p2Text.text = "Missing";
                 break;
         }
         
     }
-    public void PlayerTextOff()
-    {
-        p1Text.enabled = false;
-        p2Text.enabled = false;
-    }
+
 
     #endregion
 
@@ -254,27 +135,28 @@ public class UIManager : MonoBehaviour {
     IEnumerator TimeCount()
     {
         float t = 180;
-        bool isRedOn=false;
         while (t > 0)
         {
-            if(t<50 && !isRedOn)
-            {
-                isRedOn = true;
-                timeRed.enabled = true;
-            }
             t -= Time.deltaTime;
             timeText.text = "" + (int)t;
             yield return null;
         }
         if (PhotonNetwork.isMasterClient)
         {
-            if (PlayerManager.instance.GetPlayerByNum(1).CurrentHp >= PlayerManager.instance.GetPlayerByNum(2).CurrentHp)
+            if(GameManager.instance.gameMode == GameMode.DAMAGE)
             {
-                NetworkManager.instance.GameOver(2);
-            }
-            else if (PlayerManager.instance.GetPlayerByNum(1).CurrentHp < PlayerManager.instance.GetPlayerByNum(2).CurrentHp)
+                //TODO: 데미지
+
+            }else if(GameManager.instance.gameMode == GameMode.HP)
             {
-                NetworkManager.instance.GameOver(1);
+                if (GameManager.instance.GetPlayerByNum(1).CurrentDamage >= GameManager.instance.GetPlayerByNum(2).CurrentDamage)
+                {
+                    NetworkManager.instance.GameOver(2);
+                }
+                else if (GameManager.instance.GetPlayerByNum(1).CurrentDamage < GameManager.instance.GetPlayerByNum(2).CurrentDamage)
+                {
+                    NetworkManager.instance.GameOver(1);
+                }
             }
         }
     }

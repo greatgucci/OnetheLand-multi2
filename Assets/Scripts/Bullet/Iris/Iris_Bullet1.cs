@@ -37,7 +37,7 @@ public class Iris_Bullet1 : Bullet {
     protected override void Move(int _shooterNum)
     {
 
-        if (PlayerManager.instance.myPnum == oNum)
+        if (GameManager.instance.myPnum == oNum)
         {
             warning_Temp = FavoriteFunction.WarningCircle(oPosition_Temp, 2f, 5f);
         }
@@ -67,7 +67,7 @@ public class Iris_Bullet1 : Bullet {
     protected override void OnTriggerStay2D(Collider2D c)
     {
 
-        if (PlayerManager.instance.Local.playerNum != oNum)
+        if (GameManager.instance.Local.playerNum != oNum)
         {
             return;
         }

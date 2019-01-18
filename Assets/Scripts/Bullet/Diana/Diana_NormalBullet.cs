@@ -38,7 +38,7 @@ public class Diana_NormalBullet : Bullet{
             stratposition = transform.position;
             if(distance >4f)
             {
-                if (PlayerManager.instance.myPnum == shooterNum)
+                if (GameManager.instance.myPnum == shooterNum)
                 {
                     DestroyToServer();
                     bullet = PhotonNetwork.Instantiate("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet>();
@@ -58,7 +58,7 @@ public class Diana_NormalBullet : Bullet{
 	{
 		if (isTirggerTime == true)
 		{
-			if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+			if (GameManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
 			{
 				return;
 			}
@@ -66,12 +66,12 @@ public class Diana_NormalBullet : Bullet{
 			if (collision.tag == "Player" + oNum)
 				//데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
 			{
-				PlayerManager.instance.Local.CurrentHp -= (short)damage;
+				GameManager.instance.Local.CurrentDamage -= (short)damage;
 				DestroyToServer();
 			}
 			if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
 			{
-				PlayerManager.instance.Local.CurrentSkillGage += 1;
+				GameManager.instance.Local.CurrentSkillGage += 1;
 			}
 		}
 	}

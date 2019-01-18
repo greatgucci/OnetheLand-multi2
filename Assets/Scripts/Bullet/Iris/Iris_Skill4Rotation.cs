@@ -29,7 +29,7 @@ public class Iris_Skill4Rotation : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        transform.parent = PlayerManager.instance.GetPlayerByNum(_shooterNum).transform;
+        transform.parent = GameManager.instance.GetPlayerByNum(_shooterNum).transform;
 
         StartCoroutine(IrisSkill4_Rotate());
     }

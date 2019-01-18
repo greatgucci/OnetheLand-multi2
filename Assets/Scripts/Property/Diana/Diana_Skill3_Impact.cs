@@ -35,11 +35,11 @@ public class Diana_Skill3_Impact : Bullet {
 			}
 		}
 			
-		DVector = (PlayerManager.instance.GetPlayerByNum (oNum).transform.position-parentObject.transform.position);
+		DVector = (GameManager.instance.GetPlayerByNum (oNum).transform.position-parentObject.transform.position);
 		distance=DVector.magnitude+1;
 		parentObject.transform.parent.gameObject.transform.Translate(DVector.normalized * distance);
 		yield return new WaitForSeconds (1f);
-		if(PlayerManager.instance.myPnum == shooterNum)
+		if(GameManager.instance.myPnum == shooterNum)
 			DestroyToServer();
 	}
 }

@@ -16,41 +16,43 @@ public class DianaControl : PlayerControl {
 	GameObject diana_white;
     int oNum;
     PhotonView view_oponent;
-	protected override void Start()
-	{
-		base.Start ();
-            StartCoroutine(Ready());
-	}
+
+    protected override void StartCall()
+    {
+        base.StartCall();
+        StartCoroutine(Ready());
+    }
+
     private IEnumerator Ready()
     {
         yield return new WaitForSeconds(1f);
-        oNum = PlayerManager.instance.myPnum == 1 ? 2 : 1;
-        view_oponent = PlayerManager.instance.GetPlayerByNum(oNum).GetComponent<PhotonView>();
+        oNum = GameManager.instance.myPnum == 1 ? 2 : 1;
+        view_oponent = GameManager.instance.GetPlayerByNum(oNum).GetComponent<PhotonView>();
         if (photonView.isMine)
         {
-            Creating_HeresyStigma = PhotonNetwork.Instantiate("HeresyStigmaCreate", PlayerManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<Diana_HeresyStigmaCreate>();
-            Creating_HeresyStigma.Init_InHeresyStigma(PlayerManager.instance.myPnum, view_oponent.viewID);
+            Creating_HeresyStigma = PhotonNetwork.Instantiate("HeresyStigmaCreate", GameManager.instance.GetPlayerByNum(oNum).transform.position, Quaternion.identity, 0).GetComponent<Diana_HeresyStigmaCreate>();
+            Creating_HeresyStigma.Init_InHeresyStigma(GameManager.instance.myPnum, view_oponent.viewID);
         }
     }
-    protected override void MoveControl()
+
+    public override void SkillControl(int skillNum)
     {
-        Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-    }
-    protected override void SkillControl()
-    {
+        base.SkillControl(skillNum);
+
+        //TODO: 각자 skillNum에따라 스킬 발동되게 작업
 
 		if (!skill1_playing)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
             {
-                PlayerManager.instance.Local.SetCooltime(0, 0f);
+                GameManager.instance.Local.SetCooltime(0, 0f);
                 DoSkill(0);//좌
                 playerAnimation.AddAnimationLayer(3, false);
             }
         }
         if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
-            PlayerManager.instance.Local.SetCooltime(1, 1f);
+            GameManager.instance.Local.SetCooltime(1, 1f);
             DoSkill(1);//우
             playerAnimation.AddAnimationLayer(4, false);
         }
@@ -58,7 +60,7 @@ public class DianaControl : PlayerControl {
         {
             if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
             {
-            PlayerManager.instance.Local.SetCooltime(2, 3f);
+            GameManager.instance.Local.SetCooltime(2, 3f);
 	            DoSkill(2);//E skill1
 	            playerAnimation.AddAnimationLayer(5, false);
 	            SetAnimationLayerEmpty(0.633f);
@@ -66,22 +68,21 @@ public class DianaControl : PlayerControl {
         }
         if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
-            PlayerManager.instance.Local.SetCooltime(3, 5f);
-            Debug.Log("a");
+            GameManager.instance.Local.SetCooltime(3, 5f);
             DoSkill(3);//R skill2
 
         }
         else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && Creating_HeresyStigma.isExist)
         {
-            PlayerManager.instance.Local.SetCooltime(4, 3f);
+            GameManager.instance.Local.SetCooltime(4, 3f);
             Debug.Log(Creating_HeresyStigma.isExist);
             Creating_HeresyStigma.isExist = false;
             Debug.Log(Creating_HeresyStigma.isExist);
             DoSkill(4);//LeftShift skill3
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && PlayerManager.instance.Local.CurrentSkillGage >= 100f)
+        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && GameManager.instance.Local.CurrentSkillGage >= 100f)
         {
-            PlayerManager.instance.Local.SetCooltime(9, 10f);
+            GameManager.instance.Local.SetCooltime(9, 10f);
             DoSkill(5);//Q 궁
             playerAnimation.AddAnimationLayer(6, false);
             SetAnimationLayerEmpty(6f);
@@ -121,7 +122,7 @@ public class DianaControl : PlayerControl {
 	}
 	IEnumerator Impact(int _shooterNum)
 	{
-        if (!(PlayerManager.instance.myPnum == _shooterNum))
+        if (!(GameManager.instance.myPnum == _shooterNum))
         {
             diana_white = Instantiate(Resources.Load("Diana_White") as GameObject, new Vector3(0f, 0f, 0f), Quaternion.identity);
             Map_White(_shooterNum);
@@ -141,14 +142,14 @@ public class DianaControl : PlayerControl {
 	IEnumerator WhiteOut(int _shooterNum)
 	{
 		for (float i = 0f; i < 255f; i += Time.deltaTime*255) {
-            if(!(PlayerManager.instance.myPnum == _shooterNum))
+            if(!(GameManager.instance.myPnum == _shooterNum))
                 ColorMap(i,_shooterNum);
 			yield return null;
 		}
 		yield return new WaitForSeconds (1f);
 		for (float i = 0f; i < 255f; i += Time.deltaTime*255*2)
         {
-            if (!(PlayerManager.instance.myPnum == _shooterNum))
+            if (!(GameManager.instance.myPnum == _shooterNum))
                 ColorMap(255- i,_shooterNum);
 			yield return null;
 		}
@@ -163,7 +164,7 @@ public class DianaControl : PlayerControl {
 	[PunRPC]
 	void ColorMap_RPC(float i, int _shooterNum)
 	{
-        if(PlayerManager.instance.myPnum==_shooterNum)
+        if(GameManager.instance.myPnum==_shooterNum)
 		    diana_white.GetComponent<SpriteRenderer> ().color = new Color(1,1,1,i/255);
 	}
 

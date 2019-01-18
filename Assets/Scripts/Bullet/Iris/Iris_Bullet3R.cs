@@ -38,19 +38,19 @@ public class Iris_Bullet3R : Bullet {
     {
         if (isTirggerTime == true)
         {
-            if (PlayerManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
+            if (GameManager.instance.Local.playerNum != oNum)//피격자 입장에서 판정
             {
                 return;
             }
 
             if (collision.tag == "Player" + oNum)
             {
-                PlayerManager.instance.Local.CurrentHp -= (short)damage;
+                GameManager.instance.Local.CurrentDamage -= (short)damage;
 
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
             {
-                PlayerManager.instance.Local.CurrentSkillGage += (short)1f;
+                GameManager.instance.Local.CurrentSkillGage += (short)1f;
             }
         }
     }

@@ -35,7 +35,7 @@ public class Iris_BulletE : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        if (oNum == PlayerManager.instance.myPnum)
+        if (oNum == GameManager.instance.myPnum)
         {
             warningCircle = FavoriteFunction.WarningCircle(transform.position, 2f, 1f);
             warningCircle.transform.parent = transform;
@@ -61,13 +61,13 @@ public class Iris_BulletE : Bullet {
             yield return null;
         }
 
-        if (shooterNum == PlayerManager.instance.myPnum)
+        if (shooterNum == GameManager.instance.myPnum)
         {
             AudioController.instance.PlayEffectSound(Character.IRIS, 3);
             Iris_BulletERangeAttack iris_BulletERangeAttack
             = PhotonNetwork.Instantiate("Iris_BulletERangeAttack", transform.position, Quaternion.identity, 0)
             .GetComponent<Iris_BulletERangeAttack>();
-            iris_BulletERangeAttack.Init_Iris_BulletERangeAttack(PlayerManager.instance.myPnum);
+            iris_BulletERangeAttack.Init_Iris_BulletERangeAttack(GameManager.instance.myPnum);
             DestroyToServer();
         }
     }

@@ -127,4 +127,5 @@ MonoBehaviour:
   - DamageCalculating_RPC
   - Destroy_Heresy_RPC
   - Init_Diana_Shootgun_RPC
+  - GetKnockBack
   DisableAutoOpenWizard: 1

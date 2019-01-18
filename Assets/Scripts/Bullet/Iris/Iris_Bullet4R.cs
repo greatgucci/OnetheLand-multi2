@@ -16,7 +16,7 @@ public class Iris_Bullet4R : Bullet {
     [PunRPC]
     protected void Init_Iris_Bullet4R_RPC(int _shooterNum, int num)
     {
-        DVector = PlayerManager.instance.GetPlayerByNum(_shooterNum).aimVector;
+        DVector = GameManager.instance.GetPlayerByNum(_shooterNum).aimVector;
         bulNum = num;
         Invoke("DestroyToServer", 10f);
         shooterNum = _shooterNum;
@@ -44,13 +44,13 @@ public class Iris_Bullet4R : Bullet {
 
         while (true)
         {
-            Debug.Log("Hi I'm " + PlayerManager.instance.myPnum);
+            Debug.Log("Hi I'm " + GameManager.instance.myPnum);
             if (timer >= 2f)
             {
                 break;
             }
 
-            DVector = PlayerManager.instance.GetPlayerByNum(shooterNum).aimPosition - transform.position;
+            DVector = GameManager.instance.GetPlayerByNum(shooterNum).aimPosition - transform.position;
 
             rgbd.velocity = DVector * speed;
 

@@ -30,7 +30,7 @@ public class Diana_Bullet_Thunder_Create : Bullet {
 			if (length >= 0.3f * i) {
 				//범위 보여줌
 				yield return new WaitForSeconds(0.1f);
-				if (PlayerManager.instance.myPnum == shooterNum) {
+				if (GameManager.instance.myPnum == shooterNum) {
 
                     AudioController.instance.PlayEffectSound(Character.DIANA, 2);
                     Diana_Bullet1_Thunder thunder;
@@ -44,7 +44,7 @@ public class Diana_Bullet_Thunder_Create : Bullet {
 			start_position = transform.position;
 			yield return null;
 		}
-		if (PlayerManager.instance.myPnum == shooterNum) {
+		if (GameManager.instance.myPnum == shooterNum) {
 			DestroyToServer ();
 		}
 	}

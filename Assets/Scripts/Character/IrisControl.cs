@@ -8,10 +8,6 @@ using UnityEngine;
 ///
 public class IrisControl : PlayerControl
 {
-    protected override void MoveControl()
-    {
-        Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-    }
     /*
 * 0 : 마우스 우클릭
 * 1 : E
@@ -26,56 +22,60 @@ public class IrisControl : PlayerControl
 *         PlayerManager.instance.Local.SetCooltime(스킬 숫자, 클타임);
 * ...으로 각 스킬 스크립트에서 쿨타임 넣음
 */
-    protected override void SkillControl()
+    public override void SkillControl(int skillNum)
     {
+        base.SkillControl(skillNum);
+
+        //TODO: 각자 skillNum에따라 스킬 발동되게 작업
+
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
         {
             DoSkill(0);
             playerAnimation.AddAnimationLayer(3,false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(0, 0.7f);
+            GameManager.instance.Local.SetCooltime(0, 0.7f);
         }
         else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
         {
             DoSkill(1);//Skill1
             playerAnimation.AddAnimationLayer(4, false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(1, 1.0f);
+            GameManager.instance.Local.SetCooltime(1, 1.0f);
         }
         else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
         {
             DoSkill(2);//Skill2
             playerAnimation.AddAnimationLayer(5, false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(2, 4f);
+            GameManager.instance.Local.SetCooltime(2, 4f);
         }
         else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
             DoSkill(3);//Skill2
             playerAnimation.AddAnimationLayer(4, false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(3, 5f);
+            GameManager.instance.Local.SetCooltime(3, 5f);
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f)
         {
             DoSkill(4);
             playerAnimation.AddAnimationLayer(6, false);
             SetAnimationLayerEmpty(0.667f);
-            PlayerManager.instance.Local.SetCooltime(4, 4f);
+            GameManager.instance.Local.SetCooltime(4, 4f);
         }
         
-        else if (Input.GetKeyDown(KeyCode.Space) && playerData.cooltime[8] <= 0f)
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             AudioController.instance.PlayEffectSound(Character.IRIS, 7);
         }
         
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && PlayerManager.instance.Local.CurrentSkillGage >= 100f)
+        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && GameManager.instance.Local.CurrentSkillGage >= 100f)
         {
             DoSkill(5);
             SetAnimationLayerEmpty(0.667f);
             playerAnimation.AddAnimationLayer(5, false);
-            PlayerManager.instance.Local.CurrentSkillGage -= 100;
+            GameManager.instance.Local.CurrentSkillGage -= 100;
         }
     }
     protected override void MoveAnimationChange(MoveState move)

@@ -5,14 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public enum NetWorkMode
 {
-    CLOUD,
-    LAN
+    ONLINE,
+    OFFLINE
 }
 public class photonScript : Photon.PunBehaviour
 {
     public int SelectedCharIndex;
     public Text debug;
-    public string versionName = "0.1";
+    public string versionName;
     public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
 
     [Header("Lan Setting")]
@@ -22,12 +22,13 @@ public class photonScript : Photon.PunBehaviour
     public NetWorkMode netWorkMode;
 
 
-    private bool isConnecting;
 
     private void Awake()
     {
-        PhotonNetwork.Disconnect();
-
+        if (PhotonNetwork.connected)
+        {
+            PhotonNetwork.Disconnect();
+        }
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
 
@@ -39,7 +40,6 @@ public class photonScript : Photon.PunBehaviour
         PhotonNetwork.AuthValues = new AuthenticationValues(Random.Range(int.MinValue, int.MaxValue).ToString());
 
         PlayerPrefs.SetInt("Character", 0);
-        DataManager.Initalization();
     }
 
     #region CallBacks
@@ -51,7 +51,12 @@ public class photonScript : Photon.PunBehaviour
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        if (isConnecting)
+        if(netWorkMode == NetWorkMode.OFFLINE)
+        {
+            PhotonNetwork.CreateRoom("OffLine", new RoomOptions() { MaxPlayers = 2, PublishUserId = false }, null);
+            PhotonNetwork.LoadLevel("Ingame");
+        }
+        else if (netWorkMode == NetWorkMode.ONLINE)
         {
             PhotonNetwork.JoinRandomRoom();
         }
@@ -59,15 +64,17 @@ public class photonScript : Photon.PunBehaviour
 
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
-
         PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 2, PublishUserId = false }, null);
     }
     public override void OnJoinedRoom()
     {
-        if (PhotonNetwork.isMasterClient)
+        debug.text = "다른 플레이어를 기다리고 있어요.";       
+    }
+    public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+    {
+        if (PhotonNetwork.room.PlayerCount >= 2)
         {
-            debug.text = "경기장에 입장중이에요..";
-            SceneManager.LoadScene("WaitingScene");
+            PhotonNetwork.LoadLevel("Ingame");
         }
     }
 
@@ -78,10 +85,10 @@ public class photonScript : Photon.PunBehaviour
         switch (i)
         {
             case 0:
-                netWorkMode = NetWorkMode.CLOUD;
+                netWorkMode = NetWorkMode.ONLINE;
                 break;
             case 1:
-                netWorkMode = NetWorkMode.LAN;
+                netWorkMode = NetWorkMode.OFFLINE;
                 break;
         }
     }
@@ -89,45 +96,35 @@ public class photonScript : Photon.PunBehaviour
     {
         PlayerPrefs.SetInt("Character", i);
     }
-    public void Connect()
+    /// <summary>
+    /// 버튼 눌렀을때 호출
+    /// </summary>
+    public void ConnectCallBack()
     {
-        connecting = StartCoroutine(connectToPhoton());
-    }
-    #endregion
-    #region private
-    Coroutine connecting;
-    IEnumerator connectToPhoton()
-    {
-        isConnecting = true;
-        yield return new WaitForSeconds(0.1f);
-        if (netWorkMode == NetWorkMode.CLOUD)
+        if (PhotonNetwork.connected)
+        {
+            PhotonNetwork.Disconnect();
+        }
+
+        if (netWorkMode == NetWorkMode.ONLINE)
         {
             PhotonNetwork.PhotonServerSettings.HostType = ServerSettings.HostingOption.PhotonCloud;
             PhotonNetwork.PhotonServerSettings.PreferredRegion = CloudRegionCode.kr;
             PhotonNetwork.PhotonServerSettings.Protocol = ExitGames.Client.Photon.ConnectionProtocol.Udp;
             PhotonNetwork.PhotonServerSettings.AppID = AppID;
-
-            PhotonNetwork.ConnectUsingSettings(versionName); //클라우드 접속
+            PhotonNetwork.ConnectUsingSettings(versionName);
             debug.text = "서버에 접속중..";
-
         }
-        else if (netWorkMode == NetWorkMode.LAN)
+        else if(netWorkMode == NetWorkMode.OFFLINE)
         {
-            PhotonNetwork.PhotonServerSettings.HostType = ServerSettings.HostingOption.SelfHosted;
-            PhotonNetwork.PhotonServerSettings.ServerAddress = LanIp;
-            PhotonNetwork.PhotonServerSettings.ServerPort = LanPort;
-            PhotonNetwork.PhotonServerSettings.Protocol = ExitGames.Client.Photon.ConnectionProtocol.Udp;
-            PhotonNetwork.PhotonServerSettings.AppID = AppID;
-
-
-            PhotonNetwork.ConnectUsingSettings(versionName); // 랜접속
-            debug.text = "서버에 접속중..";
+            PhotonNetwork.PhotonServerSettings.HostType = ServerSettings.HostingOption.OfflineMode;
+            PhotonNetwork.offlineMode = true;       
         }
     }
     #endregion
     IEnumerator TimeCount()
     {
         yield return new WaitForSeconds(8f);
-        debug.text = "서버 접속이 안되요!!?";
+        debug.text = "서버 접속에 실패했습니다..";
     }
 }

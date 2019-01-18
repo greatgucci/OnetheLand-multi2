@@ -34,7 +34,7 @@ public class Iris_Skill3Circle : Bullet {
     {
         irisSkill3Animation = Resources.Load("IrisSkill3Animation") as GameObject;
 
-        if (PlayerManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
+        if (GameManager.instance.Local.playerNum == oNum)//피격자 입장에서 판정
         {
             warningSquare = FavoriteFunction.WarningSquare(transform.position, 1f, 10f);
             warningSquare.transform.localScale = new Vector3(30f, 0.75f, 1f);

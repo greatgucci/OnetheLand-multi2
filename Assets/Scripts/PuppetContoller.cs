@@ -11,13 +11,12 @@ public class PuppetContoller : PlayerControl {
     // Use this 
 
     // Use this for initialization
-    new void Start ()
+    protected override void StartCall()
     {
-        playerData.SetPlayerNum(2,this);
-        SetPlayerPos(playerData.playerNum);
-    }
-    protected override bool LateUpdate()
-    {
-		return false;
+        pNum = 2;
+        GameManager.instance.Opponent = playerData;
+        playerData.SetStatus(0, 100, 0);
+        playerData.SetPlayerNum(2, this);
+        SetStartPosition(playerData.playerNum);
     }
 }

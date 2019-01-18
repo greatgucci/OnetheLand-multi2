@@ -4,8 +4,9 @@ using UnityEngine;
 
 public enum Character
 {
+    PUPPET = -1,
     DIANA,
-    IRIS
+    IRIS,
 }
 
 [System.Serializable]

@@ -41,7 +41,7 @@ public class Iris_Skill2RCircle : Bullet
 
         TargetStatic targetStatic;
 
-        targetStatic = PhotonNetwork.Instantiate("TargetStatic", PlayerManager.instance.GetPlayerByNum(shooterNum).aimPosition, Quaternion.identity, 0).GetComponent<TargetStatic>();
+        targetStatic = PhotonNetwork.Instantiate("TargetStatic", GameManager.instance.GetPlayerByNum(shooterNum).aimPosition, Quaternion.identity, 0).GetComponent<TargetStatic>();
         targetStatic.Init_TargetStatic(shooterNum);
 
         /*
@@ -60,7 +60,7 @@ public class Iris_Skill2RCircle : Bullet
 
         yield return new WaitForSeconds(0.2f);
 
-        if (PlayerManager.instance.GetPlayerByNum(shooterNum) == PlayerManager.instance.Local)
+        if (GameManager.instance.GetPlayerByNum(shooterNum) == GameManager.instance.Local)
         {
             Iris_Bullet2R irisBullet2R;
 

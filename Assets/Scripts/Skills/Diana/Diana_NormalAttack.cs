@@ -11,10 +11,10 @@ public class Diana_NormalAttack : Skills {
 		Vector3 DVector;
 		PhotonView view = GetComponent<PhotonView> ();
 		Diana_NormalBullet dan_at;
-		DVector = PlayerManager.instance.Local.aimVector.normalized;
+		DVector = GameManager.instance.Local.aimVector.normalized;
         AudioController.instance.PlayEffectSound(Character.DIANA, 0);
         dan_at = PhotonNetwork.Instantiate ("Diana_NormalBullet", transform.position, Quaternion.identity, 0).GetComponent<Diana_NormalBullet> ();
-		dan_at.Init_Diana_NormalBullet (PlayerManager.instance.myPnum, view.viewID,DVector, true);
+		dan_at.Init_Diana_NormalBullet (GameManager.instance.myPnum, view.viewID,DVector, true);
 		StartCoroutine (Waiting ());
 	}
 	bool isRunning = false;

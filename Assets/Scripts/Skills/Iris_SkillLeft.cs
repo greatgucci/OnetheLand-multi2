@@ -35,7 +35,7 @@ public class Iris_SkillLeft : Skills {
             bul[i] = PhotonNetwork.Instantiate
                 ("Iris_BulletLeft", transform.position, Quaternion.identity, 0).
                 GetComponent<Iris_BulletLeft>();
-            bul[i].Init_Iris_BulletLeft(PlayerManager.instance.myPnum, i, PlayerManager.instance.Local.aimVector);
+            bul[i].Init_Iris_BulletLeft(GameManager.instance.myPnum, i, GameManager.instance.Local.aimVector);
 
             yield return new WaitForSeconds(0.1f);
         }

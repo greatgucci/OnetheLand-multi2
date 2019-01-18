@@ -33,7 +33,7 @@ public class Iris_Skill2R : Skills {
         for (int i = 0; i < 5; i++)
         {
             iris_Skill2RCircle = PhotonNetwork.Instantiate("Iris_Skill2RCircle", CalcCreatePosi(i), Quaternion.identity, 0).GetComponent<Iris_Skill2RCircle>();
-            iris_Skill2RCircle.Init_Iris_Skill2RCircle(PlayerManager.instance.myPnum, i);
+            iris_Skill2RCircle.Init_Iris_Skill2RCircle(GameManager.instance.myPnum, i);
 
             yield return new WaitForSeconds(0.2f);
         }
