@@ -121,13 +121,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
         if(isMoveAble)
         {
-            if(InputSystem.instance.joyStickPressed)
-            {
-                Move(InputSystem.instance.joyStickX, InputSystem.instance.joyStickY);
-            }else
-            {
-                Move(0, 0);
-            }
+            Move(InputSystem.instance.joyStickVector.x, InputSystem.instance.joyStickVector.y);
         }
 
         if(isSkillAble)
