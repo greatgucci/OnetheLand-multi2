@@ -19,7 +19,7 @@ public class Iris_BulletLeft : Bullet {
     [PunRPC]
     protected void Init_Iris_BulletLeft_RPC(int _shooterNum, int num, Vector3 aimDVector)
     {
-        DVector = aimDVector;
+        DVector = FavoriteFunction.VectorCalc(gameObject, _shooterNum == 1 ? 2 : 1);
         bulNum = num;
         Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
@@ -36,7 +36,7 @@ public class Iris_BulletLeft : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 50;
+        damage = 10;
         speed = 6f;
 
 

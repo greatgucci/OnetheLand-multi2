@@ -110,14 +110,14 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             if (i == skillNum)
             {
                 cooltime[i] = _cooltime;
-                SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+                //SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
             }
             else
             {
                 if (cooltime[i] <= globalCool)
                 {
                     cooltime[i] += globalCool;
-                    SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+                    //SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
                 }
             }
         }
@@ -149,6 +149,20 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 {
                     cooltime[i] -= Time.deltaTime * cooltimeSpd;
                 }
+            }
+
+            if (CurrentDamage > 200)
+            {
+                CurrentDamage = 200;
+            }
+
+            if (transform.position.x < -20f && playerNum == 1)
+            {
+                NetworkManager.instance.GameOver(playerNum);
+            }
+            else if (transform.position.x > 20f && playerNum == 2)
+            {
+                NetworkManager.instance.GameOver(playerNum);
             }
         }
     }

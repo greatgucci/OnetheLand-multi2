@@ -113,6 +113,11 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
     protected virtual void LateUpdate()
     {
+        if(!photonView.isMine)
+        {
+            return;
+        }
+
         if (!isInputAble || GameManager.instance.gameUpdate != GameUpdate.INGAME)
         {
             rgbd.velocity = new Vector2(0, 0);
@@ -240,7 +245,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
         voiceAudio.Play();
     }
     [PunRPC]
-    protected void GetKnockBack(float x, float y)
+    protected void KnockBack_RPC(float x, float y)
     {
         StartCoroutine(KnockBackPlay(x, y));
     }
@@ -262,40 +267,43 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
         isPushed = true;
         float knockBackTime = 0f;
+        float accumulatedDamage = 0.5f + (0.01f * (float)GameManager.instance.GetPlayerByNum(pNum).CurrentDamage);
 
-        Vector3 targetPos = transform.position + new Vector3(x, y)*(1-weight/100);
-
+        Vector2 originSpeed = new Vector2(accumulatedDamage * x, accumulatedDamage * y);
+        Vector2 moveSpeed;
         while(true)
         {
-            if(knockBackTime>1)
+            if(knockBackTime>0.6f)
             {
                 break;
             }
-            rgbd.velocity = new Vector2(0, 0);
             knockBackTime += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(transform.position, targetPos, knockBackTime);
-
-            if (transform.position.y > 2.5 )
+            moveSpeed = Vector2.Lerp(originSpeed,Vector2.zero,knockBackTime*1.6f);
+            if (pNum == 1)
             {
-               transform.position = new Vector2(transform.position.x, 2.5f);
+                if (x > 0 && transform.position.x > -0.5f)
+                {
+                    moveSpeed = new Vector2(0, moveSpeed.y);
+                }
             }
-            if(transform.position.y < -2.5)
+            else if (pNum == 2)
             {
-                transform.position = new Vector2(transform.position.x, -2.5f);
-            }
-
-
-            if (pNum == 1 && transform.position.x > -0.5f)
-            {
-                transform.position = new Vector2(0, transform.position.y);
-            }
-
-            else if (pNum == 2 && transform.position.x < 0.5f)
-            {
-                transform.position = new Vector2(0, transform.position.y);
+                if (x < 0 && transform.position.x < 0.5f)
+                {
+                    moveSpeed = new Vector2(0, moveSpeed.y);
+                }
             }
 
+            if (y > 0 && transform.position.y > 2.5)
+            {
+                moveSpeed = new Vector2(moveSpeed.x, 0);
+            }
+            if (y < 0 && transform.position.y < -2.5)
+            {
+                moveSpeed = new Vector2(moveSpeed.x, 0);
+            }
+            rgbd.velocity = moveSpeed;
             yield return null;
         }
         isPushed = false;
@@ -306,42 +314,44 @@ public abstract class PlayerControl : Photon.PunBehaviour
         isPushed = true;
 
         float knockBackTime = 0f;
-        float distance = 3.5f;
+        float distance = 3;
+        Vector2 originSpeed = new Vector2(x*distance, y*distance);
+        Vector2 moveSpeed;
 
-
-       Vector3 moveVector = new Vector3(x, y);
-       Vector3 targetPos = transform.position + moveVector.normalized*distance;
         while (true)
         {
             if (knockBackTime > 0.3f)
             {
                 break;
             }
-            rgbd.velocity = new Vector2(0, 0);
             knockBackTime += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(transform.position, targetPos, knockBackTime * 4);
+            moveSpeed = Vector2.Lerp(originSpeed, Vector2.zero, knockBackTime*3);
 
-            if (transform.position.y > 2.5)
+            if (pNum == 1)
             {
-                transform.position = new Vector2(transform.position.x, 2.5f);
+                if (x > 0 && transform.position.x > -0.5f)
+                {
+                    moveSpeed = new Vector2(0, moveSpeed.y);
+                }
             }
-            if (transform.position.y < -2.5)
+            else if (pNum == 2)
             {
-                transform.position = new Vector2(transform.position.x, -2.5f);
-            }
-
-
-            if (pNum == 1 && transform.position.x > -0.5f)
-            {
-                transform.position = new Vector2(0, transform.position.y);
-            }
-
-            else if (pNum == 2 && transform.position.x < 0.5f)
-            {
-                transform.position = new Vector2(0, transform.position.y);
+                if (x < 0 && transform.position.x < 0.5f)
+                {
+                    moveSpeed = new Vector2(0, moveSpeed.y);
+                }
             }
 
+            if (y > 0 && transform.position.y > 2.5)
+            {
+                moveSpeed = new Vector2(moveSpeed.x, 0);
+            }
+            if (y < 0 && transform.position.y < -2.5)
+            {
+                moveSpeed = new Vector2(moveSpeed.x, 0);
+            }
+            rgbd.velocity = moveSpeed;
             yield return null;
         }
 

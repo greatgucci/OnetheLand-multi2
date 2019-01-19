@@ -10,7 +10,7 @@ public class Iris_Bullet2 : Bullet {
 
     public int irisBullet2Num_Temp;
 
-    float rotatingAngle = -(3.14f / 9f);
+    float rotatingAngle = -(1.57f / 9f);
 
     public void Init_Iris_Bullet2(int _shooterNum, int num, Vector3 aimDVector)
     {
@@ -20,7 +20,7 @@ public class Iris_Bullet2 : Bullet {
     [PunRPC]
     protected void Init_Iris_Bullet2_RPC(int _shooterNum, int num, Vector3 aimDVector)
     {
-        DVector = aimDVector;
+        DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
         bulNum = num;
         Invoke("DestroyToServer", 5f);
         shooterNum = _shooterNum;
@@ -37,13 +37,13 @@ public class Iris_Bullet2 : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 25;
+        damage = 20;
 
         irisBullet2Num_Temp = bulNum;
 
         speed = 8f;
 
-        rotatingAngle += (irisBullet2Num_Temp * (3.14f / 18f));
+        rotatingAngle += (irisBullet2Num_Temp * (1.57f / 18f));
         rotatingAngle += DVector.y > 0 ? Vector3.AngleBetween(Vector3.right, DVector) : -Vector3.AngleBetween(Vector3.right, DVector);
 
         if (_shooterNum == 1)

@@ -741,6 +741,7 @@ MonoBehaviour:
   - audioClips: []
   - audioClips: []
   - audioClips: []
+  weight: 0
   speed: 6
   skill1_playing: 0
   skill4_create: 0

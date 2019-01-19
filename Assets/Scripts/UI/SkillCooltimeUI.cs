@@ -33,34 +33,31 @@ public class SkillCooltimeUI : MonoBehaviour {
     {
         int i_Temp = 0;
 
-        if (i == 0)
-        {
-            i_Temp = 0;
-        }else if (i == 1)
+        
+        if (i == 1)
         {
             i_Temp = 1;
-        }else if (i == 4)
+        }else if (i == 2)
         {
             i_Temp = 2;
-        }else if (i == 9)
+        }else if (i == 3)
         {
             i_Temp = 3;
-        }else if (i == 2)
+        }/*else if (i == 2)
         {
             i_Temp = 4;
         }else if (i == 3)
         {
             i_Temp = 5;
-        }
+        }*/
         else
         {
             return;
         }
-        
 
-        Debug.Log(GameObject.Find("SkillIcon" + i_Temp).transform.Find("Image").name);
+        Debug.Log(i_Temp);
 
-        GameObject.Find("SkillIcon" + i_Temp).transform.Find("Image")
+        GameObject.Find("Button" + i_Temp).transform.Find("Image")
             .GetComponent<SkillCooltimeUIDisplay>().SetCoolDisplay(coolTime);
     }
 }

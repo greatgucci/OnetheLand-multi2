@@ -16,11 +16,11 @@ public class Iris_BulletQTrigger : MonoBehaviour {
     {
         float timer = 0f;
 
-        rgbd.velocity = new Vector2(72f, 0f);
+        rgbd.velocity = new Vector2(80f, 0f);
 
         while (true)
         {
-            if (timer >= 0.25f)
+            if (timer >= 0.5f)
             {
                 break;
             }

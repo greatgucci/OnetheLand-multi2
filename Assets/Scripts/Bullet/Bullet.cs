@@ -44,7 +44,9 @@ public class Bullet : Photon.PunBehaviour
             if (collision.tag == "Player" + oNum)
                 //데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
             {
-                GameManager.instance.Local.CurrentDamage -= (short)damage;
+                GameManager.instance.Local.CurrentDamage += (short)damage;
+                Debug.Log(rgbd.velocity.x + " " + rgbd.velocity.y);
+                GameManager.instance.GetPlayerByNum(oNum).GetKnockBack(rgbd.velocity.x, rgbd.velocity.y);
                 DestroyToServer();
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)

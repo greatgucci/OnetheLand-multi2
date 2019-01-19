@@ -20,8 +20,8 @@ public class InputSystem : MonoBehaviour {
 
     private void Update()
     {
-        #if UNITY_EDITOR //PC조작
-        if(useKeyBoard)
+    #if UNITY_STANDALONE_WIN //PC조작
+        if (useKeyBoard)
         {
             joyStickVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 

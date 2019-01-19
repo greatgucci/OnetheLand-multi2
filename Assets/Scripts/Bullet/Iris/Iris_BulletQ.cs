@@ -28,7 +28,7 @@ public class Iris_BulletQ : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 50;
+        damage = 20;
 
         DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
         FavoriteFunction.RotateBullet(gameObject);
@@ -46,7 +46,7 @@ public class Iris_BulletQ : Bullet {
 
         while(true)
         {
-            if (timer >= 1f)
+            if (timer >= 0.7f)
             {
                 break;
             }

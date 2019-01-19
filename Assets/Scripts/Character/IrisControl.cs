@@ -13,26 +13,26 @@ public class IrisControl : PlayerControl
 
         //TODO: 각자 skillNum에따라 스킬 발동되게 작업
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
+        if (InputSystem.instance.button1Pressed && playerData.cooltime[1] <= 0)
         {
             DoSkill(0);
             playerAnimation.AddAnimationLayer(3,false);
             SetAnimationLayerEmpty(0.667f);
-            GameManager.instance.Local.SetCooltime(0, 0.7f);
+            GameManager.instance.Local.SetCooltime(1, 0.7f);
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
+        else if (InputSystem.instance.button2Pressed && playerData.cooltime[2] <= 0f)
         {
             DoSkill(1);//Skill1
             playerAnimation.AddAnimationLayer(4, false);
             SetAnimationLayerEmpty(0.667f);
-            GameManager.instance.Local.SetCooltime(1, 1.0f);
+            GameManager.instance.Local.SetCooltime(2, 1.0f);
         }
-        else if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
+        else if (InputSystem.instance.button3Pressed && playerData.cooltime[3] <= 0f)
         {
-            DoSkill(2);//Skill2
+            DoSkill(5);//Skill2
             playerAnimation.AddAnimationLayer(5, false);
             SetAnimationLayerEmpty(0.667f);
-            GameManager.instance.Local.SetCooltime(2, 4f);
+            GameManager.instance.Local.SetCooltime(3, 5f);
         }
         else if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
         {
