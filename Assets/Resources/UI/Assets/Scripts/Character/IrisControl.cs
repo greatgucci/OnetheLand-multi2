@@ -8,23 +8,8 @@ using UnityEngine;
 ///
 public class IrisControl : PlayerControl
 {
-    /*
-* 0 : 마우스 우클릭
-* 1 : E
-* 2 : R
-* 3 : 좌 Shift
-* 4 : 일반 공격 1
-* 5 : 일반 공격 2
-* 6 : 일반 공격 3
-* 7 : 일반 공격 4
-* 8 : 대시
-* 9 : 궁극기
-*         PlayerManager.instance.Local.SetCooltime(스킬 숫자, 클타임);
-* ...으로 각 스킬 스크립트에서 쿨타임 넣음
-*/
-    public override void SkillControl(int skillNum)
+    public override void SkillControl()
     {
-        base.SkillControl(skillNum);
 
         //TODO: 각자 skillNum에따라 스킬 발동되게 작업
 

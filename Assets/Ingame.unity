@@ -255,6 +255,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0965124549306b948a86ae2a49ca3a95, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &7706083 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114286099159947354, guid: 0965124549306b948a86ae2a49ca3a95,
+    type: 2}
+  m_PrefabInternal: {fileID: 7706082}
+  m_Script: {fileID: 11500000, guid: b1bb789430e85e14eb29cd2f993c8858, type: 3}
 --- !u!1 &31079807
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,8 +527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 682, y: 309}
-  m_SizeDelta: {x: 300, y: 100}
+  m_AnchoredPosition: {x: 537, y: 310}
+  m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &152189497
 MonoBehaviour:
@@ -550,7 +556,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 47
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1551,7 +1557,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 798, y: -667}
+  m_AnchoredPosition: {x: 829.8, y: 509.3}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1054928537
@@ -1593,7 +1599,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7706083}
         m_MethodName: LeaveRoom
         m_Mode: 1
         m_Arguments:
@@ -1618,7 +1624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2046,7 +2052,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 3, y: -9}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1489383225
@@ -2061,7 +2067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0}
+  m_Color: {r: 0.30147058, g: 0.29703718, b: 0.29703718, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2070,11 +2076,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 0
+    m_MaxSize: 103
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -2216,6 +2222,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2401d81419db18341b52077fe5c35a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joyStickX: 0
+  joyStickY: 0
+  joyStickPressed: 0
+  button1Pressed: 0
+  button2Pressed: 0
+  button3Pressed: 0
 --- !u!1 &1622933922
 GameObject:
   m_ObjectHideFlags: 0

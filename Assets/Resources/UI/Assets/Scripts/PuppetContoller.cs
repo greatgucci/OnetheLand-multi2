@@ -6,6 +6,7 @@ public class PuppetContoller : PlayerControl {
 
     private new void Awake()
     {
+        rgbd = GetComponent<Rigidbody2D>();
         playerData = transform.Find("PlayerData").GetComponent<PlayerData>();
     }
     // Use this 
@@ -15,8 +16,12 @@ public class PuppetContoller : PlayerControl {
     {
         pNum = 2;
         GameManager.instance.Opponent = playerData;
-        playerData.SetStatus(0, 100, 0);
         playerData.SetPlayerNum(2, this);
+        playerData.SetStatus(0, 100, 0);
         SetStartPosition(playerData.playerNum);
+    }
+    protected override void LateUpdate()
+    {
+        return;
     }
 }

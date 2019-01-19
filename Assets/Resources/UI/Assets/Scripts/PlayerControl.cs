@@ -25,6 +25,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
     public float weight = 0f;
     public float speed = 6f;
     protected int pNum;
+    protected bool isInputAble = true;
     protected bool isMoveAble = true;
     protected bool isSkillAble = true;
     protected bool isPushed = false;
@@ -110,21 +111,39 @@ public abstract class PlayerControl : Photon.PunBehaviour
         GameManager.instance.PlayerUpdated();
     }
 
-    public void Stop()
+    protected virtual void LateUpdate()
     {
-        rgbd.velocity = new Vector2(0, 0);
+        if (!isInputAble || GameManager.instance.gameUpdate != GameUpdate.INGAME)
+        {
+            rgbd.velocity = new Vector2(0, 0);
+            return;
+        }
+
+        if(isMoveAble)
+        {
+            if(InputSystem.instance.joyStickPressed)
+            {
+                Move(InputSystem.instance.joyStickX, InputSystem.instance.joyStickY);
+            }else
+            {
+                Move(0, 0);
+            }
+        }
+
+        if(isSkillAble)
+        {
+            SkillControl();
+        }
+        return;
     }
 
-
-    public virtual void SkillControl(int i)
+    public virtual void SkillControl()
     {
-        if (!isSkillAble)
-            return;
     }
 
     public virtual void Move(float x, float y)
     {
-        if (isPushed == true || !isMoveAble)
+        if (isPushed == true)
         {
             return;
         }
@@ -387,14 +406,14 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
         if (photonView.isMine)
         {
-            InputSystem.instance.IsInputAble = false;
+            isInputAble = false;
         }
         yield return new WaitForSeconds(t);
         DestroyImmediate(stun);
         yield return new WaitForEndOfFrame();
         if (photonView.isMine)
         {
-            InputSystem.instance.IsInputAble = true;
+            isInputAble = true;
         }
     }
 

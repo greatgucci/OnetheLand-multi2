@@ -51,7 +51,7 @@ public class NetworkManager : Photon.PunBehaviour {
     #region Photon Messages
     public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
     {
-        SceneManager.LoadScene("Title");
+        LeaveRoom();
     }
     /// <summary>
     /// Called when the local player left the room. We need to load the launcher scene.
@@ -174,7 +174,7 @@ public class NetworkManager : Photon.PunBehaviour {
         PlayCharacterWinSound(GameManager.instance.GetPlayerByNum(winner).character);
         UIManager.instance.PlayEndBlackAnimation();
         yield return new WaitForSeconds(3f);
-        PhotonNetwork.Disconnect();
+        LeaveRoom();
     }
 
     private AudioSource characterVoice;

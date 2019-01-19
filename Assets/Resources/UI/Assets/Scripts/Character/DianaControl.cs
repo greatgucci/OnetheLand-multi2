@@ -35,11 +35,10 @@ public class DianaControl : PlayerControl {
         }
     }
 
-    public override void SkillControl(int skillNum)
+    public override void SkillControl()
     {
-        base.SkillControl(skillNum);
 
-        //TODO: 각자 skillNum에따라 스킬 발동되게 작업
+        //TODO: 각자 Input에 따라 스킬 발동되게 작업
 
 		if (!skill1_playing)
         {
