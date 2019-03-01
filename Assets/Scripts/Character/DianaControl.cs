@@ -34,14 +34,15 @@ public class DianaControl : PlayerControl {
             Creating_HeresyStigma.Init_InHeresyStigma(GameManager.instance.myPnum, view_oponent.viewID);
         }
     }
-
+    float tempTime = 0f;
     public override void SkillControl()
     {
 
         //TODO: 각자 Input에 따라 스킬 발동되게 작업
 
 		if (!skill1_playing)
-        {
+        {       
+
             if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
             {
                 GameManager.instance.Local.SetCooltime(0, 0f);

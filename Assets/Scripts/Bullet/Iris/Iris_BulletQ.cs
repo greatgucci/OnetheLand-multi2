@@ -32,7 +32,7 @@ public class Iris_BulletQ : Bullet {
 
         DVector = FavoriteFunction.VectorCalc(gameObject, oNum);
         FavoriteFunction.RotateBullet(gameObject);
-
+        
         StartCoroutine(AccelBullet());
     }
 
@@ -55,6 +55,7 @@ public class Iris_BulletQ : Bullet {
             rgbd.velocity = speed * DVector;
 
             timer += Time.deltaTime;
+
             yield return null;
         }
     }
