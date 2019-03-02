@@ -40,51 +40,43 @@ public class DianaControl : PlayerControl {
 
         //TODO: 각자 Input에 따라 스킬 발동되게 작업
 
-		if (!skill1_playing)
+        if (InputSystem.instance.button1Pressed && playerData.cooltime[(int)SkillID.SKILL1] <= 0f)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.cooltime[0] <= 0)
-            {
-                GameManager.instance.Local.SetCooltime(0, 0f);
-                DoSkill(0);//좌
-                playerAnimation.AddAnimationLayer(3, false);
-            }
+            DoSkill((int)SkillID.SKILL1);
+            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL1, 0.7f);
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && playerData.cooltime[1] <= 0f)
+        else if (InputSystem.instance.button2Pressed && playerData.cooltime[(int)SkillID.SKILL2] <= 0f)
         {
-            GameManager.instance.Local.SetCooltime(1, 1f);
-            DoSkill(1);//우
-            playerAnimation.AddAnimationLayer(4, false);
+            DoSkill((int)SkillID.SKILL2);
+            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL2, 1.0f);
         }
-        if (!skill1_playing)
+        else if (InputSystem.instance.button3Pressed && playerData.cooltime[(int)SkillID.SKILL3] <= 0f)
         {
-            if (Input.GetKeyDown(KeyCode.E) && playerData.cooltime[2] <= 0f)
-            {
-            GameManager.instance.Local.SetCooltime(2, 3f);
-	            DoSkill(2);//E skill1
-	            playerAnimation.AddAnimationLayer(5, false);
-	            SetAnimationLayerEmpty(0.633f);
-            }
+            DoSkill((int)SkillID.SKILL3);
+            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL3, 5f);
         }
-        if (Input.GetKeyDown(KeyCode.R) && playerData.cooltime[3] <= 0f)
+        else if (InputSystem.instance.button4Pressed && playerData.cooltime[(int)SkillID.SKILL4] <= 0f)
         {
-            GameManager.instance.Local.SetCooltime(3, 5f);
-            DoSkill(3);//R skill2
+            DoSkill((int)SkillID.SKILL4);
+            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL4, 5f);
+        }
+        else if (InputSystem.instance.button5Pressed && playerData.cooltime[(int)SkillID.SKILL5] <= 0f)
+        {
+            DoSkill((int)SkillID.SKILL5);
+            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL5, 4f);
+        }
 
-        }
-        else if ((Input.GetKeyDown(KeyCode.LeftShift) && playerData.cooltime[4] <= 0f) && Creating_HeresyStigma.isExist)
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameManager.instance.Local.SetCooltime(4, 3f);
-            Debug.Log(Creating_HeresyStigma.isExist);
-            Creating_HeresyStigma.isExist = false;
-            Debug.Log(Creating_HeresyStigma.isExist);
-            DoSkill(4);//LeftShift skill3
+            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            AudioController.instance.PlayEffectSound(Character.IRIS, 7);
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && playerData.cooltime[9] <= 0f && GameManager.instance.Local.CurrentSkillGage >= 100f)
+
+        else if (InputSystem.instance.button6Pressed && playerData.cooltime[(int)SkillID.SKILL6] <= 0f)
         {
-            GameManager.instance.Local.SetCooltime(9, 10f);
-            DoSkill(5);//Q 궁
-            playerAnimation.AddAnimationLayer(6, false);
-            SetAnimationLayerEmpty(6f);
+            DoSkill((int)SkillID.SKILL6);
+            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL6, 4f);
+            //GameManager.instance.Local.CurrentSkillGage -= 100;
         }
     }
     protected override void MoveAnimationChange(MoveState move)

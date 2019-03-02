@@ -11,13 +11,13 @@ public class Re_Iris_Bullet_1 : Bullet {
     float rotatingAngle;
     float rotating_Temp = 0f;
 
-    public void Init_Iris_BulletLeft(int _shooterNum, int num, Vector3 aimDVector)
+    public void Init_Iris_BulletLeft(int _shooterNum, int num)
     {
-        photonView.RPC("Init_Iris_BulletLeft_RPC", PhotonTargets.All, _shooterNum, num, aimDVector);
+        photonView.RPC("Init_Iris_BulletLeft_RPC", PhotonTargets.All, _shooterNum, num);
     }
 
     [PunRPC]
-    protected void Init_Iris_BulletLeft_RPC(int _shooterNum, int num, Vector3 aimDVector)
+    protected void Init_Iris_BulletLeft_RPC(int _shooterNum, int num)
     {
         DVector = FavoriteFunction.VectorCalc(gameObject, _shooterNum == 1 ? 2 : 1);
         bulNum = num;

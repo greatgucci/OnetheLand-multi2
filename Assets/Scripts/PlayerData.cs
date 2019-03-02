@@ -141,7 +141,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     float counter = 0f;
     private void Update()
     {
-        if(photonView.isMine)
+        if (photonView.isMine)
         {           
             for (int i = 0; i < cooltime.Length; i++)
             {

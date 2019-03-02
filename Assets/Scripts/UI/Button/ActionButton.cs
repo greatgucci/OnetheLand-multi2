@@ -7,7 +7,10 @@ public enum ButtonNum
 {
     FIRST,
     SECONDE,
-    THIRD
+    THIRD,
+    FOURTH,
+    FIFTH,
+    SIXTH
 }
 
 public class ActionButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
@@ -35,6 +38,15 @@ public class ActionButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
             case ButtonNum.THIRD:
                 InputSystem.instance.button3Pressed = true;
                 break;
+            case ButtonNum.FOURTH:
+                InputSystem.instance.button4Pressed = true;
+                break;
+            case ButtonNum.FIFTH:
+                InputSystem.instance.button5Pressed = true;
+                break;
+            case ButtonNum.SIXTH:
+                InputSystem.instance.button6Pressed = true;
+                break;
         }
         button.color = pressed;
     }
@@ -50,6 +62,15 @@ public class ActionButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandle
                 break;
             case ButtonNum.THIRD:
                 InputSystem.instance.button3Pressed = false;
+                break;
+            case ButtonNum.FOURTH:
+                InputSystem.instance.button4Pressed = false;
+                break;
+            case ButtonNum.FIFTH:
+                InputSystem.instance.button5Pressed = false;
+                break;
+            case ButtonNum.SIXTH:
+                InputSystem.instance.button6Pressed = false;
                 break;
         }
         button.color = normal;

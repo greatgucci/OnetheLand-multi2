@@ -252,6 +252,7 @@ public abstract class PlayerControl : Photon.PunBehaviour
 
     protected void DoSkill(int skillNum)
     {
+        Debug.Log("Skill : " + skillNum);
         Skills[skillNum].Excute();
     }
 

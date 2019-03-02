@@ -33,9 +33,9 @@ public class Re_Iris_Skill_1 : Skills {
         for (int i = 0; i < 3; i++)
         {
             bul[i] = PhotonNetwork.Instantiate
-                ("Iris_BulletLeft", transform.position, Quaternion.identity, 0).
+                ("Re_Iris_Bullet_1", transform.position, Quaternion.identity, 0).
                 GetComponent<Re_Iris_Bullet_1>();
-            bul[i].Init_Iris_BulletLeft(GameManager.instance.myPnum, i, GameManager.instance.Local.aimVector);
+            bul[i].Init_Iris_BulletLeft(GameManager.instance.myPnum, i);
 
             yield return new WaitForSeconds(0.1f);
         }
