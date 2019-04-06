@@ -335,11 +335,21 @@ MonoBehaviour:
   - audioClips: []
   weight: 0
   speed: 6
+  cooltime:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  cost: 000000000000000000000000
   skill1_playing: 0
   skill4_create: 0
   pray: {fileID: 0}
   isPraying: 0
   diana_pray_win: {fileID: 0}
+  attack_On: 0
+  attack_Level: 0
 --- !u!1 &1386583829769918
 GameObject:
   m_ObjectHideFlags: 0

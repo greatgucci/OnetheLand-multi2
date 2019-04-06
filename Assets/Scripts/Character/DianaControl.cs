@@ -17,6 +17,33 @@ public class DianaControl : PlayerControl {
     int oNum;
     PhotonView view_oponent;
 
+    public bool attack_On = false;
+    public int attack_Level = 0;
+    float levelDownTime = 0f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        cooltime[0] = 1.5f;
+        cooltime[1] = 1.5f;
+        cooltime[2] = 1f;
+        cooltime[3] = 10f;
+        cooltime[4] = 7f;
+        cooltime[5] = 60f; //
+
+        cost[2] = 3;
+
+    }
+
+    protected override void LateUpdate()
+    {
+        base.LateUpdate();
+
+        if (levelDownTime > 0f) levelDownTime -= Time.deltaTime;
+        if (levelDownTime <= 0f && attack_Level > 0) attack_Level = 0;
+    }
+
     protected override void StartCall()
     {
         base.StartCall();
@@ -43,33 +70,23 @@ public class DianaControl : PlayerControl {
         if (InputSystem.instance.button1Pressed && playerData.cooltime[(int)SkillID.SKILL1] <= 0f)
         {
             DoSkill((int)SkillID.SKILL1);
-            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL1, 0.7f);
         }
         else if (InputSystem.instance.button2Pressed && playerData.cooltime[(int)SkillID.SKILL2] <= 0f)
         {
             DoSkill((int)SkillID.SKILL2);
-            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL2, 1.0f);
+            Dash(InputSystem.instance.joyStickVector.x, InputSystem.instance.joyStickVector.y);
         }
         else if (InputSystem.instance.button3Pressed && playerData.cooltime[(int)SkillID.SKILL3] <= 0f)
         {
             DoSkill((int)SkillID.SKILL3);
-            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL3, 5f);
         }
         else if (InputSystem.instance.button4Pressed && playerData.cooltime[(int)SkillID.SKILL4] <= 0f)
         {
             DoSkill((int)SkillID.SKILL4);
-            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL4, 5f);
         }
         else if (InputSystem.instance.button5Pressed && playerData.cooltime[(int)SkillID.SKILL5] <= 0f)
         {
             DoSkill((int)SkillID.SKILL5);
-            GameManager.instance.Local.SetCooltime((int)SkillID.SKILL5, 4f);
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Dash(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            AudioController.instance.PlayEffectSound(Character.IRIS, 7);
         }
 
         else if (InputSystem.instance.button6Pressed && playerData.cooltime[(int)SkillID.SKILL6] <= 0f)
@@ -99,6 +116,12 @@ public class DianaControl : PlayerControl {
                 moveState = MoveState.MoveBack;
                 break;
         }
+    }
+
+    public void IncreaseAttackLevel()
+    {
+        if(attack_Level < 2) attack_Level++;
+        levelDownTime = 3f;
     }
 
 	public void Pray_Win(int _shooterNum)

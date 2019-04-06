@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour {
     Text timeText;
 
     Image p1Skg, p2Skg;
-    Image p1Hp, p2Hp;
+    Text p1Hp, p2Hp;
     Animator animator;
     public Sprite Iris, Diana;
     //public Sprite[] StartEventTimerSprites;
@@ -21,8 +21,8 @@ public class UIManager : MonoBehaviour {
     {
         instance = this;
 
-        p1Hp = transform.Find("HpUI").Find("P1Status").Find("HPGuage1").GetComponent<Image>();
-        p2Hp = transform.Find("HpUI").Find("P2Status").Find("HPGuage2").GetComponent<Image>();
+        p1Hp = transform.Find("HpUI").Find("P1Status").Find("HPGuage1").GetComponent<Text>();
+        p2Hp = transform.Find("HpUI").Find("P2Status").Find("HPGuage2").GetComponent<Text>();
 
         p1Skg = transform.Find("HpUI").Find("P1Status").Find("SkillGuage1").GetComponent<Image>();
         p2Skg = transform.Find("HpUI").Find("P2Status").Find("SkillGuage2").GetComponent<Image>();
@@ -37,29 +37,11 @@ public class UIManager : MonoBehaviour {
     {
         if(pNum == 1)
         {
-            if(damage<100)
-            {
-                p1Hp.color = Color.white;
-                p1Hp.fillAmount = damage / 100;
-            }
-            else
-            {
-                p1Hp.color = Color.gray;
-                p1Hp.fillAmount = (damage - 100) / 100;
-            }
+            p1Hp.text = damage.ToString();
         }
         else if (pNum == 2)
         {
-            if(damage<100)
-            {
-                p2Hp.color = Color.white;
-                p2Hp.fillAmount = damage / 100;
-            }
-            else
-            {
-                p2Hp.color = Color.gray;
-                p2Hp.fillAmount = (damage - 100) / 100;
-            }
+            p2Hp.text = damage.ToString();
         }
     }
 

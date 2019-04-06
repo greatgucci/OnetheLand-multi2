@@ -14,12 +14,13 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     private short currentDamage;
     private short currentSkillGage;
     private short fullSkillGage;
+    private float skgBuffer;        //1이 충전되면, currentSkillGage를 1 더해줌
 
     private float globalCool = 0.25f;
     private float defense;
 
     private PlayerControl playerControl;
-    public float[] cooltime = new float[10];
+    public float[] cooltime = new float[6];
     public float cooltimeSpd = 1f;
     PlayerData opponent;
     protected AudioSource voice2;
@@ -110,14 +111,14 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             if (i == skillNum)
             {
                 cooltime[i] = _cooltime;
-                //SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+                SkillCooltimeUI.Instance.SetCoolTimeUI(i, cooltime[i]);
             }
             else
             {
                 if (cooltime[i] <= globalCool)
                 {
                     cooltime[i] += globalCool;
-                    //SkillCooltimeUI.SetCoolTimeUI(i, cooltime[i]);
+                    SkillCooltimeUI.Instance.SetCoolTimeUI(i, cooltime[i]);
                 }
             }
         }
@@ -151,9 +152,9 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
                 }
             }
 
-            if (CurrentDamage > 200)
+            if (CurrentDamage > 500)
             {
-                CurrentDamage = 200;
+                CurrentDamage = 500;
             }
 
             if (transform.position.x < -20f && playerNum == 1)
@@ -164,6 +165,14 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
             {
                 NetworkManager.instance.GameOver(playerNum);
             }
+
+            if (skgBuffer >= 1f)
+            {
+                skgBuffer = 0f;
+                if (CurrentSkillGage < 10)
+                    CurrentSkillGage += 1;
+            }
+            skgBuffer += 1f * Time.deltaTime;
         }
     }
 
@@ -176,7 +185,7 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     }
     private void UpdateSkgUI()
     {
-			UIManager.instance.SetSkg(playerNum, (float)currentSkillGage/fullSkillGage);
+			UIManager.instance.SetSkg(playerNum, (float)currentSkillGage * 0.1f);
     }
     #region Public
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -227,9 +236,9 @@ public class PlayerData : Photon.PunBehaviour, IPunObservable
     {
         playerControl.photonView.RPC("GetFetter_RPC", PhotonTargets.All, b);
     }
-    public void GetKnockBack(float x , float y)
+    public void GetKnockBack(float x , float y, float knockback)
     {
-        playerControl.photonView.RPC("KnockBack_RPC", PhotonTargets.All, x, y);
+        playerControl.photonView.RPC("KnockBack_RPC", PhotonTargets.All, x, y, knockback);
     }
     /// <summary>
     /// 한클라에서만 호출하면 자동으로 연동함 , 수동으로 조절

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine;
+using Spine.Unity;
 
 public enum MoveState
 {
@@ -35,7 +37,9 @@ public abstract class PlayerControl : Photon.PunBehaviour
     protected PlayerData playerData;
     protected AudioSource voiceAudio;
 
-    
+    public float[] cooltime = new float[6];
+    public short[] cost = new short[6];
+
     protected bool IsFaceRight
     {
         get { return isFaceRight; }
@@ -245,30 +249,62 @@ public abstract class PlayerControl : Photon.PunBehaviour
         voiceAudio.Play();
     }
     [PunRPC]
-    protected void KnockBack_RPC(float x, float y)
+    protected void KnockBack_RPC(float x, float y, float knockback)
     {
-        StartCoroutine(KnockBackPlay(x, y));
+        StartCoroutine(KnockBackPlay(x, y, knockback));
+    }
+
+    public void GetInvisible()
+    {
+        photonView.RPC("GetInvisible_RPC", PhotonTargets.All);
+    }
+    [PunRPC]
+    protected void GetInvisible_RPC()
+    {
+        //반드시 이거 사용한 곳에서 코루틴으로 지속시간 후 CancleInvisible을 콜하도록
+        if (photonView.isMine)
+        {
+            transform.Find("Renderer").GetComponent<SkeletonAnimation>().skeleton.SetColor(new Color(1f, 1f, 1f, 0.5f));
+        }
+        else
+        {
+            transform.Find("Renderer").GetComponent<SkeletonAnimation>().skeleton.SetColor(new Color(1f, 1f, 1f, 0f));
+        }
+    }
+
+    public void CancleInvisible()
+    {
+        photonView.RPC("CancleInvisible_RPC", PhotonTargets.All);
+    }
+    [PunRPC]
+    protected void CancleInvisible_RPC()
+    {
+        transform.Find("Renderer").GetComponent<SkeletonAnimation>().skeleton.SetColor(new Color(1f, 1f, 1f, 1f));
+
     }
 
     protected void DoSkill(int skillNum)
     {
-        Debug.Log("Skill : " + skillNum);
+        if (GameManager.instance.Local.CurrentSkillGage < cost[skillNum])
+            return;
+        GameManager.instance.Local.CurrentSkillGage -= cost[skillNum];
         Skills[skillNum].Excute();
+        GameManager.instance.Local.SetCooltime(skillNum, cooltime[skillNum]);
     }
 
 
 
-    
+
     protected void Dash(float x, float y)
     {
         StartCoroutine(DashPlay(x, y));
     }
-    protected IEnumerator KnockBackPlay(float x, float y)
+    protected IEnumerator KnockBackPlay(float x, float y, float knockback)
     {
 
         isPushed = true;
         float knockBackTime = 0f;
-        float accumulatedDamage = 0.5f + (0.01f * (float)GameManager.instance.GetPlayerByNum(pNum).CurrentDamage);
+        float accumulatedDamage = knockback * (0.01f * (float)GameManager.instance.GetPlayerByNum(pNum).CurrentDamage);
 
         Vector2 originSpeed = new Vector2(accumulatedDamage * x, accumulatedDamage * y);
         Vector2 moveSpeed;

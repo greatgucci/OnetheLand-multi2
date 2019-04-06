@@ -9,16 +9,25 @@ public class SkillCooltimeUI : MonoBehaviour {
     public Sprite[] irisSkillIcon;
     public Image[] skillIcon;
     public Image[] skillIconCool;
+    public Text[] skillCoolText;
+
+    private PlayerControl pControl;
+
+    public static SkillCooltimeUI Instance { get; set; }
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+
         int cNum = PlayerPrefs.GetInt("Character");
+
 
         for (int i = 0; i < 6; i++)
         {
             if (cNum == 0)
             {
                 skillIcon[i].sprite = dianaSkillIcon[i];
+            
             }
             if (cNum == 1)
             {
@@ -26,38 +35,28 @@ public class SkillCooltimeUI : MonoBehaviour {
             }
 
             skillIconCool[i].fillAmount = 0f;
+
         }
     }
-
-    public static void SetCoolTimeUI(int i, float coolTime)
+    private void Start()
     {
-        int i_Temp = 0;
+        /*
+        pControl = GameManager.instance.Local.GetComponentInParent<PlayerControl>();
 
-        
-        if (i == 1)
+        for (int i = 0; i < 6; i++)
         {
-            i_Temp = 1;
-        }else if (i == 2)
-        {
-            i_Temp = 2;
-        }else if (i == 3)
-        {
-            i_Temp = 3;
-        }/*else if (i == 2)
-        {
-            i_Temp = 4;
-        }else if (i == 3)
-        {
-            i_Temp = 5;
-        }*/
-        else
-        {
-            return;
+
+            skillCoolText[i].text = pControl.cost[i].ToString();
+            if (pControl.cost[i] == 0)
+                skillCoolText[i].text = string.Empty;
         }
+        */
+    }
 
-        Debug.Log(i_Temp);
-
-        GameObject.Find("Button" + i_Temp).transform.Find("Image")
+    public void SetCoolTimeUI(int i, float coolTime)
+    {
+        Debug.Log(i);
+        skillIconCool[i]
             .GetComponent<SkillCooltimeUIDisplay>().SetCoolDisplay(coolTime);
     }
 }

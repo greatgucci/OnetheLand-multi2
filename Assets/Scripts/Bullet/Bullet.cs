@@ -6,6 +6,7 @@ public class Bullet : Photon.PunBehaviour
 {
     public float speed=5;
     public int damage=100;
+    public int knockback = 10;
     public float destroyTime = 10;
     public Rigidbody2D rgbd;
     public int shooterNum;
@@ -20,6 +21,10 @@ public class Bullet : Photon.PunBehaviour
         StartCoroutine(TriggerTimer());
     }
     
+    protected virtual void Update()
+    {
+
+    }
 
     /// <summary>
     /// 서버를 통해 파괴
@@ -28,7 +33,6 @@ public class Bullet : Photon.PunBehaviour
     protected void DestroyToServer_RPC()
     {
         DestroyCallBack();
-        Destroy(gameObject);
     }
     protected virtual void Move(int _shooterNum) {}
 
@@ -45,8 +49,7 @@ public class Bullet : Photon.PunBehaviour
                 //데미지 공식 - 레이저의 경우(디스트로이가 안 되는 경우) ( 20 * 초 * 데미지 )
             {
                 GameManager.instance.Local.CurrentDamage += (short)damage;
-                Debug.Log(rgbd.velocity.x + " " + rgbd.velocity.y);
-                GameManager.instance.GetPlayerByNum(oNum).GetKnockBack(rgbd.velocity.x, rgbd.velocity.y);
+                GameManager.instance.GetPlayerByNum(oNum).GetKnockBack(shooterNum == 1 ? 1 : -1, 0, knockback);
                 DestroyToServer();
             }
             if (collision.gameObject.name == "Graze" && collision.transform.parent.tag == "Player" + oNum)
@@ -103,5 +106,6 @@ public class Bullet : Photon.PunBehaviour
     }
     protected virtual void DestroyCallBack()
     {
+        Destroy(gameObject);
     }
 }

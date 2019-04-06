@@ -36,7 +36,8 @@ public class Re_Iris_Bullet_1 : Bullet {
 
     protected override void Move(int _shooterNum)
     {
-        damage = 10;
+        damage = 15;
+        knockback = 15;
         speed = 6f;
 
 
